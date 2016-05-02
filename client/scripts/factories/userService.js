@@ -18,9 +18,11 @@ myApp.factory("UserService", ["$http",'$window', function($http,$window) {
 
   var newUser = function(data) {
     console.log('-@FACTORY userServcie.js newUser(data) = ', data);
-    // $http.post('users/newuser', data).then(function(response) {
-    //   // some sort of feedback that user was added to DB
-    // });
+    $http.post('/user/postnames', data).then(function(response) {
+      // some sort of feedback that user was added to DB
+      console.log('@userService - newUser function *** after post - response: ', response);
+
+    });
   };
 
   var logout = function(){
