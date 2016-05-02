@@ -21,6 +21,8 @@
             <input type="text" class="form-control alumgoal" ng-model="goals.months[month.key].alum" placeholder="{{ month.name }} Alum Goals" />
             <label>Participant</label>
             <input type="text" class="form-control participantgoal" ng-model="goals.months[month.key].participant" placeholder="{{ month.name }} Participant Goals" />
+            <label>Individual Total</label>
+            <input type="text" class="form-control individualgoal" ng-model="goals.months[month.key].individual" ng-disabled="true" placeholder="{{ individualTotals }}" />
             <label>Community Support</label>
             <input type="text" class="form-control communitygoal" ng-model="goals.months[month.key].community" placeholder="{{ month.name }} Community Goals" />
             <label>Corporations</label>
@@ -40,5 +42,3 @@
   goals:
   <pre>{{ goals | json }}</pre>
 </div>
-
-
