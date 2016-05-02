@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <title>Group Project - Team STLF</title>
+
+    <!-- STYLES -->
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/vendors/bootstrap/dist/css/bootstrap-theme.min.css" />
+    <!-- ANGULAR UI BOOTSTRAP -->
+    <link rel="stylesheet" href="/assets/vendors/angular-ui-bootstrap/dist/ui-bootstrap-csp.css" />
+    <!-- OUR CSS -->
+    <link rel="stylesheet" href="/assets/styles/stylesheet.min.css" />
+
+    <!-- SCRIPTS -->
+    <!-- ANGULAR -->
+    <script type="text/javascript" src="/assets/vendors/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/assets/vendors/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="/assets/vendors/angular-animate/angular-animate.min.js"></script>
+    <!-- AMCHARTS -->
+    <script type="text/javascript" src="/assets/vendors/amcharts/amcharts.js"></script>
+    <script type="text/javascript" src="/assets/vendors/amcharts/pie.js"></script>
+    <script type="text/javascript" src="/assets/vendors/amcharts/serial.js"></script>
+    <!-- ANGULAR UI BOOTSTRAP -->
+    <script type="text/javascript" src="/assets/vendors/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+    <script type="text/javascript" src="/assets/vendors/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+    <!--ANGULAR SMART TABLE-->
+    <script type="text/javascript" src="/assets/vendors/angular-smart-table/dist/smart-table.min.js"></script>
+    <!--DATE-UTILS-->
+    <script type="text/javascript" src="/assets/vendors/date-utils/lib/date-utils.min.js"></script>
+
+    <!-- OUR JAVASCRIPT -->
+    <script type="text/javascript" src="/assets/scripts/client.min.js"></script>
+    <base href="/">
+
+
+
+</head>
+<body ng-controller="MainController">
+
+
+<ng-include src="'/assets/views/partials/header.html'"></ng-include>
+<!--<ng-include src="'/assets/views/partials/navbar.html'"></ng-include>-->
+
+
+<main ng-view></main>
+<ng-include src="'/assets/views/partials/footer.html'"></ng-include>
+
+</body>
+</html>
