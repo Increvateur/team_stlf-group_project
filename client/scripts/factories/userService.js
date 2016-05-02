@@ -1,21 +1,5 @@
 myApp.factory("UserService", ["$http",'$window', function($http,$window) {
 
-  var data = {};
-
-  var getNames = function() {
-    return $http.get("/getnames").then(function(response) {
-      data.response = response.data;
-      return response.data;
-    });
-  };
-
-  var postNames = function(data) {
-    console.log(data);
-    return $http.post("/postnames", data).then(function(response) {
-      return getNames();
-    });
-  };
-
   var newUser = function(data) {
     console.log('-@FACTORY userServcie.js newUser(data) = ', data);
     $http.post('/user/postnames', data).then(function(response) {
@@ -34,10 +18,7 @@ myApp.factory("UserService", ["$http",'$window', function($http,$window) {
 
   return {
 
-    getNames : getNames,
-    postNames : postNames,
     newUser: newUser,
-    data : data,
     logout : logout
 
   };
