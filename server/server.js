@@ -12,6 +12,7 @@ var db = require("./modules/db_connect.js");
 var register = require('./routes/register');
 var user = require('./routes/user');
 var index = require('./routes/index.js');
+var goals = require('./routes/goals');
 var salesforce = require('./routes/salesforce.js');
 var dateutils = require("date-utils");
 
@@ -40,6 +41,7 @@ app.use(passport.session());
 app.use('/salesforce', salesforce);
 app.use('/register', register);
 app.use("/user",user);
+app.use('/goals', goals);
 app.use("/", index);
 
 // server //
