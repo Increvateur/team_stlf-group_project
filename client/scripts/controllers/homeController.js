@@ -4,11 +4,11 @@
 
 
 myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'QueryService',
-    // testing data for front end practice.
 
     function($scope, $filter, $uibModal, QueryService) {
-        //
-        //var mockService = MockService;
+
+        var queryService = QueryService;
+
         $scope.rowCollection = [];
         $scope.itemsByPage=15;
         $scope.accounts = [];
