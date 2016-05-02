@@ -1,26 +1,28 @@
-<!-- passport modal login -->
-
-<div class="modal-body">
-    <!-- <div class="container"> -->
-    <!-- Set form action and method -->
-    <form action="/" method="post" id="loginForm">
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username"/>
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password"/>
-        </div>
-    </form>
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" form="loginForm">Login</button>
-        <button class="btn btn-warning" ng-click="close()">Cancel</button>
-    </div>
-
-            <!-- <a href="/register">Register</a> -->
-
-
+<!-- PASSPORT LOGIN MODAL -->
+<div class="modal-header modal-login-header">
+  <!-- <h4 style="text-align:center">STLF User Login</h4> -->
+  <img class="modal-login-image" src="./assets/images/logo_stlf.png" />
 </div>
-
-<!-- end passport modal login -->
+<div class="modal-body">
+  <form action="/" method="post" id="loginForm">
+    <label for="username">Username:</label>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-user"></span>
+      </span>
+      <input type="text" class="form-control" name="username" id="username" placeholder="Username" autofocus />
+    </div>
+    <br />
+    <label for="password">Password:</label>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-lock"></span>
+      </span>
+      <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+    </div>
+  </form>
+</div>
+<div class="modal-footer modal-login-footer">
+  <button type="submit" class="btn btn-primary" form="loginForm">Login</button>
+  <button class="btn btn-warning" ng-click="close()">Cancel</button>
+</div>
