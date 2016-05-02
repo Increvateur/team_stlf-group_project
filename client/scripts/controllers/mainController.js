@@ -11,13 +11,11 @@ myApp.controller("MainController", ["$scope", "UserService", "$uibModal", functi
       templateUrl: './assets/views/routes/loginModal.html',
       controller: 'loginController',
       size: size,
-      keyboard: true,
-      backdrop: 'static'
+      keyboard: true
     });
   };
 
   $scope.logout = function(){
-   console.log('clicked');
     userService.logout();
   };
 
