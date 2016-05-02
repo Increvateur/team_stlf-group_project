@@ -1,8 +1,8 @@
 // ADD GOALS CONTROLLER - sends post to server for new goals
 
-myApp.controller('AddGoalsController', ['$scope', 'GoalService', function($scope, GoalService) {
+myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, GoalService) {
 
-  console.log('HI, @CONTROLLER - AddGoalsController Works!');
+  console.log('HI, @CONTROLLER - GoalsController Works!');
 
   // Renames GoalService
   var goalService = GoalService;
@@ -96,6 +96,13 @@ myApp.controller('AddGoalsController', ['$scope', 'GoalService', function($scope
 
     // Clears the goals object
     $scope.goals = {};
+
+    $scope.showGoals();
+  };
+
+  $scope.showGoals = function() {
+    goalService.getGoals();
+    // console.log('@GoalsController in showGoals() response from Factory/server/db: ', data);
   };
 
 }]);

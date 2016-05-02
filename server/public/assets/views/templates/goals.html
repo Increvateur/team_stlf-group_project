@@ -1,6 +1,6 @@
 
 
-<div class="container "ng-controller="AddGoalsController">
+<div class="container "ng-controller="GoalsController">
   <form ng-submit=saveGoals(goals) name="outerForm" class="tab-goals">
     <label>Fiscal Year</label>
     <input type="number" class="container form-control year col-xs-4" ng-model="goals.fiscalyear" ng-model-options="{ updateOn: 'blur' }" ng-change="addFyKey(fiscalyear)" placeholder="Fiscal Year" />

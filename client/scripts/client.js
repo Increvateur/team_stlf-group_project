@@ -25,7 +25,7 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
             })
             .when('/goals', {
                 templateUrl: 'assets/views/templates/goals.html',
-                controller: 'AddGoalsController'
+                controller: 'GoalsController'
             })
             .otherwise({
                 redirectTo: '/'
