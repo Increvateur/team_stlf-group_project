@@ -27,7 +27,7 @@ myApp.factory("GoalService", ["$http", function($http) {
   };
 
   // Runs GET to pull goal data even if new goals are not entered
-  getGoals();
+  // getGoals();
 
   return {
     newGoals: newGoals,

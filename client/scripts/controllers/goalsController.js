@@ -10,6 +10,8 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   $scope.goalsArray = goalService.goalsArray;
   console.log('*** == @GoalsController - $scope.goalsArray: ', $scope.goalsArray);
 
+  goalService.getGoals();
+
 
   // Empty object to store the goals entered by the User
   $scope.goals = {};
@@ -74,7 +76,29 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   $scope.fiscalyear = '';
 
   // Need to update the Total Individual Goals for each month live!
-  // $scope.individualTotals = $scope.monthsObj.staff + $scope.monthsObj.board + $scope.monthsObj.committee + $scope.monthsObj.parent + $scope.monthsObj.alum + $scope.monthsObj.participant;
+
+  // $scope.individual = 'goals.months[month.key]';
+
+  // $scope.individualTotals = $scope.individual + '.staff + ' + $scope.individual + '.board + ' +
+  // $scope.individual + '.committee + ' + $scope.individual + '.paretn + ' +
+  // $scope.individual + '.alum + ' + $scope.individual + '.participant';
+  $scope.test = 'testing';
+  $scope.individualTotals = '" {{ test }} "';
+
+  // $scope.allIndividuals = function() {
+  //   var indGoalsArray = ['staff', 'board', 'committee', 'parent', 'alum', 'participant']
+  //   for (var i = 0; i < indGoalsArray.length; i++) {
+  //     $scope.individualTotals += $scope.individual.indGoalsArray[i];
+  //     console.log('$$$ ### --- @goalsController in $scope.allIndividuals - $scope.individualTotals: ', $scope.individualTotals);
+  //   }
+  // }
+
+
+
+  // $scope.updateIndTot = function(data) {
+  //   $scope.individualTotals += data;
+  //   return $scope.individualTotals;
+  // };
 
 
   // Function to add the fiscal year to the $scope.goal object once the user is not focused on the fiscal year input
@@ -84,6 +108,8 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   };
 
   // console.log('~ @goalController after addFyKey - $scope.goals: ', $scope.goals);
+
+
 
   // Function that process the data/goals inputed by the User and sends it through the newGoals() function in the GoalService
   $scope.saveGoals = function(data) {
@@ -100,12 +126,12 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     // Clears the goals object
     $scope.goals = {};
 
-    $scope.showGoals();
+    goalService.getGoals();
   };
 
-  $scope.showGoals = function() {
-    goalService.getGoals();
-    // console.log('@GoalsController in showGoals() response from Factory/server/db: ', data);
-  };
+  // $scope.showGoals = function() {
+  //   goalService.getGoals();
+  //   // console.log('@GoalsController in showGoals() response from Factory/server/db: ', data);
+  // };
 
 }]);

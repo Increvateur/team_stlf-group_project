@@ -1,51 +1,38 @@
 <div class="home-view container">
 
-
-
     <table st-table="displayedContacts" st-safe-src="contacts.object" class="table">
         <thead>
         <tr>
-            <th st-sort="FirstName">First Name</th>
-            <th st-sort="LastName">Last Name</th>
-            <th st-sort="npe01__Type_of_Account__c">Account Type</th>
-            <th st-sort="npo02__LargestAmount__c">Largest donation</th>
-            <th>email</th>
+            <th st-sort="">Account Type</th>
+            <th st-sort="">2016 YTD</th>
+            <th st-sort="">2015 YTD</th>
+            <th st-sort="">2014 YTD</th>
+            <th st-sort="">Goal</th>
+            <th st-sort="">% of Goal</th>
+            <th st-sort="">% to Goal</th>
+            <th st-sort="">2015 Fiscal Year</th>
+            <th st-sort="">2014 Fiscal Year</th>
         </tr>
-        <tr>
-            <!--<th>-->
-                <!--<input st-search="'firstName'" placeholder="search for firstname" class="input-sm form-control" type="search"/>-->
-            <!--</th>-->
-            <th colspan="4">
-                <input st-search placeholder="global search" class="input-sm form-control" type="search"/>
-            </th>
-        </tr>
+
         </thead>
         <tbody>
+        <!--currently inop, need to inject the data into this controller.-->
         <tr st-select-row="person" st-select-mode="single" ng-repeat="person in displayedContacts">
-            <td>{{person.FirstName}}</td>
-            <td>{{person.LastName}}</td>
-            <td>{{person.npe01__Type_of_Account__c}}</td>
-            <td>{{person.npo02__LargestAmount__c | currency}}</td>
-            <td><a ng-href="mailto:{{person.Email}}">E-mail</a></td>
+            <td>{{account.FirstName}}</td>
+
+            <td>{{account.LastName}}</td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
             <td colspan="5" class="text-center">
-                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
             </td>
         </tr>
         </tfoot>
     </table>
+
     <button type="button" class="btn btn-default" ng-click="open('lg')">View Charts</button>
-    <p>{{test}}</p>
-
-
-
-
-
-
-
 
 
 </div>
