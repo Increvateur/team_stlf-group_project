@@ -16,9 +16,9 @@
 
           <div class="form-group col-md-3">
             <label>Individual Total</label>
-            <input type="text" class="form-control individualgoal" ng-model="goals.months[month.key].individual" ng-disabled="true" placeholder="{{ individualTotals }}" />
+            <input type="text" class="form-control individualgoal" ng-model="goals.months[month.key].individual" ng-disabled="true" placeholder="{{ indTotal }}" />
             <label>Staff Members Goal</label>
-            <input type="text" class="form-control staffgoal" ng-model="goals.months[month.key].staff" />
+            <input type="text" class="form-control staffgoal" ng-model="goals.months[month.key].staff" ng-change="calcIndTot()" />
             <label>Board Members Goal</label>
             <input type="text" class="form-control boardgoal" ng-model="goals.months[month.key].board" />
             <label>Committee Members</label>

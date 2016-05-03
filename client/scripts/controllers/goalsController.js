@@ -106,4 +106,18 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     goalService.getGoals();
   };
 
+  // Adding Totals up
+  $scope.indTotal = 0;
+  $scope.bing = 'Bing!';
+
+  $scope.calcIndTot = function(goalToAdd) {
+    console.log('HELLO! @goalsController - goalToAdd: ', goalToAdd);
+    //  console.log('@goalsController in calcIndTot - goalToAdd: ', goalToAdd);
+    //  console.log('### _ @goalsController in calcIndTot - $scope.indTot: ', $scope.indTot);
+     //
+    //  var total = $scope.indTotal + goalToAdd;
+    //  $scope.indTotal = total;
+    //  console.log('### _ @goalsController in calcIndTot - $scope.indTot: ', $scope.indTot);
+  };
+
 }]);
