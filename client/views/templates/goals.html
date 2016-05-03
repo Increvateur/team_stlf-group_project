@@ -16,30 +16,30 @@
 
           <div class="form-group col-md-3">
             <label>Individual Total</label>
-            <input type="text" class="form-control individualgoal" ng-model="goals.months[month.key].individual" ng-disabled="true" placeholder="{{ indTotal }}" />
+            <input type="number" class="form-control individualgoal" ng-model="goals.months[month.key].individual" ng-disabled="true" placeholder="{{ indTotal }}" />
             <label>Staff Members Goal</label>
-            <input type="text" class="form-control staffgoal" ng-model="goals.months[month.key].staff" ng-change="calcIndTot()" />
+            <input type="number" class="form-control staffgoal" ng-model="goals.months[month.key].staff" ng-change="calcIndTot()" />
             <label>Board Members Goal</label>
-            <input type="text" class="form-control boardgoal" ng-model="goals.months[month.key].board" />
+            <input type="number" class="form-control boardgoal" ng-model="goals.months[month.key].board" />
             <label>Committee Members</label>
-            <input type="text" class="form-control committeegoal" ng-model="goals.months[month.key].committee" />
+            <input type="number" class="form-control committeegoal" ng-model="goals.months[month.key].committee" />
             <label>Parent</label>
-            <input type="text" class="form-control parentgoal" ng-model="goals.months[month.key].parent" />
+            <input type="number" class="form-control parentgoal" ng-model="goals.months[month.key].parent" />
             <label>Alum</label>
-            <input type="text" class="form-control alumgoal" ng-model="goals.months[month.key].alum" />
+            <input type="number" class="form-control alumgoal" ng-model="goals.months[month.key].alum" />
             <label>Participant</label>
-            <input type="text" class="form-control participantgoal" ng-model="goals.months[month.key].participant" />
+            <input type="number" class="form-control participantgoal" ng-model="goals.months[month.key].participant" />
           </div>
 
           <div class="form-group col-md-3">
             <label>Community Support</label>
-            <input type="text" class="form-control communitygoal" ng-model="goals.months[month.key].community" />
+            <input type="number" class="form-control communitygoal" ng-model="goals.months[month.key].community" />
             <label>Corporations</label>
-            <input type="text" class="form-control corporationsgoal" ng-model="goals.months[month.key].corporations" />
+            <input type="number" class="form-control corporationsgoal" ng-model="goals.months[month.key].corporations" />
             <label>Foundations</label>
-            <input type="text" class="form-control foundationsgoal" ng-model="goals.months[month.key].foundations" />
+            <input type="number" class="form-control foundationsgoal" ng-model="goals.months[month.key].foundations" />
             <label>Events</label>
-            <input type="text" class="form-control eventsgoal" ng-model="goals.months[month.key].events" />
+            <input type="number" class="form-control eventsgoal" ng-model="goals.months[month.key].events" />
 
             <span></span>
             <h3>{{ month.name }} Total</h3>

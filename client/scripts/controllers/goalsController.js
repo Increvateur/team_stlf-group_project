@@ -108,16 +108,25 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
   // Adding Totals up
   $scope.indTotal = 0;
-  $scope.bing = 'Bing!';
 
-  $scope.calcIndTot = function(goalToAdd) {
-    console.log('HELLO! @goalsController - goalToAdd: ', goalToAdd);
-    //  console.log('@goalsController in calcIndTot - goalToAdd: ', goalToAdd);
-    //  console.log('### _ @goalsController in calcIndTot - $scope.indTot: ', $scope.indTot);
-     //
-    //  var total = $scope.indTotal + goalToAdd;
-    //  $scope.indTotal = total;
-    //  console.log('### _ @goalsController in calcIndTot - $scope.indTot: ', $scope.indTot);
+  $scope.calcIndTot = function() {
+    // console.log('HELLO! @goalsController - goalToAdd: ', goalToAdd);
+
+    var months = $scope.goals.months;
+    var indivudal = 0;
+    var staffTotal = 0;
+
+    console.log('** ! = @goalsController in calcIndTot - months before for loop: ', months);
+
+    var i;
+
+    for(i in months) {
+      staffTotal += months[i].staff;
+    }
+    console.log('@@@goalsController in calcIndTot - staffTotal after for loop: ', staffTotal);
+
+    $scope.indTotal = staffTotal;
+
   };
 
 }]);
