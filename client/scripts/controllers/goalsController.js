@@ -7,6 +7,9 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   // Renames GoalService
   var goalService = GoalService;
 
+  $scope.goalsArray = goalService.goalsArray;
+  console.log('*** == @GoalsController - $scope.goalsArray: ', $scope.goalsArray);
+
 
   // Empty object to store the goals entered by the User
   $scope.goals = {};
