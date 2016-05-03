@@ -72,34 +72,11 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     ]
   };
 
-  // To save the User's input for the fiscal year. Will need to change to a selection menu
+  // To save the User's input for the fiscal year. TODO Will need to change to a selection menu
   $scope.fiscalyear = '';
 
   // Need to update the Total Individual Goals for each month live!
-
-  // $scope.individual = 'goals.months[month.key]';
-
-  // $scope.individualTotals = $scope.individual + '.staff + ' + $scope.individual + '.board + ' +
-  // $scope.individual + '.committee + ' + $scope.individual + '.paretn + ' +
-  // $scope.individual + '.alum + ' + $scope.individual + '.participant';
-  $scope.test = 'testing';
-  $scope.individualTotals = '" {{ test }} "';
-
-  // $scope.allIndividuals = function() {
-  //   var indGoalsArray = ['staff', 'board', 'committee', 'parent', 'alum', 'participant']
-  //   for (var i = 0; i < indGoalsArray.length; i++) {
-  //     $scope.individualTotals += $scope.individual.indGoalsArray[i];
-  //     console.log('$$$ ### --- @goalsController in $scope.allIndividuals - $scope.individualTotals: ', $scope.individualTotals);
-  //   }
-  // }
-
-
-
-  // $scope.updateIndTot = function(data) {
-  //   $scope.individualTotals += data;
-  //   return $scope.individualTotals;
-  // };
-
+  $scope.individualTotals = 'Individual Totals';
 
   // Function to add the fiscal year to the $scope.goal object once the user is not focused on the fiscal year input
   $scope.addFyKey = function(year) {
@@ -128,10 +105,5 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
     goalService.getGoals();
   };
-
-  // $scope.showGoals = function() {
-  //   goalService.getGoals();
-  //   // console.log('@GoalsController in showGoals() response from Factory/server/db: ', data);
-  // };
 
 }]);

@@ -6,7 +6,9 @@
     <input type="number" class="container form-control year col-xs-4" ng-model="goals.fiscalyear"
     ng-model-options="{ updateOn: 'blur' }" ng-change="addFyKey(fiscalyear)" placeholder="Fiscal Year" autofocus required/>
 
-    <uib-tabset class="container col-xs-14" active="active">
+    <br /> <br /> <br /> <br />
+
+    <uib-tabset class="container col-md-12" active="active">
       <uib-tab ng-repeat="month in monthsObj.months track by month.key" heading="{{month.name}}">
         {{ $index }} {{ month.name }} {{ month.key }}
         <!-- <ng-form name="input-goals"> -->
@@ -58,7 +60,7 @@
 
     <button class="btn btn-primary pull-right" type="submit" >Save Goals</button>
   </form>
-  
+
   <div>
     goals:
     <pre>{{ goals | json }}</pre>
