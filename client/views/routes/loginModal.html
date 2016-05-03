@@ -1,28 +1,32 @@
+
 <!-- PASSPORT LOGIN MODAL -->
-<div class="modal-header modal-login-header">
-  <!-- <h4 style="text-align:center">STLF User Login</h4> -->
+
+<div class="modal-header modal-stlf-header">
   <img class="modal-login-image" src="./assets/images/logo_stlf.png" />
 </div>
 <div class="modal-body">
   <form action="/" method="post" id="loginForm">
-    <label for="username">Username:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-user"></span>
-      </span>
-      <input type="text" class="form-control" name="username" id="username" placeholder="Username" autofocus />
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-user"></span>
+        </span>
+        <input type="text" class="form-control" name="username" id="username" placeholder="Username" autofocus required />
+      </div>
     </div>
-    <br />
-    <label for="password">Password:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-lock"></span>
-      </span>
-      <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-lock"></span>
+        </span>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required />
+      </div>
     </div>
   </form>
 </div>
-<div class="modal-footer modal-login-footer">
-  <button type="submit" class="btn btn-primary" form="loginForm">Login</button>
-  <button class="btn btn-warning" ng-click="close()">Cancel</button>
+<div class="modal-footer modal-stlf-footer">
+  <button type="submit" class="btn btn-info" form="loginForm">Login</button>
+  <button class="btn btn-danger" ng-click="close()">Cancel</button>
 </div>
