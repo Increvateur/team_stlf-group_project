@@ -113,7 +113,8 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     // console.log('HELLO! @goalsController - goalToAdd: ', goalToAdd);
 
     var months = $scope.goals.months;
-    var individual = 0;
+    var individual = 'individual';
+    var individualGoal = 0;
     var staffTotal = 0;
     var boardTotal = 0;
     var committeeTotal = 0;
@@ -171,14 +172,15 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     }
 
 
-    individual = staffTotal + boardTotal + committeeTotal + parentTotal + alumTotal + participantTotal;
-    console.log('% %  %   @@@goalsController in calcIndTot - individual in for loop: ', individual);
+    individualGoal = staffTotal + boardTotal + committeeTotal + parentTotal + alumTotal + participantTotal;
+    console.log('% %  %   @@@goalsController in calcIndTot - individualGoal in for loop: ', individualGoal);
 
     // console.log('@@@goalsController in calcIndTot - staffTotal after for loop: ', staffTotal);
 
-    $scope.indTotal = individual;
+    $scope.indTotal = individualGoal;
     console.log('@@@goalsController in calcIndTot - $scope.indTotal after for loop: ', $scope.indTotal);
 
+    $scope.goals.month.individual = $scope.indTotal;
     return $scope.indTotal;
 
   };
