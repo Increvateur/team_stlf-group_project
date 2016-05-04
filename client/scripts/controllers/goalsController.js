@@ -113,19 +113,73 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     // console.log('HELLO! @goalsController - goalToAdd: ', goalToAdd);
 
     var months = $scope.goals.months;
-    var indivudal = 0;
+    var individual = 0;
     var staffTotal = 0;
+    var boardTotal = 0;
+    var committeeTotal = 0;
+    var parentTotal = 0;
+    var alumTotal = 0;
+    var participantTotal = 0;
+    var communityTotal = 0;
 
     console.log('** ! = @goalsController in calcIndTot - months before for loop: ', months);
 
     var i;
 
     for(i in months) {
-      staffTotal += months[i].staff;
-    }
-    console.log('@@@goalsController in calcIndTot - staffTotal after for loop: ', staffTotal);
+      var month = months[i];
 
-    $scope.indTotal = staffTotal;
+
+      staffTotal += month.staff;
+      if ( isNaN(staffTotal) ){
+        staffTotal = 0;
+      }
+
+      boardTotal += month.board;
+      if ( isNaN(boardTotal) ){
+        boardTotal = 0;
+      }
+
+      committeeTotal += month.committee;
+      if ( isNaN(committeeTotal) ){
+        committeeTotal = 0;
+      }
+
+      parentTotal += month.parent;
+      if ( isNaN(parentTotal) ){
+        parentTotal = 0;
+      }
+
+      alumTotal += month.alum;
+      if ( isNaN(alumTotal) ){
+        alumTotal = 0;
+      }
+
+      participantTotal += month.participant;
+      if ( isNaN(participantTotal) ){
+        participantTotal = 0;
+      }
+
+      communityTotal += month.community;
+      if ( isNaN(communityTotal) ){
+        communityTotal = 0;
+      }
+
+
+      console.log('HERE IS THE FOR LOOP @goalsController - months[i].staff - community: ', staffTotal, boardTotal, committeeTotal, parentTotal, alumTotal, participantTotal, communityTotal);
+
+    }
+
+
+    individual = staffTotal + boardTotal + committeeTotal + parentTotal + alumTotal + participantTotal;
+    console.log('% %  %   @@@goalsController in calcIndTot - individual in for loop: ', individual);
+
+    // console.log('@@@goalsController in calcIndTot - staffTotal after for loop: ', staffTotal);
+
+    $scope.indTotal = individual;
+    console.log('@@@goalsController in calcIndTot - $scope.indTotal after for loop: ', $scope.indTotal);
+
+    return $scope.indTotal;
 
   };
 

@@ -20,15 +20,15 @@
             <label>Staff Members Goal</label>
             <input type="number" class="form-control staffgoal" ng-model="goals.months[month.key].staff" ng-change="calcIndTot()" />
             <label>Board Members Goal</label>
-            <input type="number" class="form-control boardgoal" ng-model="goals.months[month.key].board" />
+            <input type="number" class="form-control boardgoal" ng-model="goals.months[month.key].board" ng-change="calcIndTot()" />
             <label>Committee Members</label>
-            <input type="number" class="form-control committeegoal" ng-model="goals.months[month.key].committee" />
+            <input type="number" class="form-control committeegoal" ng-model="goals.months[month.key].committee" ng-change="calcIndTot()" />
             <label>Parent</label>
-            <input type="number" class="form-control parentgoal" ng-model="goals.months[month.key].parent" />
+            <input type="number" class="form-control parentgoal" ng-model="goals.months[month.key].parent" ng-change="calcIndTot()" />
             <label>Alum</label>
-            <input type="number" class="form-control alumgoal" ng-model="goals.months[month.key].alum" />
+            <input type="number" class="form-control alumgoal" ng-model="goals.months[month.key].alum" ng-change="calcIndTot()" />
             <label>Participant</label>
-            <input type="number" class="form-control participantgoal" ng-model="goals.months[month.key].participant" />
+            <input type="number" class="form-control participantgoal" ng-model="goals.months[month.key].participant" ng-change="calcIndTot()" />
           </div>
 
           <div class="form-group col-md-3">
