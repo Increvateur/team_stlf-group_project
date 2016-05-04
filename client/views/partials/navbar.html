@@ -1,13 +1,38 @@
-<div class="container" ng-controller="UserController">
-    <nav>
-        <h1 id="welcome" class="lead">Welcome, {{ user.firstname }} {{ user.lastname }}!</h1>
+<div class="subhead" ng-controller="UserController">
+    <nav class="container">
+        <!--<p class="welcome">Welcome, {{ user.firstname }} {{ user.lastname }}</p>-->
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left" >
                 <li><a href="/queries" >Queries</a></li>
                 <li><a href="/register">Register User</a></li>
                 <li><a href="/goals">Set Goals</a></li>
             </ul>
+            <ul>
+                <li>
+                    <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">{{ user.firstname }} {{ user.lastname }}</a></p>
+
+                </li>
+            </ul>
         </div>
     </nav>
 
 </div>
+<!--<ul id="navSecondary"><li class="first active"><a href="/get-involved/tours" title="PIF Tours  »" >PIF Tours  »</a></li>-->
+    <!--<li><a href="/get-involved/summer-camp" title="Camps »" >Camps »</a></li>-->
+    <!--<li><a href="/get-involved/alumni" title="Alumni »" >Alumni »</a></li>-->
+    <!--<li><a href="/get-involved/support-stlf" title="Support STLF »" >Support STLF »</a></li>-->
+    <!--<li class="last"><a href="/get-involved/work-in-stlf" title="Work at STLF »" >Work at STLF »</a></li>-->
+<!--</ul>-->
+<!--<ul id="navSecondary">
+    <li><a href="#">Bulletin Board</a></li>
+    <li><a href="#">About Share</a></li>
+    <li><a href="#">STLF Blog</a></li>
+    <li><a href="#">Stories</a></li>
+</ul>-->
+<!--<uib-tabset active="active">-->
+    <!--<uib-tab index="0" href="/queries" heading="Query"></uib-tab>-->
+    <!--<uib-tab index="1" href="/register" heading="Register User"></uib-tab>-->
+    <!--<uib-tab index="2" href="/goals" heading="Set Goals"></uib-tab>-->
+
+<!--</uib-tabset>-->
+

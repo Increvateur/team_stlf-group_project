@@ -289,17 +289,17 @@ myApp.factory("QueryService", ["$http", function($http) {
 
     // everything query, pulls all relevant data, this is currently set for Staff.
 
- // var query = "SELECT AccountId, Account.Name, RecordType.Name, Amount, CloseDate, Campaign.Name,";
- // query += " Donation_SubCategory__c, FiscalYear,";
- // query += " Account.npe01__One2OneContact__r.npo02__Household__r.Id, StageName FROM ";
- // query += "Opportunity WHERE StageName ='Posted'  AND Donation_SubCategory__c = 'Staff' limit 100";
+    // var query = "SELECT AccountId, Account.Name, RecordType.Name, Amount, CloseDate, Campaign.Name,";
+    // query += " Donation_SubCategory__c, FiscalYear,";
+    // query += " Account.npe01__One2OneContact__r.npo02__Household__r.Id, StageName FROM ";
+    // query += "Opportunity WHERE StageName ='Posted'  AND Donation_SubCategory__c = 'Staff' limit 100";
 
- // SELECT ID,
- //       (SELECT StageName, Effective_Date__c, Expiration_Date__c
- //        FROM Opportunities
- //        WHERE StageName='Closed Won' AND Effective_Date__c < TODAY AND Expiration_Date__c > TODAY)
- // FROM Account where Id In (Select AccountId From Opportunity WHERE StageName='Closed Won' AND Effective_Date__c < TODAY AND Expiration_Date__c > TODAY)
- // And Id In (Select AccountId From Opportunity Where StageName = 'Closed AND Expiration_Date__c < TODAY AND Expiration_Date__c > LAST_365_DAYS)
+    // SELECT ID,
+    //       (SELECT StageName, Effective_Date__c, Expiration_Date__c
+    //        FROM Opportunities
+    //        WHERE StageName='Closed Won' AND Effective_Date__c < TODAY AND Expiration_Date__c > TODAY)
+    // FROM Account where Id In (Select AccountId From Opportunity WHERE StageName='Closed Won' AND Effective_Date__c < TODAY AND Expiration_Date__c > TODAY)
+    // And Id In (Select AccountId From Opportunity Where StageName = 'Closed AND Expiration_Date__c < TODAY AND Expiration_Date__c > LAST_365_DAYS)
 
 
 
@@ -683,7 +683,7 @@ myApp.factory("QueryService", ["$http", function($http) {
                 key: arrSql[sqlIndex].key,
                 strSql: arrSql[sqlIndex].sql,
                 queryInfo: arrSql[sqlIndex].query
-             }
+            }
         }).then(function(response){
             // console.log("Hey I got something", response.data.records);
             // forceData.response  = response.data.records;
