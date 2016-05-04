@@ -16,4 +16,5 @@ myApp.controller('UserController', ['$scope', '$http', '$window', function($scop
             $window.location.href = '/index.html';
         }
     });
+
 }]);

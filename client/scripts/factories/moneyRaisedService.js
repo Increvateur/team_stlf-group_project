@@ -292,14 +292,22 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
     // Sort results is a function that takes the salesforce information and creates new objects that are formatted properly to fit on our tables
     var sortResults = function(resultsArrays){
-
+        arrResults = [];
+        arrSql = [];
+        Sqlobj = {};
+        sqlIndex = 0;
+        myKey = "";
+        strSql = "";
         // account is a holder object for properly sorted information
+       if(accountArray.length > 0){
+           return console.log('all done.');
+       }
         var account = {};
         account.total = [];
 
         // this loop goes through and makes sure that we dont have any null category values and removes them before we create new objects
         for(var i = 0; i < resultsArrays.length; i++) {
-            //resultsArrays[0].result.records.shift();
+            //resultsArrays[0].result.records.shift()
             if(resultsArrays[i].result.records.length > 12){
                 for(var m = 0; m < resultsArrays[i].result.records.length; m++){
                     if(resultsArrays[i].result.records[m].Donation_SubCategory__c === null){
@@ -322,6 +330,7 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
             account.total[4] = resultsArrays[4].result.records[j].expr0;
        new Account(account.type, account.total[0], account.total[1], account.total[2], account.total[3], account.total[4]);
       }
+
         console.log("did this actually work?!?!?", accountArray);
 
     };

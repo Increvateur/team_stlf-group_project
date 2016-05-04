@@ -16,15 +16,12 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         $scope.forceData = [];
         $scope.forceresponse = [];
 
-        moneyRaisedService.moneyRaised();
 
-        $scope.data = moneyRaisedService.data;
 
-        $scope.forceData = moneyRaisedService.forceData;
 
-        $scope.forceresponse = moneyRaisedService.forceresponse;
-        $scope.accounts = moneyRaisedService.accountArray;
-
+        $scope.buildtable = function() {
+            $scope.accounts = moneyRaisedService.accountArray;
+        };
 
 
         $scope.open = function(size) {
@@ -39,6 +36,11 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
             });
           };
 
+        moneyRaisedService.moneyRaised();
+        $scope.data = moneyRaisedService.data;
+        $scope.forceData = moneyRaisedService.forceData;
+        $scope.forceresponse = moneyRaisedService.forceresponse;
+        $scope.buildtable();
 
 }]);
 
