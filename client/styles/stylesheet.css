@@ -160,13 +160,13 @@ body {
   width: 270px;
 }
 
-.modal-stlf-header {
+.modal-stlf-header, .modal-stlf-footer {
   background-image: url("/assets/images/header_bg.jpg");
 }
 
-.modal-stlf-footer {
-  background-color: black;
-}
+/*.modal-stlf-footer {*/
+  /*background-color: black;*/
+/*}*/
 
 .login-btn {
     margin-top:22px;
@@ -181,4 +181,15 @@ body {
 }
 .corner-x, .corner-x:hover {
   color: red;
+}
+
+/*kenzies shit*/
+
+
+.navbar-default .navbar-nav > li > a {
+    font-family: monospace;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 16px;
+    color: #444;
 }
