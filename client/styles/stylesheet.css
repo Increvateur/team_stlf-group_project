@@ -60,8 +60,8 @@
 }
 
 body {
-  padding-top: 70px;
-  padding-bottom: 750px;
+  padding-top: 93px;
+  /*padding-bottom: 750px;*/
 }
 /*.navbar-custom {
   background-color: #B3E7F4;
@@ -178,6 +178,7 @@ body {
 .subhead{
     background-image: url("http://www.stlf.net/assets/templates/stlf/images/bg_subhead.jpg");
     height: 55px;
+    border-bottom:solid;
 }
 .welcome {
     color: white;
