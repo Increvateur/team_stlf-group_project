@@ -6,11 +6,11 @@
  */
 
 
-myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal",
+myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal", "DonorRetentionService",
 
-    function($scope, $filter, $uibModal) {
+    function($scope, $filter, $uibModal, DonorRetentionService) {
 
-        //var moneyRaisedService = MoneyRaisedService;
+        var donorRetentionService = DonorRetentionService;
 
         $scope.rowCollection = [];
         $scope.itemsByPage=15;
@@ -18,6 +18,10 @@ myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal",
         $scope.data = [];
         $scope.forceData = [];
         $scope.forceresponse = [];
+        $scope.retained = [];
+        $scope.recovered = [];
+        $scope.universe = [];
+
         //
         //moneyRaisedService.moneyRaised();
         //
