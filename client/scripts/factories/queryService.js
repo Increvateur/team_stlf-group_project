@@ -1073,6 +1073,8 @@ myApp.factory("QueryService", ["$http", function($http) {
 
     var parseResults = function(){
 
+        console.log("Hey we are totally in parseResults");
+
 
 
 
@@ -1553,13 +1555,14 @@ myApp.factory("QueryService", ["$http", function($http) {
     };
 
     var getCount = function(key){
-        // console.log("WOW we are in GETCOUNT");
+        // console.log("WOW we are in GETCOUNT and key, arrResults.length = ",key,arrResults.length);
 
         var myCount = 0;
         // loop through results and do manual calculations
         for(var i=0; i<arrResults.length; i++){
+            // console.log("hmmm key =", arrResults[i].myKey);
             if (arrResults[i].myKey == key){
-                // console.log("HEY I am in GETCOUNT, looking at", arrResults[i].count);
+                // console.log("HEY I Matched  in GETCOUNT, looking at", arrResults[i].count);
                 myCount = arrResults[i].count;
             }
         }
