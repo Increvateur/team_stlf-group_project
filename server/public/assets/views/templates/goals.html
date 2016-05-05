@@ -8,6 +8,16 @@
 
     <br /> <br /> <br /> <br />
 
+
+    <div class="btn-group fiscal-year" uib-dropdown keyboard-nav>
+    <button id="simple-btn-keyboard-nav" type="button" class="btn btn-primary" uib-dropdown-toggle>
+        Fiscal Year <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
+        <li role="year" ng-repeat="year in yearArray" > {{ year }} </li>
+    </ul>
+</div>
+
     <uib-tabset class="container col-md-12" active="active">
       <uib-tab ng-repeat="month in monthsObj.months track by month.key" heading="{{month.name}}">
         {{ $index }} {{ month.name }} {{ month.key }}

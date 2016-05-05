@@ -12,6 +12,16 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
   goalService.getGoals();
 
+///// W O R K I N G   H E R E  ! ! ! //////
+
+  $scope.yearArray = [];
+  goalService.setYearList();
+
+  console.log('<<< CURRENT YEAR & YEARS >>> : ', goalService.currentYear, goalService.years);
+
+  $scope.yearArray = goalService.years;
+  console.log('// === @GoalsController - $scope.yearArray: ', $scope.yearArray);
+
 
   // Empty object to store the goals entered by the User
   $scope.goals = {};

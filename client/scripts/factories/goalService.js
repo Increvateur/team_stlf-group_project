@@ -26,13 +26,52 @@ myApp.factory("GoalService", ["$http", function($http) {
     });
   };
 
+
+  // Year genrator function
+
+  var date = new Date();
+  date = date.getFullYear();
+  var currentYear = date;
+  var startYear = 2003;
+  var endYear = currentYear + 5;
+  var counter = endYear;
+  var years = [];
+
+  var setYearList = function() {
+    var year = endYear;
+    while (counter >= startYear) {
+      years.push(year);
+      year--;
+      counter--;
+    }
+  };
+
+
+  // GET to check for specific year
+  var getSpecificYear = function(year) {
+
+    //http.get
+
+  };
+
+
+  // PUT existing goals (edit current year)
+  var updateGoals = function(year) {
+
+    //http.put
+
+  };
+
   // Runs GET to pull goal data even if new goals are not entered
   // getGoals();
 
   return {
     newGoals: newGoals,
     getGoals: getGoals,
-    goalsArray: goalsArray
+    goalsArray: goalsArray,
+    setYearList: setYearList,
+    currentYear: currentYear,
+    years: years
   };
 
 }]);
