@@ -21,7 +21,8 @@ router.get("/getgoals", function(req, res){
 router.post("/postgoals", function (req, res) {
     var request = req.body;
     console.log(request);
-    var newGoals = new Goals({ 'fiscal_year' : request.fiscalyear, 'months' : request.months });
+    var newGoals = new Goals({ 'fiscal_year' : request.fiscalyear, 'months' : request.months,
+    'yearly_totals' : request.yearly_totals });
     newGoals.save(function(err, data) {
         if (err) {
             console.log("Error Saving Names to Database", err);
