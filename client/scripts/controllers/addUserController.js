@@ -7,9 +7,12 @@ myApp.controller('AddUserController', ['$scope', 'UserService', function($scope,
 
     var userService = UserService;
     $scope.addUser = {};
+    $scope.addUser.admin = false;
 
     $scope.submit = function(data) {
         console.log('@mainController.js AddUserController data (AKA: addUser: ', data);
         userService.newUser(data);
+
+    $scope.addUser = {};
     };
 }]);
