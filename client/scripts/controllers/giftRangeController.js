@@ -14,20 +14,19 @@ myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",'GiftR
 
         $scope.rowCollection = [];
         $scope.itemsByPage=15;
-        $scope.accounts = [];
+        $scope.gifts = [];
         $scope.data = [];
         $scope.forceData = [];
         $scope.forceresponse = [];
 
         giftRangeService.giftRange();
-        //moneyRaisedService.moneyRaised();
+
+        //$scope.data = giftRangeService.data;
         //
-        //$scope.data = moneyRaisedService.data;
+        //$scope.forceData = giftRangeService.forceData;
         //
-        //$scope.forceData = moneyRaisedService.forceData;
-        //
-        //$scope.forceresponse = moneyRaisedService.forceresponse;
-        //$scope.accounts = moneyRaisedService.accountArray;
+        //$scope.forceresponse = giftRangeService.forceresponse;
+        $scope.gifts = giftRangeService.giftArray;
 
 
 

@@ -9,6 +9,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
     var sqlIndex = 0;
     var strSql = "";
     var myKey = "";
+    var giftArray = [];
 
 
     // TODO for each strSql, make an object, with label: label, and soql: strSql
@@ -386,38 +387,21 @@ var giftRange = function() {
                 forceresponse.response = response.data;
                 forceresponse.accessToken = response.data.accessToken;
                 forceresponse.instanceUrl = response.data.instanceUrl;
-                // pullData();
                 fetchForce();
 
             });
 
         }else {
             console.log("DID NOT reauthroize");
-            // pullData();
             fetchForce();
         }
 
     };
 
-    var pullData = function(){
-
-
-        console.log("in pull, stored instanceUrl=",forceresponse.instanceUrl);
-
-
-        $http.get("/salesforce/pull", {
-            params: { accessToken: forceresponse.accessToken, instanceUrl: forceresponse.instanceUrl  }
-        }).then(function(response){
-            console.log("Hey I got something", response.data.records);
-            forceData.response  = response.data.records;
-            fetchForce();
-        });
-
-    };
 
     var fetchForce = function(forceResult){
 
-        console.log("in fetch force, forceResult=", forceResult);
+        //console.log("in fetch force, forceResult=", forceResult);
         if(forceResult){
             // we got a result. Push it into arrResults, increment counter, call the next
             // sql statement in the queue.
@@ -435,13 +419,15 @@ var giftRange = function() {
                 console.log("Hey! In fetchForce in queryService, I think we are done!");
                 forceData.arrResults = arrResults;
                 parseResults();
+                console.log(forceData);
+                sortResults(forceData.arrResults);
                 return;
             }
             // do a call where the index of the sql array = the length of the arrResults array
             // if forceResult.length < arrSql then all again else return
         }
 
-        console.log("getting ready to get in fetch. sqlIndex=", sqlIndex, "arrSql[sqlIndex]=", arrSql[sqlIndex].sql);
+        //console.log("getting ready to get in fetch. sqlIndex=", sqlIndex, "arrSql[sqlIndex]=", arrSql[sqlIndex].sql);
         $http.get("/salesforce/fetch", {
             params: {
                 accessToken: forceresponse.accessToken,
@@ -458,175 +444,6 @@ var giftRange = function() {
     };
 
     var parseResults = function(){
-
-
-
-        //
-        ////Donor	Acquistion	&	Retention
-        //// first time donors
-        //console.log("Donor	Acquistion	&	Retention");
-        //console.log("first time donors");
-        //var ftdYTD = getCount("c1");
-        //var ftdYTDm1 = getCount("c2");
-        //var ftdYTDm2 = getCount("c3");
-        //var ftdFym1 = getCount("c4");
-        //var ftdFym2 = getCount("c5");
-        //
-        //
-        //console.log("ftdYTD", ftdYTD);
-        //console.log("ftdYTDm1", ftdYTDm1);
-        //console.log("ftdYTDm2", ftdYTDm2);
-        //console.log("ftdFym1", ftdFym1);
-        //console.log("ftdFym2", ftdFym2);
-        //
-        //console.log("Current retained donors");
-        //
-        //// current retained donors
-        //var crdSelYTD = getCount("d1");
-        //var crdSelYTDm1 = getCount("d2");
-        //var crdSelYTDm2 = getCount("d3");
-        //var crdFym1 = getCount("d4");
-        //var crdFym2 = getCount("d5");
-        //
-        //console.log("crdSelYTD", crdSelYTD);
-        //console.log("crdSelYTDm1", crdSelYTDm1);
-        //console.log("crdSelYTDm1", crdSelYTDm2);
-        //console.log("crdFym1", crdFym1);
-        //console.log("crdFym2", crdFym2);
-        //
-        //console.log("L2YBNTY");
-        //
-        //var l2ybntyYTD = getCount("e1");
-        //var l2ybntyYTDM1 = getCount("e2");
-        //var l2ybntyYTDM2 = getCount("e3");
-        //var l2ybntyFym1 = getCount("e4");
-        //var l2ybntyFym2 = getCount("e5");
-        //
-        //
-        //console.log("l2ybntyYTD", l2ybntyYTD);
-        //console.log("l2ybntyYTDM1", l2ybntyYTDM1);
-        //console.log("l2ybntyYTDM2", l2ybntyYTDM2);
-        //console.log("l2ybntyFym1", l2ybntyFym1);
-        //console.log("l2ybntyFym2", l2ybntyFym2);
-        //
-        //// total current donor pool
-        //console.log("Total current donor pool");
-        //
-        //var tcdpYTD = ftdYTD + crdSelYTD + l2ybntyYTD;
-        //var tcdpYTDm1 = ftdYTDm1 + crdSelYTDm1 + l2ybntyYTDM1;
-        //var tcdpYTDm2 = ftdYTDm2 + crdSelYTDm2 + l2ybntyYTDM2;
-        //var tcdpFym1 = ftdFym1 + crdFym1 + l2ybntyFym1;
-        //var tcdpFym2 = ftdFym2 + crdFym2 + l2ybntyFym2;
-        //
-        //console.log("tcdpYTD", tcdpYTD);
-        //console.log("tcdpYTDm1", tcdpYTDm1);
-        //console.log("tcdpYTDm2", tcdpYTDm2);
-        //console.log("tcdpFym1", tcdpFym1);
-        //console.log("tcdpFym2", tcdpFym2);
-        //
-        //// perect current retained donors
-        //console.log("Current retained donors percentage");
-        //
-        //var pctCrdSelYTD = crdSelYTD / tcdpYTD;
-        //var pctCrdSelYTDm1 = crdSelYTDm1 / tcdpYTDm1;
-        //var pctCrdSelYTDm2 = crdSelYTDm2 / tcdpYTDm2;
-        //var pctCrdFym1 = crdFym1 / tcdpFym1;
-        //var pctCrdFym2 = crdFym2 / tcdpFym2;
-        //
-        //console.log("pctCrdSelYTD", pctCrdSelYTD);
-        //console.log("pctCrdSelYTDm1", pctCrdSelYTDm1);
-        //console.log("pctCrdSelYTDm2", pctCrdSelYTDm2);
-        //console.log("pctCrdFym1", pctCrdFym1);
-        //console.log("pctCrdFym2", pctCrdFym2);
-        //
-        //
-        //
-        //
-        //console.log("Recovered Donors");
-        //
-        //var recYTD = nukeBfromA("f1a","f1b");
-        //var recYTDm1 = nukeBfromA("f2a","f2b");
-        //var recYTDm2 = nukeBfromA("f3a","f3b");
-        //var recFym1 = nukeBfromA("f4a","f2b");
-        //var recFym2 = nukeBfromA("f5a","f3b");
-        //
-        //console.log("recYTD", recYTD);
-        //console.log("recYTDm1", recYTDm1);
-        //console.log("recYTDm2", recYTDm2);
-        //console.log("recFym1", recFym1);
-        //console.log("recFym2", recFym2);
-        //
-        //console.log("Lost Donors");
-        //
-        //var lostYTD = getCount("g1");
-        //var lostYTDm1 = getCount("g2");
-        //var lostYTDm2 = getCount("g3");
-        //var lostFym1 = getCount("g1");
-        //var lostFym2 = getCount("g2");
-        //
-        //console.log("lostYTD", lostYTD);
-        //console.log("lostYTDm1", lostYTDm1);
-        //console.log("lostYTDm2", lostYTDm2);
-        //console.log("lostFym1", lostFym1);
-        //console.log("lostFym2", lostFym2);
-        //
-        //// total lost recovery pool
-        //console.log("Total lost recovery  pool");
-        //var poolYTD = recYTD + lostYTD;
-        //var poolYTDm1 = recYTDm1 + lostYTDm1;
-        //var poolYTDm2 = recYTDm2 + lostYTDm2;
-        //var poolFym1 = recFym1 + lostFym1;
-        //var poolFym2 = recFym2 + lostFym2;
-        //
-        //console.log("poolYTD",poolYTD);
-        //console.log("poolYTDm1",poolYTDm1);
-        //console.log("poolYTDm2",poolYTDm2);
-        //console.log("poolFym1",poolFym1);
-        //console.log("poolFym2",poolFym2);
-        //
-        ////TODO percentage donors Recovered
-        //console.log("Percentage donors recovered");
-        //
-        //var pctRecYTD = recYTD / lostYTD;
-        //var pctRecYTDm1 = recYTDm1 / lostYTDm1;
-        //var pctRecYTDm2 = recYTDm2  / lostYTDm2;
-        //var pctRecFym1 = recFym1 / lostFym1;
-        //var pctRecFym2 = recFym2 / lostFym2;
-        //
-        //console.log("pctRecYTD", pctRecYTD);
-        //console.log("pctRecYTDm1", pctRecYTDm1);
-        //console.log("pctRecYTDm2", pctRecYTDm2);
-        //console.log("pctRecFym1", pctRecFym1);
-        //console.log("pctRecFym2", pctRecFym2);
-        //
-        //// donor universe
-        //console.log("Donor Universe");
-        //var duYTD = tcdpYTD + poolYTD;
-        //var duYTDm1 = tcdpYTDm1 + poolYTDm1;
-        //var duYTDm2 = tcdpYTDm2 + poolYTDm2;
-        //var duFym1 = tcdpFym1 + poolFym1;
-        //var duFym2 = tcdpFym2 + poolFym2;
-        //
-        //console.log("duYTD", duYTD);
-        //console.log("duYTDm1", duYTDm1);
-        //console.log("duYTDm2", duYTDm2);
-        //console.log("duFym1", duFym1);
-        //console.log("duFym2", duFym2);
-        //
-        //// percentage retained donors
-        //console.log("Percentage retained donors");
-        //
-        //var prdYTD = duYTD / crdSelYTD;
-        //var prdYTDm1 = duYTDm1 / crdSelYTDm1;
-        //var prdYTDm2 = duYTDm2 / crdSelYTDm2;
-        //var prdFym1 = duFym1 / crdFym1;
-        //var prdFym2 = duFym2 / crdFym2;
-        //
-        //console.log("prdYTD", prdYTD);
-        //console.log("prdYTDm1", prdYTDm1);
-        //console.log("prdYTDm2", prdYTDm2);
-        //console.log("prdFym1", prdFym1);
-        //console.log("prdFym2", prdFym2);
 
 
         // gift range chart
@@ -813,122 +630,6 @@ var giftRange = function() {
 
     };
 
-    var countInEither2 = function(key1, key2){
-        var arr1 = [];
-        var arr2 = [];
-        var count = 0;
-        var total = 0;
-        for(var i=0; i<arrResults.length; i++){
-            if (arrResults[i].myKey ==key1){
-                arr1 = arrResults[i].result.records;
-            }
-            if (arrResults[i].myKey ==key2){
-                arr2 = arrResults[i].result.records;
-            }
-        }
-        for (i=0; i<arr1.length; i++){
-            for(j=0; j<arr2.length; j++){
-                if (arr1[i].Name == arr2[j].Name){
-                    count ++;
-
-                }
-            }
-        }
-        console.log("Count of dupes", count);
-        total = arr1.length + arr2.length -count;
-        return total;
-
-    };
-
-    var countInEither = function(key1, key2){
-
-        var arrComp = [];
-        var mySet = {};
-
-        // loop through results and do manual calculations
-
-        for(var i=0; i<arrResults.length; i++){
-            if (arrResults[i].myKey == key1){
-                // total results
-                // console.log("HEY THERE! ");
-                mySet = arrResults[i].result.records;
-
-                // console.log("myset length", mySet.length);
-                for (x=0; x<mySet.length; x++)
-                {
-                    // console.log("myset ", x, mySet[x]);
-                    arrComp.push(mySet[x].Id);
-                }
-
-
-            }
-        }
-        for(i=0; i<arrResults.length; i++){
-            if (arrResults[i].myKey == key2){
-                // total results
-                // console.log("HEY THERE! ");
-                mySet = arrResults[i].result.records;
-
-                // console.log("myset length", mySet.length);
-                for (x=0; x<mySet.length; x++)
-                {
-                    // console.log("myset ", x, mySet[x]);
-                    arrComp.push(mySet[x].Id);
-                }
-
-
-            }
-        }
-        // got both loaded in new array
-
-        // this counts unique members of arrComp
-
-        var o = {},  l = arrComp.length, r = [];
-        for(i=0; i<l;i+=1) o[arrComp[i]] = arrComp[i];
-        for(i in o) r.push(o[i]);
-        // console.log("count",r.length);
-        return r.length;
-
-
-        // console.log("Hoping for a total of records unique to these two arrays", counts);
-
-
-    };
-
-    var nukeBfromA = function(keyA, keyB){
-
-
-
-        var arrA =[];
-        var arrB = [];
-
-        // console.log("IN nukeBfromA, keys", keyA, keyB);
-
-        for(var i=0; i<arrResults.length; i++){
-            if (arrResults[i].myKey == keyA){
-                arrA = arrResults[i].result.records;
-            }
-            if (arrResults[i].myKey == keyB){
-                arrB = arrResults[i].result.records;
-            }
-        }
-
-        // console.log("In Nuke b from a, START length of a=", arrA.length);
-        // console.log("In Nuke b from a, START length of b=", arrB.length);
-
-        // both arrays assigned
-        // remove b from a
-        for (i=0; i<arrB.length; i++){
-            for (var j=0; j<arrA.length; j++){
-                if (arrA[j].Id == arrB[i].Id){
-                    // console.log("Match nuking!");
-                    arrA.splice(j,1);
-                }
-            }
-        }
-        // console.log("In Nuke b from a, AFTER length of a=", arrA.length);
-        return arrA.length;
-    };
 
     var getCount = function(key){
         // console.log("WOW we are in GETCOUNT");
@@ -945,6 +646,39 @@ var giftRange = function() {
 
     };
 
+    var sortResults = function(resultsArrays){
+        arrResults = [];
+        arrSql = [];
+        Sqlobj = {};
+        sqlIndex = 0;
+        myKey = "";
+        strSql = "";
+        console.log('hit sort results', resultsArrays);
+        // account is a holder object for properly sorted information
+        if(giftArray.length > 0){
+            return console.log('all done.');
+        }
+
+        for(var i = 0; i < resultsArrays.length; i = i + 5) {
+            new Gift( resultsArrays[i].queryInfo ,resultsArrays[i].count, resultsArrays[i+1].count, resultsArrays[i+2].count, resultsArrays[i+3].count, resultsArrays[i+4].count);
+        }
+
+        console.log("did this actually work?!?!?", giftArray);
+
+    };
+
+    function Gift (type,ytd,ytdM1,ytdM2,tfyM1,tfyM2){
+        this.type = type;
+        this.ytd = ytd;
+        this.ytdM1=ytdM1;
+        this.ytdM2=ytdM2;
+        this.tfyM1=tfyM1;
+        this.tfyM2=tfyM2;
+        giftArray.push(this);
+
+    }
+
+
     return{
 
         getSalesforce : getSalesforce,
@@ -953,7 +687,8 @@ var giftRange = function() {
         forceData : forceData,
         forceresponse : forceresponse,
         arrResults : arrResults,
-        fetchForce : fetchForce
+        fetchForce : fetchForce,
+        giftArray : giftArray
     };
 
 }]);
