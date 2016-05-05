@@ -30,5 +30,17 @@ router.post("/postgoals", function (req, res) {
     });
 });
 
+router.get("/getYear/:year", function(req, res){
+    var year = req.params.year;
+    console.log(year);
+    Goals.find({'fiscal_year': year}, function(err, data){
+        if (err) {
+            console.log("Error Retrieving Names from the Database", err);
+        }
+        console.log('@SERVER - getgoals, response data: ', data);
+        res.send(data);
+    });
+});
+
 
 module.exports = router;

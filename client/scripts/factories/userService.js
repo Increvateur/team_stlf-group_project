@@ -9,6 +9,22 @@ myApp.factory("UserService", ["$http",'$window', function($http,$window) {
     });
   };
 
+  var verifyUser = function() {
+    return $http.get('/user').then(function(response) {
+      var user = {};
+      if (response.data === false) {
+        user.authenticated = false;
+        return user;
+      } else if (response.data.admin === true) {
+        user.admin = true;
+      }
+      user.firstname = response.data.firstname;
+      user.lastname = response.data.lastname;
+      user.authenticated = true;
+      return user;
+      });
+  };
+
   var logout = function(){
     $http.get('/logout').then(function(response){
       console.log(response);
@@ -19,6 +35,7 @@ myApp.factory("UserService", ["$http",'$window', function($http,$window) {
   return {
 
     newUser: newUser,
+    verifyUser : verifyUser,
     logout : logout
 
   };

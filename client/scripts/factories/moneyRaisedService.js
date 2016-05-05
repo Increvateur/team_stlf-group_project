@@ -12,6 +12,11 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     var myKey = "";
     var strSql = "";
     var accountArray = [];
+    var goals = {};
+    var totalarrSql = [];
+    var totalarrResults = [];
+    var totalsqlIndex = 0;
+    var totalforceData = {};
 
     // TODO for each strSql, make an object, with label: label, and soql: strSql
 
@@ -28,8 +33,6 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     // current fiscal year start is 1 sep before end date, and aug 31 after end date
     // ytd is 1 sep before end date until end date
     // ytd is 1 sep before end date -1 year
-
-
 
     var selEndDate = new Date("12-31-2015");
 
@@ -60,8 +63,6 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     if (ytdStart > ytdEnd){
         ytdStart = new Date("09/01/" + (selEndDate.getFullYear()-1));
     }
-
-
 
     ytdM1Start = new Date(ytdStart);
     ytdM1Start.add({"years":-1});
@@ -135,7 +136,6 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
         arrSql.push(sqlObj);
 
-
         // new query first with new dates PREV YEAR
         myKey = "a2";
         strSql = "SELECT Donation_SubCategory__c, SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + ytdM1Start + " AND CloseDate <=" + ytdM1End + "  GROUP BY Donation_SubCategory__c ";
@@ -168,69 +168,65 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
         arrSql.push(sqlObj);
 
-        //// TODO Now I need to get the TOTALS
-        //
-        //// total for ytd selected
-        //myKey = "b1";
-        //strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + ytdStart + " AND CloseDate <=" + ytdEnd;
-        //
-        //sqlObj = {key: myKey, query: "TOTAL amount for ytd selected", sql: strSql};
-        //
-        //arrSql.push(sqlObj);
-        //
-        //// total for ytd selected -1
-        //myKey = "b2";
-        //strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + ytdM1Start + " AND CloseDate <=" + ytdM1End;
-        //
-        //sqlObj = {key: myKey, query: "TOTAL amount for ytd selected -1", sql: strSql};
-        //
-        //arrSql.push(sqlObj);
-        //
-        //// total for ytd selected -2
-        //myKey = "b3";
-        //strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + ytdM2Start + " AND CloseDate <=" + ytdM2End;
-        //
-        //sqlObj = {key: myKey, query: "TOTAL amount for ytd selected -2", sql: strSql};
-        //
-        //arrSql.push(sqlObj);
-        //
-        //// total for FY before selected
-        //myKey = "b4";
-        //strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + fyM1Start + " AND CloseDate <=" + fyM1End;
-        //
-        //sqlObj = {key: myKey, query: "TOTAL amount for First full fiscal year before selected", sql: strSql};
-        //
-        //arrSql.push(sqlObj);
-        //
-        //// total for second FY before selected
-        //myKey = "b5";
-        //strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + fyM2Start + " AND CloseDate <=" + fyM2End;
-        //
-        //sqlObj = {key: myKey, query: "TOTAL amount for Second full fiscal year before selected", sql: strSql};
-        //
-        //arrSql.push(sqlObj);
-
         getSalesforce();
-
-
 
     };
 
+    var getTotals = function(){
+        // total for ytd selected
+        myKey = "b1";
+        strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + ytdStart + " AND CloseDate <=" + ytdEnd;
 
+        sqlObj = {key: myKey, query: "TOTAL amount for ytd selected", sql: strSql};
 
+        totalarrSql.push(sqlObj);
 
+        // total for ytd selected -1
+        myKey = "b2";
+        strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + ytdM1Start + " AND CloseDate <=" + ytdM1End;
 
-    var getSalesforce = function(data){
+        sqlObj = {key: myKey, query: "TOTAL amount for ytd selected -1", sql: strSql};
+
+        totalarrSql.push(sqlObj);
+
+        // total for ytd selected -2
+        myKey = "b3";
+        strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + ytdM2Start + " AND CloseDate <=" + ytdM2End;
+
+        sqlObj = {key: myKey, query: "TOTAL amount for ytd selected -2", sql: strSql};
+
+        totalarrSql.push(sqlObj);
+
+        // total for FY before selected
+        myKey = "b4";
+        strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + fyM1Start + " AND CloseDate <=" + fyM1End;
+
+        sqlObj = {key: myKey, query: "TOTAL amount for First full fiscal year before selected", sql: strSql};
+
+        totalarrSql.push(sqlObj);
+
+        // total for second FY before selected
+        myKey = "b5";
+        strSql = "SELECT  SUM(Amount) FROM  Opportunity WHERE StageName = 'Posted' AND Amount != null AND CloseDate >= " + fyM2Start + " AND CloseDate <=" + fyM2End;
+
+        sqlObj = {key: myKey, query: "TOTAL amount for Second full fiscal year before selected", sql: strSql};
+
+        totalarrSql.push(sqlObj);
+
+        getTotalsSalesforce();
+
+    };
+
+    var getTotalsSalesforce = function(data){
 
         if (!forceresponse.accessToken){
-            console.log("I want to do a check in getSalesforce to see if I need to auth. ", forceresponse.accessToken);
+            //console.log("I want to do a check in getSalesforce to see if I need to auth. ", forceresponse.accessToken);
             $http.get("/salesforce/force").then(function(response){
                 // console.log("get force", response.data);
                 forceresponse.response = response.data;
                 forceresponse.accessToken = response.data.accessToken;
                 forceresponse.instanceUrl = response.data.instanceUrl;
-                 //pullData();
-                fetchForce();
+                fetchTotalForce();
 
             });
 
@@ -238,7 +234,67 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
         }else {
             console.log("DID NOT reauthroize");
-            // pullData();
+            fetchTotalForce();
+        }
+
+
+    };
+
+
+
+    var fetchTotalForce = function(forceResult){
+
+        console.log("in total force, forceResult=", forceResult);
+        if(forceResult){
+
+            totalarrResults.push(forceResult.data);
+
+            totalsqlIndex = totalarrResults.length;
+            console.log("sql index", totalsqlIndex);
+
+
+            if (totalarrResults.length == totalarrSql.length){
+                // we are done
+                totalforceData.totalarrResults = totalarrResults;
+
+                return;
+            }
+
+        }
+
+        //console.log("getting ready to get totals. totalsqlIndex=", totalsqlIndex);
+        $http.get("/salesforce/fetch", {
+            params: {
+                accessToken: forceresponse.accessToken,
+                instanceUrl: forceresponse.instanceUrl,
+                key: totalarrSql[totalsqlIndex].key,
+                strSql: totalarrSql[totalsqlIndex].sql,
+                queryInfo: totalarrSql[totalsqlIndex].query
+            }
+        }).then(function(response){
+            // console.log("Hey I got something", response.data.records);
+            fetchTotalForce(response);
+        });
+    };
+
+
+
+    var getSalesforce = function(data){
+
+        if (!forceresponse.accessToken){
+            //console.log("I want to do a check in getSalesforce to see if I need to auth. ", forceresponse.accessToken);
+            $http.get("/salesforce/force").then(function(response){
+                // console.log("get force", response.data);
+                forceresponse.response = response.data;
+                forceresponse.accessToken = response.data.accessToken;
+                forceresponse.instanceUrl = response.data.instanceUrl;
+                fetchForce();
+            });
+
+
+
+        }else {
+            console.log("DID NOT reauthroize");
             fetchForce();
         }
 
@@ -251,11 +307,7 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
         //console.log("in fetch force, forceResult=", forceResult);
         if(forceResult){
-            // we got a result. Push it into arrResults, increment counter, call the next
-            // sql statement in the queue.
-            // if counter less than sql array length, push it up, else done.
 
-            // arrResults.push(forceResult.data.records);
             arrResults.push(forceResult.data);
 
             sqlIndex = arrResults.length;
@@ -264,17 +316,15 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
             if (arrResults.length == arrSql.length){
                 // we are done
-                //console.log("Hey! In fetchForce in queryService, I think we are done!", arrResults);
                 forceData.arrResults = arrResults;
+                getGoals('2015');
                 sortResults(arrResults);
-                //parseResults();
                 return;
             }
-            // do a call where the index of the sql array = the length of the arrResults array
-            // if forceResult.length < arrSql then all again else return
+
         }
 
-        console.log("getting ready to get in fetch. sqlIndex=", sqlIndex);
+        //console.log("getting ready to get in fetch. sqlIndex=", sqlIndex);
         $http.get("/salesforce/fetch", {
             params: {
                 accessToken: forceresponse.accessToken,
@@ -292,14 +342,22 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
     // Sort results is a function that takes the salesforce information and creates new objects that are formatted properly to fit on our tables
     var sortResults = function(resultsArrays){
-
+        arrResults = [];
+        arrSql = [];
+        Sqlobj = {};
+        sqlIndex = 0;
+        myKey = "";
+        strSql = "";
         // account is a holder object for properly sorted information
+       if(accountArray.length > 0){
+           return console.log('all done.');
+       }
         var account = {};
         account.total = [];
 
         // this loop goes through and makes sure that we dont have any null category values and removes them before we create new objects
         for(var i = 0; i < resultsArrays.length; i++) {
-            //resultsArrays[0].result.records.shift();
+            //resultsArrays[0].result.records.shift()
             if(resultsArrays[i].result.records.length > 12){
                 for(var m = 0; m < resultsArrays[i].result.records.length; m++){
                     if(resultsArrays[i].result.records[m].Donation_SubCategory__c === null){
@@ -313,7 +371,6 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
        // pushs those objects into the accounts array which is then used in the controller to make the money raised table.
 
         for (var j = 0 ; j < resultsArrays[0].result.records.length ; j++){
-
             account.type = resultsArrays[0].result.records[j].Donation_SubCategory__c;
             account.total[0] = resultsArrays[0].result.records[j].expr0;
             account.total[1] = resultsArrays[1].result.records[j].expr0;
@@ -322,9 +379,11 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
             account.total[4] = resultsArrays[4].result.records[j].expr0;
        new Account(account.type, account.total[0], account.total[1], account.total[2], account.total[3], account.total[4]);
       }
+
         console.log("did this actually work?!?!?", accountArray);
 
     };
+
     function Account (type,ytd,ytdM1,ytdM2,tfyM1,tfyM2){
         this.type = type;
         this.ytd = ytd;
@@ -332,11 +391,73 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         this.ytdM2=ytdM2;
         this.tfyM1=tfyM1;
         this.tfyM2=tfyM2;
+        this.goal = 0;
+        this.percentOfGoal = 0;
+        this.percentToGoal = 0;
 
         accountArray.push(this);
 
     }
+    var getGoals = function(year) {
+        $http.get('/goals/getYear/'+ year).then(function(response){
+            console.log('getting goals in money raised ', response.data);
+            goals.object = response.data;
+            setGoals();
 
+        });
+    };
+
+    var setGoals = function(){
+        console.log('goals in set goals function',goals);
+        accountArray[0].goal = goals.object[0].months.september.staff;
+        accountArray[1].goal = goals.object[0].months.september.board;
+        accountArray[2].goal = goals.object[0].months.september.committee;
+        accountArray[3].goal = goals.object[0].months.september.parent;
+        accountArray[4].goal = goals.object[0].months.september.alum;
+        accountArray[5].goal = goals.object[0].months.september.participant;
+        accountArray[6].goal = goals.object[0].months.september.community;
+        //accountArray[7].goal = goals.object[0].months.september.staff;
+        //accountArray[8].goal = goals.object[0].months.september.staff;
+        //accountArray[9].goal = goals.object[0].months.september.staff;
+        //accountArray[10].goal = goals.object[0].months.september.staff;
+        //accountArray[11].goal = goals.object[0].months.september.staff;
+
+        setPercentToGoal(accountArray);
+        setPercentOfGoal(accountArray);
+    };
+
+    var setPercentToGoal = function(accountArray){
+        for(var i = 0; i < accountArray.length; i++){
+            var total = accountArray[i].ytd;
+            //console.log('ytd total',total);
+            var goal = accountArray[i].goal;
+            //console.log('current goal',goal);
+            var percentToGoal = total/goal;
+            percentToGoal = percentToGoal * 100;
+            percentToGoal = Math.round(percentToGoal);
+            //console.log(percentToGoal);
+            accountArray[i].percentToGoal = percentToGoal;
+        }
+    };
+
+    var setPercentOfGoal = function(accountArray){
+        //console.log('totalforcedata',totalforceData);
+      console.log('ytd total',totalforceData.totalarrResults[0].result.records[0].expr0);
+        var total = totalforceData.totalarrResults[0].result.records[0].expr0;
+        total = Math.round(total);
+        console.log(total);
+        var goal = 0;
+        for(var i = 0; i < accountArray.length; i++){
+            goal = accountArray[i].ytd;
+            console.log('current goal',goal);
+            var percentOfGoal = goal/total;
+            percentOfGoal = percentOfGoal * 100;
+            percentOfGoal = Math.round(percentOfGoal);
+            console.log(percentOfGoal);
+            accountArray[i].percentOfGoal = percentOfGoal;
+
+        }
+    };
 
     return{
 
@@ -347,7 +468,8 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         forceresponse : forceresponse,
         arrResults : arrResults,
         fetchForce : fetchForce,
-        accountArray:accountArray
+        accountArray:accountArray,
+        getTotals:getTotals
     };
 
 

@@ -3,11 +3,12 @@
  */
 
 
-myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaisedService',
+myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaisedService','GoalService',
 
-    function($scope, $filter, $uibModal, MoneyRaisedService) {
+    function($scope, $filter, $uibModal, MoneyRaisedService,GoalService) {
 
         var moneyRaisedService = MoneyRaisedService;
+        var goalService = GoalService;
 
         $scope.rowCollection = [];
         $scope.itemsByPage=15;
@@ -15,19 +16,22 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         $scope.data = [];
         $scope.forceData = [];
         $scope.forceresponse = [];
-
-        moneyRaisedService.moneyRaised();
-
-        $scope.data = moneyRaisedService.data;
-
-        $scope.forceData = moneyRaisedService.forceData;
-
-        $scope.forceresponse = moneyRaisedService.forceresponse;
-        $scope.accounts = moneyRaisedService.accountArray;
+        $scope.goals=[];
 
 
+        $scope.getGoals = function(){
+          $scope.goals = goalService.getGoals();
+        };
 
-        $scope.open = function(size) {
+        $scope.buildtable = function() {
+            $scope.accounts = moneyRaisedService.accountArray;
+            //$scope.getGoals();
+
+        };
+
+
+        $scope.open = function(size,result) {
+            console.log(result);
 
             var modalInstance = $uibModal.open({
               animation: true,
@@ -38,7 +42,12 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
       				backdrop: 'static'
             });
           };
-
+        moneyRaisedService.getTotals();
+        moneyRaisedService.moneyRaised();
+        $scope.data = moneyRaisedService.data;
+        $scope.forceData = moneyRaisedService.forceData;
+        $scope.forceresponse = moneyRaisedService.forceresponse;
+        $scope.buildtable();
 
 }]);
 

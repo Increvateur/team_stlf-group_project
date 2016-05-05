@@ -27,6 +27,15 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
                 templateUrl: 'assets/views/templates/goals.html',
                 controller: 'GoalsController'
             })
+            .when('/giftRange', {
+                templateUrl: 'assets/views/templates/giftRange.html',
+                controller: 'GiftRangeController'
+            })
+            .when('/donorRetention', {
+                templateUrl: 'assets/views/templates/donorRetention.html',
+                controller: 'DonorRetentionController'
+            })
+
             .otherwise({
                 redirectTo: '/'
             });
