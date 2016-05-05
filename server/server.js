@@ -9,7 +9,6 @@ var passport = require('./strategies/user');
 var db = require("./modules/db_connect.js");
 
 // Routes
-var register = require('./routes/register');
 var user = require('./routes/user');
 var index = require('./routes/index.js');
 var goals = require('./routes/goals');
@@ -39,7 +38,6 @@ app.use(passport.session());
 // routes and server connection
 
 app.use('/salesforce', salesforce);
-app.use('/register', register);
 app.use("/user", user);
 app.use('/goals', goals);
 app.use("/", index);

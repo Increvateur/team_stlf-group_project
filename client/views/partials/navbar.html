@@ -4,11 +4,11 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left" >
                 <li><a href="/queries" >Queries</a></li>
-                <li><a href="/" >Money Raised</a></li>
-                <li><a href="/giftRange" >Gift Range Tables</a></li>
-                <li><a href="/donorRetention" >Donor Acquistion & Retention</a></li>
-                <li><a href="/register">Register User</a></li>
-                <li><a href="/goals">Set Goals</a></li>
+                <li><a href="/" ng-show="login">Money Raised</a></li>
+                <li><a href="/giftRange" ng-show="login">Gift Range Tables</a></li>
+                <li><a href="/donorRetention" ng-show="login">Donor Acquistion & Retention</a></li>
+                <li><a href="/register" ng-show="admin">Register User</a></li>
+                <li><a href="/goals" ng-show="admin">Set Goals</a></li>
             </ul>
             <ul>
                 <li>
@@ -20,4 +20,3 @@
     </nav>
 
 </div>
-
