@@ -10,7 +10,12 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
     var strSql = "";
     var myKey = "";
     var giftArray = [];
-
+    var amountRaised = [];
+    var base = {};
+    var inter = {};
+    var large = {};
+    var major = {};
+    var total = {};
 
     // TODO for each strSql, make an object, with label: label, and soql: strSql
 
@@ -446,6 +451,7 @@ var giftRange = function() {
     var parseResults = function(){
 
 
+
         // gift range chart
         console.log("Gift Range Chart");
         console.log("Donors at each level");
@@ -458,11 +464,6 @@ var giftRange = function() {
         var baseFym1 = getCount("m4");
         var baseFym2 = getCount("m5");
 
-        console.log("baseYTD",baseYTD );
-        console.log("baseYTDm1",baseYTDm1 );
-        console.log("baseYTDm2",baseYTDm2 );
-        console.log("baseFym1",baseFym1 );
-        console.log("baseFym2",baseFym2 );
 
         // Inter
         console.log("Inter");
@@ -473,11 +474,6 @@ var giftRange = function() {
         var interFym1 = getCount("n4");
         var interFym2 = getCount("n5");
 
-        console.log("interYTD",interYTD );
-        console.log("interYTDm1",interYTDm1 );
-        console.log("interYTDm2",interYTDm2 );
-        console.log("interFym1",interFym1 );
-        console.log("interFym2",interFym2 );
 
         // Large
         console.log("Large");
@@ -487,11 +483,6 @@ var giftRange = function() {
         var largeFym1 = getCount("o4");
         var largeFym2 = getCount("o5");
 
-        console.log("largeYTD",largeYTD );
-        console.log("largeYTDm1",largeYTDm1 );
-        console.log("largeYTDm2",largeYTDm2 );
-        console.log("largeFym1",largeFym1 );
-        console.log("largeFym2",largeFym2 );
 
         // Major
         console.log("Major");
@@ -501,11 +492,6 @@ var giftRange = function() {
         var majorFym1 = getCount("p4");
         var majorFym2 = getCount("p5");
 
-        console.log("majorYTD",majorYTD );
-        console.log("majorYTDm1",majorYTDm1 );
-        console.log("majorYTDm2",majorYTDm2 );
-        console.log("majorFym1",majorFym1 );
-        console.log("majorFym2",majorFym2 );
 
         // total donors
         console.log("Total Donors");
@@ -515,12 +501,6 @@ var giftRange = function() {
         var totDonFym1 = baseFym1 + interFym1 + largeFym1 + majorFym1;
         var totDonFym2 = baseFym2 + interFym2 + largeFym2 + majorFym2;
 
-
-        console.log("totDonYTD", totDonYTD);
-        console.log("totDonYTDm1", totDonYTDm1);
-        console.log("totDonYTDm2", totDonYTDm2);
-        console.log("totDonFym1", totDonFym1);
-        console.log("totDonFym2", totDonFym2);
 
 
         // gift range amounts
@@ -536,11 +516,15 @@ var giftRange = function() {
         var totalBaseFYm1 = totalResults("m4");
         var totalBaseFYm2 = totalResults("m5");
 
-        console.log("totalBaseSelYTD =", totalBaseSelYTD);
-        console.log("totalBaseSelYTDm1 =", totalBaseSelYTDm1);
-        console.log("totalBaseSelYTDm2 =", totalBaseSelYTDm2);
-        console.log("totalBaseFYm1 =", totalBaseFYm1);
-        console.log("totalBaseFYm2 =", totalBaseFYm2);
+        base = {
+            type: "base",
+            ytd : totalBaseSelYTD,
+            ytdM1: totalBaseSelYTDm1,
+            ytdM2 : totalBaseSelYTDm2,
+            tfyM1 : totalBaseFYm1,
+            tfyM2 : totalBaseFYm2
+        };
+        amountRaised[0]= base ;
 
         console.log("intermediate");
         // intermediate
@@ -551,11 +535,15 @@ var giftRange = function() {
         var totalInterFYm1 = totalResults("n4");
         var totalInterFYm2 = totalResults("n5");
 
-        console.log("totalInterSelYTD =", totalInterSelYTD);
-        console.log("totalInterSelYTDm1 =", totalInterSelYTDm1);
-        console.log("totalInterSelYTDm2 =", totalInterSelYTDm2);
-        console.log("totalInterFYm1 =", totalInterFYm1);
-        console.log("totalInterFYm2 =", totalInterFYm2);
+        inter = {
+            type: "Intermediate",
+            ytd : totalInterSelYTD,
+            ytdM1: totalInterSelYTDm1,
+            ytdM2 : totalInterSelYTDm2,
+            tfyM1 : totalInterFYm1,
+            tfyM2 : totalInterFYm2
+        };
+        amountRaised[1]= inter ;
 
 
         console.log("Large");
@@ -567,11 +555,17 @@ var giftRange = function() {
         var totalLargeFYm1 = totalResults("o4");
         var totalLargeFYm2 = totalResults("o5");
 
-        console.log("totalLargeSelYTD =", totalLargeSelYTD);
-        console.log("totalLargeSelYTDm1 =", totalLargeSelYTDm1);
-        console.log("totalLargeSelYTDm2 =", totalLargeSelYTDm2);
-        console.log("totalLargeFYm1 =", totalLargeFYm1);
-        console.log("totalLargeFYm2 =", totalLargeFYm2);
+        large = {
+            type: "Large",
+            ytd : totalLargeSelYTD,
+            ytdM1: totalLargeSelYTDm1,
+            ytdM2 : totalLargeSelYTDm2,
+            tfyM1 : totalLargeFYm1,
+            tfyM2 : totalLargeFYm2
+        };
+        amountRaised[2]= large ;
+
+        console.log(amountRaised);
 
         console.log("major");
         // major
@@ -582,12 +576,16 @@ var giftRange = function() {
         var totalMajorFYm1 = totalResults("p4");
         var totalMajorFYm2 = totalResults("p5");
 
-        console.log("totalMajorSelYTD =", totalMajorSelYTD);
-        console.log("totalMajorSelYTDm1 =", totalMajorSelYTDm1);
-        console.log("totalMajorSelYTDm2 =", totalMajorSelYTDm2);
-        console.log("totalMajorFYm1 =", totalMajorFYm1);
-        console.log("totalMajorFYm2 =", totalMajorFYm2);
-        //
+        major = {
+            type: "Major",
+            ytd : totalMajorSelYTD,
+            ytdM1: totalMajorSelYTDm1,
+            ytdM2 : totalMajorSelYTDm2,
+            tfyM1 : totalMajorFYm1,
+            tfyM2 : totalMajorFYm2
+        };
+        amountRaised[3]= major ;
+
         console.log("Total");
         // total
         var totalAllSelYTD = totalResults("q1");
@@ -597,11 +595,17 @@ var giftRange = function() {
         var totalAllFYm2 = totalResults("q5");
 
 
-        console.log("totalAllSelYTD =", totalAllSelYTD);
-        console.log("totalAllSelYTDm1 =", totalAllSelYTDm1);
-        console.log("totalAllSelYTDm2 =", totalAllSelYTDm2);
-        console.log("totalAllFYm1 =", totalAllFYm1);
-        console.log("totalAllFYm2 =", totalAllFYm2);
+        total = {
+            type: "Total",
+            ytd : totalAllSelYTD,
+            ytdM1: totalAllSelYTDm1,
+            ytdM2 : totalAllSelYTDm2,
+            tfyM1 : totalAllFYm1,
+            tfyM2 : totalAllFYm2
+        };
+        amountRaised[4]= total ;
+
+        console.log(amountRaised);
 
 
     };
@@ -688,7 +692,8 @@ var giftRange = function() {
         forceresponse : forceresponse,
         arrResults : arrResults,
         fetchForce : fetchForce,
-        giftArray : giftArray
+        giftArray : giftArray,
+        amountRaised : amountRaised
     };
 
 }]);

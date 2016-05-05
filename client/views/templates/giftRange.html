@@ -1,6 +1,6 @@
 <div class="home-view container">
 
-    <table st-table="displayedResults" st-safe-src="gifts" class="table">
+    <table st-table="giftResults" st-safe-src="gifts" class="table">
         <thead>
         <tr>
             <th st-sort="">Donors at each level</th>
@@ -9,6 +9,39 @@
             <th st-sort="">2014 YTD</th>
             <th st-sort="">2015 Fiscal Year</th>
             <th st-sort="">2014 Fiscal Year</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <!--currently inop, need to inject the data into this controller.-->
+        <tr st-select-row="result" st-select-mode="single" ng-repeat="result in giftResults">
+            <td>{{result.type}}</td>
+            <td>{{result.ytd }}</td>
+            <td>{{result.ytdM1  }}</td>
+            <td>{{result.ytdM2  }}</td>
+            <td>{{result.tfyM1 }}</td>
+            <td>{{result.tfyM2  }}</td>
+
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5" class="text-center">
+                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <table st-table="displayedResults" st-safe-src="amountRaised" class="table">
+        <thead>
+        <tr>
+            <th st-sort="">Amount Raised at each level</th>
+            <th st-sort=""></th>
+            <th st-sort=""></th>
+            <th st-sort=""></th>
+            <th st-sort=""></th>
+            <th st-sort=""></th>
         </tr>
 
         </thead>
@@ -24,13 +57,13 @@
 
         </tr>
         </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="5" class="text-center">
-                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
-            </td>
-        </tr>
-        </tfoot>
+        <!--<tfoot>-->
+        <!--<tr>-->
+            <!--<td colspan="5" class="text-center">-->
+                <!--<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--</tfoot>-->
     </table>
 
     <button type="button" class="btn btn-default" ng-click="open('lg')">View Charts</button>

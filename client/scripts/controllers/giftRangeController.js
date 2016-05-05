@@ -18,6 +18,7 @@ myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",'GiftR
         $scope.data = [];
         $scope.forceData = [];
         $scope.forceresponse = [];
+        $scope.amountRaised = [];
 
         giftRangeService.giftRange();
 
@@ -27,6 +28,7 @@ myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",'GiftR
         //
         //$scope.forceresponse = giftRangeService.forceresponse;
         $scope.gifts = giftRangeService.giftArray;
+        $scope.amountRaised = giftRangeService.amountRaised;
 
 
 
