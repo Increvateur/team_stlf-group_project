@@ -77,6 +77,7 @@ router.get("/fetch", function (req, res) {
 
   var strSql = req.query.strSql;
   var myQuery = req.query.queryInfo;
+  var myKey = req.query.key;
 
   console.log("Connected?");
 
@@ -87,11 +88,13 @@ router.get("/fetch", function (req, res) {
     //   console.log("records : " + result.data.records);
 
       var objRow = {
+          myKey : myKey,
           count: result.totalSize,
           queryInfo : myQuery,
 
+
           result: result
-      };
+      }
       res.status(200).send(objRow);
 
     });
