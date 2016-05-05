@@ -6,10 +6,11 @@
  */
 
 
-myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",
+myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",'GiftRangeService',
 
-    function($scope, $filter, $uibModal) {
+    function($scope, $filter, $uibModal,GiftRangeService) {
 
+        var giftRangeService = GiftRangeService;
 
         $scope.rowCollection = [];
         $scope.itemsByPage=15;
@@ -18,6 +19,7 @@ myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",
         $scope.forceData = [];
         $scope.forceresponse = [];
 
+        giftRangeService.giftRange();
         //moneyRaisedService.moneyRaised();
         //
         //$scope.data = moneyRaisedService.data;
