@@ -30,7 +30,7 @@ app.use(session({
    key: 'user',
    resave: 'true',
    saveUninitialized: false,
-   cookie: {maxage: 600000, secure: false}
+   cookie: {maxage: 1800000, secure: false}
 }));
 
 app.use(passport.initialize());
@@ -40,7 +40,7 @@ app.use(passport.session());
 
 app.use('/salesforce', salesforce);
 app.use('/register', register);
-app.use("/user",user);
+app.use("/user", user);
 app.use('/goals', goals);
 app.use("/", index);
 
