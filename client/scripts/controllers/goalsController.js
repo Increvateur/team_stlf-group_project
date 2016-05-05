@@ -165,8 +165,8 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     var communityTotal = 0;
     var individualTotal = 0;
     var corporateTotal = 0;
-    var corporateOrgTotal = 0;
-    var coroprateMatchTotal = 0;
+    var corporateOrganizationTotal = 0;
+    var corporateMatchTotal = 0;
     var foundationTotal = 0;
     var corporateFoundationTotal = 0;
     var familyFoundationTotal = 0;
@@ -290,20 +290,61 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
       console.log('** - = @goalsController in calcTotals - $scope.goals: ', $scope.goals);
 
+      // Dynamically saves and creates totals
+
+      // monthly_total creates totals for all goals in each month
       month.monthly_total = monthlyTotal;
 
       staffTotal += month.staff;
       console.log('+++ @goalsController in loop - staffTotal: ', staffTotal);
-      yearly_totals.staff_total = staffTotal;
+      yearly_totals.staff_year = staffTotal;
 
-      // yearlyTotal +=
+      boardTotal += month.board;
+      yearly_totals.board_year = boardTotal;
 
-      // $scope.yearlyTotal = totalGoals;
-      // console.log('@@@goalsController in calcTotals - $scope.yearlyTotal after for loop: ', $scope.yearlyTotal);
-      //
-      // $scope.goals.yearly_totals = $scope.yearly_totals;
-      //
-      // totalGoals = 0;
+      committeeTotal += month.committee;
+      yearly_totals.committee_year = committeeTotal;
+
+      parentTotal += month.parent;
+      yearly_totals.parent_year = parentTotal;
+
+      alumTotal += month.alum;
+      yearly_totals.alum_year = alumTotal;
+
+      participantTotal += month.participant;
+      yearly_totals.participant_year = participantTotal;
+
+      communityTotal += month.community;
+      yearly_totals.community_year = communityTotal;
+
+      individualTotal += month.individual_total;
+      yearly_totals.individual_year = individualTotal;
+
+      corporateOrganizationTotal += month.corporate_organization;
+      yearly_totals.corporate_organization_year = corporateOrganizationTotal;
+
+      corporateMatchTotal += month.corporate_match;
+      yearly_totals.corporate_match_year = corporateMatchTotal;
+
+      corporateTotal += month.corporate_total;
+      yearly_totals.corporate_year = corporateTotal;
+
+      corporateFoundationTotal += month.corporate_foundation;
+      yearly_totals.corporate_foundation_year = corporateFoundationTotal;
+
+      familyFoundationTotal += month.family_foundation;
+      yearly_totals.family_foundation_year = familyFoundationTotal;
+
+      generalFoundationTotal += month.general_foundation;
+      yearly_totals.general_foundation_year = generalFoundationTotal;
+
+      foundationTotal += month.foundation_total;
+      yearly_totals.foundation_year = foundationTotal;
+
+
+      yearlyTotal = individualTotal + corporateTotal + foundationTotal;
+      console.log('! - H E L L O  @goalsController in calcTotals in loop - yearlyTotal: ', yearlyTotal);
+      yearly_totals.year_total = yearlyTotal;
 
     }
 

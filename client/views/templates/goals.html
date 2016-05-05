@@ -16,7 +16,7 @@
 
           <div class="form-group col-md-3">
             <label>Individual Total</label>
-            <input type="number" class="form-control individual-total" ng-model="goals.months[month.key].individual_total" ng-disabled="true" placeholder="{{ goals.months[month.key].individual_total }}" />
+            <input type="number" class="form-control individual-total" ng-model="goals.months[month.key].individual_total" ng-disabled="true" placeholder="{{ goals.months[month.key].individual_total || 0 }}" />
             <label>Staff Members Goal</label>
             <input type="number" class="form-control staff" ng-model="goals.months[month.key].staff" ng-change="calcTotals()" />
             <label>Board Members Goal</label>
@@ -35,7 +35,7 @@
 
           <div class="form-group col-md-3">
             <label>Corporation Totals</label>
-            <input type="number" class="form-control corporate-total" ng-model="goals.months[month.key].corporate_total" ng-disabled="true" placeholder="{{ goals.months[month.key].corporate_total }}" />
+            <input type="number" class="form-control corporate-total" ng-model="goals.months[month.key].corporate_total" ng-disabled="true" placeholder="{{ goals.months[month.key].corporate_total || 0 }}" />
             <label>Corporate/Organization Money</label>
             <input type="number" class="form-control corporate-organization" ng-model="goals.months[month.key].corporate_organization" ng-change="calcTotals()" />
             <label>Corporate Match</label>
@@ -57,7 +57,7 @@
 
             <span></span>
             <h3>Yearly Total</h3>
-            <p> {{ goals.totals.yearly_total }} </p>
+            <p> {{ goals.yearly_totals.year_total }} </p>
 
           </div>
 
