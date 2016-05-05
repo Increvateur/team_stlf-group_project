@@ -37,7 +37,7 @@
             <label>Corporation Totals</label>
             <input type="number" class="form-control corporate-total" ng-model="goals.months[month.key].corporate_total" ng-disabled="true" placeholder="{{ goals.months[month.key].corporate_total }}" />
             <label>Corporate/Organization Money</label>
-            <input type="number" class="form-control corporate-organizations" ng-model="goals.months[month.key].corporate_organizations" ng-change="calcTotals()" />
+            <input type="number" class="form-control corporate-organization" ng-model="goals.months[month.key].corporate_organization" ng-change="calcTotals()" />
             <label>Corporate Match</label>
             <input type="number" class="form-control corporate-match" ng-model="goals.months[month.key].corporate_match" ng-change="calcTotals()"/>
           </div>
