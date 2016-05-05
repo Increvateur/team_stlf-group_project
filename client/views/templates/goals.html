@@ -16,36 +16,48 @@
 
           <div class="form-group col-md-3">
             <label>Individual Total</label>
-            <input type="number" class="form-control individualgoal" ng-model="goals.months[month.key].individual" ng-disabled="true" placeholder="{{ goals.months[month.key].individual }}" />
+            <input type="number" class="form-control individual-total" ng-model="goals.months[month.key].individual_total" ng-disabled="true" placeholder="{{ goals.months[month.key].individual_total }}" />
             <label>Staff Members Goal</label>
-            <input type="number" class="form-control staffgoal" ng-model="goals.months[month.key].staff" ng-change="calcTotals()" />
+            <input type="number" class="form-control staff" ng-model="goals.months[month.key].staff" ng-change="calcTotals()" />
             <label>Board Members Goal</label>
-            <input type="number" class="form-control boardgoal" ng-model="goals.months[month.key].board" ng-change="calcTotals()" />
+            <input type="number" class="form-control board" ng-model="goals.months[month.key].board" ng-change="calcTotals()" />
             <label>Committee Members</label>
-            <input type="number" class="form-control committeegoal" ng-model="goals.months[month.key].committee" ng-change="calcTotals()" />
+            <input type="number" class="form-control committee" ng-model="goals.months[month.key].committee" ng-change="calcTotals()" />
             <label>Parent</label>
-            <input type="number" class="form-control parentgoal" ng-model="goals.months[month.key].parent" ng-change="calcTotals()" />
+            <input type="number" class="form-control parent" ng-model="goals.months[month.key].parent" ng-change="calcTotals()" />
             <label>Alum</label>
-            <input type="number" class="form-control alumgoal" ng-model="goals.months[month.key].alum" ng-change="calcTotals()" />
+            <input type="number" class="form-control alum" ng-model="goals.months[month.key].alum" ng-change="calcTotals()" />
             <label>Participant</label>
-            <input type="number" class="form-control participantgoal" ng-model="goals.months[month.key].participant" ng-change="calcTotals()" />
+            <input type="number" class="form-control participant" ng-model="goals.months[month.key].participant" ng-change="calcTotals()" />
             <label>Community Support</label>
-            <input type="number" class="form-control communitygoal" ng-model="goals.months[month.key].community" ng-change="calcTotals()" />
+            <input type="number" class="form-control community" ng-model="goals.months[month.key].community" ng-change="calcTotals()" />
           </div>
 
           <div class="form-group col-md-3">
-            <label>Corporations Total</label>
-            <input type="number" class="form-control corporationsgoal" ng-model="goals.months[month.key].corporations" />
-            <label>Foundations Total</label>
-            <input type="number" class="form-control foundationsgoal" ng-model="goals.months[month.key].foundations" />
-            <label>Events Total</label>
-            <input type="number" class="form-control eventsgoal" ng-model="goals.months[month.key].events" />
+            <label>Corporation Totals</label>
+            <input type="number" class="form-control corporate-total" ng-model="goals.months[month.key].corporate_total" ng-disabled="true" placeholder="{{ goals.months[month.key].corporate_total }}" />
+            <label>Corporate/Organization Money</label>
+            <input type="number" class="form-control corporate-organizations" ng-model="goals.months[month.key].corporate_organizations" ng-change="calcTotals()" />
+            <label>Corporate Match</label>
+            <input type="number" class="form-control corporate-match" ng-model="goals.months[month.key].corporate_match" ng-change="calcTotals()"/>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>Foundation Totals</label>
+            <input type="number" class="form-control foundation-total" ng-model="goals.months[month.key].foundation_total" ng-disabled="true" placeholder="{{ goals.months[month.key].foundation_total }}" />
+            <label>Corporate Foundation</label>
+            <input type="number" class="form-control corporate-foundation" ng-model="goals.months[month.key].corporate_foundation" ng-change="calcTotals()" />
+            <label>Family Foundation/Fund</label>
+            <input type="number" class="form-control family-foundation" ng-model="goals.months[month.key].family_foundation" ng-change="calcTotals()" />
+            <label>General Foundation</label>
+            <input type="number" class="form-control general-foundation" ng-model="goals.months[month.key].general_foundation" ng-change="calcTotals()" />
+
 
             <span></span>
 
             <span></span>
             <h3>Yearly Total</h3>
-            <p> {{ goals.months.yearly_total }} </p>
+            <p> {{ goals.totals.yearly_total }} </p>
 
           </div>
 
