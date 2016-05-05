@@ -128,6 +128,7 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
 
     // main variables
+    $scope.goals.yearly_totals = {};
     var goals = $scope.goals;
     var months = goals.months;
     var yearly_totals = goals.yearly_totals;
@@ -293,7 +294,7 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
       staffTotal += month.staff;
       console.log('+++ @goalsController in loop - staffTotal: ', staffTotal);
-      // yearly_totals.staff_total = staffTotal;
+      yearly_totals.staff_total = staffTotal;
 
       // yearlyTotal +=
 
