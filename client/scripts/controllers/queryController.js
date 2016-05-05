@@ -25,4 +25,10 @@ myApp.controller('QueryController', ['$scope', 'QueryService', function($scope, 
 
 
 
+
+
+
+
+
+
 }]);

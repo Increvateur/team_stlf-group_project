@@ -26,7 +26,10 @@ myApp.factory("QueryService", ["$http", function($http) {
     var strSql = "";
 
 
-    var selEndDate = new Date("12-31-2015");
+    // var selEndDate = new Date("12-31-2015");
+
+    var selEndDate = new Date("05-05-2016");
+
 
     var ytdStart = new Date();
     var ytdEnd = new Date();
@@ -1055,7 +1058,7 @@ myApp.factory("QueryService", ["$http", function($http) {
             // if forceResult.length < arrSql then all again else return
         }
 
-        console.log("getting ready to get in fetch. sqlIndex=", sqlIndex, "arrSql[sqlIndex]=", arrSql[sqlIndex].sql);
+        console.log("getting ready to get in fetch. Key = ", arrSql[sqlIndex].key, " sqlIndex=", sqlIndex, "arrSql[sqlIndex]=", arrSql[sqlIndex].sql);
         $http.get("/salesforce/fetch", {
             params: {
                 accessToken: forceresponse.accessToken,
@@ -1410,6 +1413,9 @@ myApp.factory("QueryService", ["$http", function($http) {
 
 
 
+
+
+
     };
 
     var totalResults = function(myKey){
@@ -1572,6 +1578,57 @@ myApp.factory("QueryService", ["$http", function($http) {
 
     };
 
+    var pieChart = function(data) {
+
+        console.log("HEY were are going to make a CHart!");
+
+        AmCharts.makeChart("chartdiv",
+            {
+                "type": "pie",
+                "angle": 20,
+                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                "depth3D": 20,
+                "titleField": "country",
+                "valueField": "litres",
+                "fontSize": 12,
+                "theme": "default",
+                "allLabels": [],
+                "balloon": {},
+                "titles": [],
+                "dataProvider": [
+                    {
+                        "country": "Events",
+                        "litres": "356.9"
+                    },
+                    {
+                        "country": "Ireland",
+                        "litres": 131.1
+                    },
+                    {
+                        "country": "Germany",
+                        "litres": 115.8
+                    },
+                    {
+                        "country": "Australia",
+                        "litres": 109.9
+                    },
+                    {
+                        "country": "Austria",
+                        "litres": 108.3
+                    },
+                    {
+                        "country": "UK",
+                        "litres": 65
+                    },
+                    {
+                        "country": "Belgium",
+                        "litres": "20"
+                    }
+                ]
+            }
+        );
+    };
+
 
 
 
@@ -1585,6 +1642,7 @@ myApp.factory("QueryService", ["$http", function($http) {
         forceresponse : forceresponse,
         arrResults : arrResults,
         fetchForce : fetchForce
+
     };
 
 }]);
