@@ -1,73 +1,36 @@
 
-  <div class="container-fluid">
+
+  <div class="container col-md-12 register-user">
     <form ng-submit="submit(addUser)" role="form">
 
-      <div class="form-inline">
-        <div class="form-group col-sm-2">
-          <label for="firstname">First Name</label>
-        </div>
-        <div class="form-group col-sm-10">
-          <input ng-model="addUser.firstname" id="firstname" type="firstname" class="form-control" size="20" placeholder="First Name" />
-        </div>
+      <div class="form-group col-md-4"></div>
+
+      <div class="form-group col-md-4">
+        <label for="firstname">First Name</label>
+        <input ng-model="addUser.firstname" id="firstname" type="firstname" class="form-control" size="20" placeholder="" />
+
+        <label for="lastname">Last Name</label>
+        <input ng-model="addUser.lastname" id="lastname" type="lastname" class="form-control" size="20" placeholder="" />
+
+        <label for="email">Email</label>
+        <input ng-model="addUser.email" id="email" type="email" class="form-control" size="20" placeholder="" />
+
+        <label for="username">Username</label>
+        <input ng-model="addUser.username" id="username" type="username" class="form-control" size="20" placeholder="" />
+
+        <label for="password">Password</label>
+        <input ng-model="addUser.password" id="password" type="password" class="form-control" size="20" placeholder="" />
+
+        <label for="admin">Admin</label>
+        <input ng-model="addUser.admin" id="admin" type="checkbox" value="" />
+
+        <br>
+
+        <button type="" class="btn btn-danger user-btn">Delete User</button>
+        <button type="submit" class="btn btn-info user-btn">Add User</button>
       </div>
 
-      <div class="form-inline">
-        <div class="form-group col-sm-2">
-          <label for="lastname">Last Name</label>
-        </div>
-        <div class="form-group col-sm-10">
-          <input ng-model="addUser.lastname" id="lastname" type="lastname" class="form-control" size="20" placeholder="Last Name" />
-        </div>
-      </div>
-
-      <div class="form-inline">
-        <div class="form-group col-sm-2">
-          <label for="email">Email</label>
-        </div>
-        <div class="form-group col-sm-10">
-          <input ng-model="addUser.email" id="email" type="email" class="form-control" size="20" placeholder="Email" />
-        </div>
-      </div>
-
-      <div class="form-inline">
-        <div class="form-group col-sm-2">
-          <label for="username">Username</label>
-        </div>
-        <div class="form-group col-sm-10">
-          <input ng-model="addUser.username" id="username" type="username" class="form-control" size="20" placeholder="Username" />
-        </div>
-      </div>
-
-      <div class="form-inline">
-        <div class="form-group col-sm-2">
-          <label for="password">Password</label>
-        </div>
-        <div class="form-group col-sm-10">
-          <input ng-model="addUser.password" id="password" type="password" class="form-control" size="20" placeholder="Password" />
-        </div>
-      </div>
-
-      <div class="form-inline">
-        <div class="form-group col-sm-2">
-          <label for="admin">Admin</label>
-        </div>
-        <div class="checkbox-inline col-sm-10">
-          <div class="checkbox">
-            <input ng-model="addUser.admin" id="admin" type="checkbox" value="" />
-            <!-- {{ addUser.admin }} -->
-          </div>
-          <!-- <input ng-model="addUser.role" id="role" type="role" class="form-control" placeholder="Role" /> -->
-        </div>
-      </div>
-
-      <div class="form-inline">
-        <div class="form-group col-sm-2">
-        </div>
-        <div class="form-group col-sm-10">
-          <button type="submit" class="btn btn-info submit">Add User</button>
-          <button type="" class="btn btn-danger submit">Delete User</button>
-        </div>
-      </div>
+      <div class="form-group col-md-4"></div>
 
     </form>
   </div>
