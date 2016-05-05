@@ -44,7 +44,7 @@
 
           <div class="form-group col-md-3">
             <label>Foundation Totals</label>
-            <input type="number" class="form-control foundation-total" ng-model="goals.months[month.key].foundation_total" ng-disabled="true" placeholder="{{ goals.months[month.key].foundation_total }}" />
+            <input type="number" class="form-control foundation-total" ng-model="goals.months[month.key].foundation_total" ng-disabled="true" placeholder="{{ goals.months[month.key].foundation_total || 0 }}" />
             <label>Corporate Foundation</label>
             <input type="number" class="form-control corporate-foundation" ng-model="goals.months[month.key].corporate_foundation" ng-change="calcTotals()" />
             <label>Family Foundation/Fund</label>

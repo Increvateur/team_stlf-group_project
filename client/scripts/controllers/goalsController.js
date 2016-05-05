@@ -131,12 +131,28 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     var goals = $scope.goals;
     var months = goals.months;
     var yearly_totals = goals.yearly_totals;
+    // var staff_total;
+    // var board_total;
+    // var committee_total;
+    // var parent_total;
+    // var alum_total;
+    // var participant_total;
+    // var community_total;
+    // var individual_yearly_total;
+    // var corporate_organization_total;
+    // var corporate_match_total;
+    // var corporate_yearly_total;
+    // var corporate_foundation_total;
+    // var family_foundation_total;
+    // var general_foundation_total;
+    // var foundation_yearly_total;
+
 
     console.log('~~ - ~~ @goalsController in calcTotals - goals, months, yearly_totals: ', goals, months, yearly_totals);
 
 
     // Declaring all neccessary variables here:
-    var yearly_total;
+    var yearlyTotal;
     var month;
 
     var staffTotal = 0;
@@ -273,6 +289,14 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
       console.log('** - = @goalsController in calcTotals - $scope.goals: ', $scope.goals);
 
+      month.monthly_total = monthlyTotal;
+
+      staffTotal += month.staff;
+      console.log('+++ @goalsController in loop - staffTotal: ', staffTotal);
+      // yearly_totals.staff_total = staffTotal;
+
+      // yearlyTotal +=
+
       // $scope.yearlyTotal = totalGoals;
       // console.log('@@@goalsController in calcTotals - $scope.yearlyTotal after for loop: ', $scope.yearlyTotal);
       //
@@ -281,6 +305,8 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
       // totalGoals = 0;
 
     }
+
+
 
   };
 
