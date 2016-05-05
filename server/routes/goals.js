@@ -4,26 +4,20 @@ var passport = require('passport');
 var Goals = require("../models/goals.js");
 
 
-router.get('/', function(req, res) {
-    // check if logged in
-    if(req.isAuthenticated()) {
-        // send back user object from database
-        res.send(req.user);
-    } else {
-        // failure best handled on the server. do redirect here.
-        res.send(false);
-    }
-});
 
+// GET call to retrieve the Goals from DB
 router.get("/getgoals", function(req, res){
-    User.find({}, function(err, data){
+    Goals.find({}, function(err, data){
         if (err) {
             console.log("Error Retrieving Names from the Database", err);
         }
+        console.log('@SERVER - getgoals, response data: ', data);
         res.send(data);
     });
 });
 
+
+// POST to add goals to the DB
 router.post("/postgoals", function (req, res) {
     var request = req.body;
     console.log(request);
@@ -32,6 +26,18 @@ router.post("/postgoals", function (req, res) {
         if (err) {
             console.log("Error Saving Names to Database", err);
         }
+        res.send(data);
+    });
+});
+
+router.get("/getYear/:year", function(req, res){
+    var year = req.params.year;
+    console.log(year);
+    Goals.find({'fiscal_year': year}, function(err, data){
+        if (err) {
+            console.log("Error Retrieving Names from the Database", err);
+        }
+        console.log('@SERVER - getgoals, response data: ', data);
         res.send(data);
     });
 });

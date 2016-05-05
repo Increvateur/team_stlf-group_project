@@ -1,4 +1,4 @@
-<header>
+<header class="">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
             <!-- navbar collapse to menu bar-->
@@ -10,11 +10,11 @@
             </button>
             <a class="navbar-brand" href="/"></a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse login-btn">
             <ul class="nav navbar-nav navbar-right" >
                 <!-- <li><a href="#loginMotal">LOGIN</a></li> -->
-                <li><a ng-click="open('sm')">LOGIN</a></li>
-                <li><a href="/" ng-click="logout()">LOGOUT</a></li>
+                <li><a ng-click="open('sm')" ng-hide="login">LOGIN</a></li>
+                <li><a href="/" ng-click="logout()" ng-show="login">LOGOUT</a></li>
             </ul>
         </div>
     </nav>

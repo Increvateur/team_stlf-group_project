@@ -1,6 +1,6 @@
 <div class="home-view container">
 
-    <table st-table="displayedContacts" st-safe-src="contacts.object" class="table">
+    <table st-table="displayedResults" st-safe-src="accounts" class="table">
         <thead>
         <tr>
             <th st-sort="">Account Type</th>
@@ -17,10 +17,17 @@
         </thead>
         <tbody>
         <!--currently inop, need to inject the data into this controller.-->
-        <tr st-select-row="person" st-select-mode="single" ng-repeat="person in displayedContacts">
-            <td>{{account.FirstName}}</td>
+        <tr st-select-row="result" st-select-mode="single" ng-click="open('lg',result)" ng-repeat="result in displayedResults">
+            <td>{{result.type}}</td>
+            <td>{{result.ytd | currency : $ : 0 }}</td>
+            <td>{{result.ytdM1 | currency : $ : 0 }}</td>
+            <td>{{result.ytdM2 | currency : $ : 0 }}</td>
+            <td>{{result.goal | currency : $ : 0 }}</td>
+            <td>{{result.percentOfGoal }}</td>
+            <td>{{result.percentToGoal  }}</td>
+            <td>{{result.tfyM1 | currency : $ : 0 }}</td>
+            <td>{{result.tfyM2 | currency : $ : 0 }}</td>
 
-            <td>{{account.LastName}}</td>
         </tr>
         </tbody>
         <tfoot>

@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var User = require("../models/user.js");
 
+// Site verification and privileges
 
 router.get('/', function(req, res) {
     // check if logged in
@@ -10,7 +11,7 @@ router.get('/', function(req, res) {
         // send back user object from database
         res.send(req.user);
     } else {
-        // failure best handled on the server. do redirect here.
+        // failure best handled on the server.
         res.send(false);
     }
 });
