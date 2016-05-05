@@ -30,7 +30,8 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         };
 
 
-        $scope.open = function(size) {
+        $scope.open = function(size,result) {
+            console.log(result);
 
             var modalInstance = $uibModal.open({
               animation: true,
