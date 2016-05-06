@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         <!--currently inop, need to inject the data into this controller.-->
-        <tr st-select-row="result" st-select-mode="single" ng-click="open('lg',result)" ng-repeat="result in displayedResults">
+        <tr st-select-row="result" st-select-mode="single" ng-click="open('lg', result)" ng-repeat="result in displayedResults">
             <td>{{result.type}}</td>
             <td>{{result.ytd | currency : $ : 0 }}</td>
             <td>{{result.ytdM1 | currency : $ : 0 }}</td>
