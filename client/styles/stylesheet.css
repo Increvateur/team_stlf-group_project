@@ -219,12 +219,15 @@ body {
     font-size: 16px;
     color: #444;
 }
-/*.blue-lines{*/
-/*height: 119px;*/
-/*width: 100%;*/
-    /*background-image: url('http://stlf.net/assets/templates/stlf/images/bg_home_content.png');*/
-    /*background-repeat: repeat;*/
-/*}*/
+.blue-lines{
+    height: 119px;
+    width: 100%;
+    background-image: url('http://stlf.net/assets/templates/stlf/images/bg_home_content.png');
+    background-repeat: repeat;
+    z-index: -10;
+    /*background-position: left bottom;*/
+
+}
 
 .register-user {
   margin-top: 30px;
@@ -239,12 +242,52 @@ select {
   padding: 2px;
   margin: 5px;
 }
-.content {
-    height: 119px;
-    width: 100%;
-    background-image: url('http://stlf.net/assets/templates/stlf/images/bg_home_content.png');
-    margin-top: 22px;
-    background-position: left bottom;
-    background-repeat: repeat-x;
-    padding-bottom: 40px;
+/*.content {*/
+    /*height: 119px;*/
+    /*width: 100%;*/
+    /*background-image: url('http://stlf.net/assets/templates/stlf/images/bg_home_content.png');*/
+    /*margin-top: 22px;*/
+    /*background-position: left bottom;*/
+    /*background-repeat: repeat-x;*/
+    /*padding-bottom: 40px;*/
+/*}*/
+#sponsors {
+    height:84px;
+    clear:both;
+    position:relative;
+    overflow:hidden;
+}
+
+#sponsors .logo {
+    float:left;
+    border:1px solid #fff;
+    margin-right:6px;
+}
+
+.sponsorText {
+    width:240px;
+    position:absolute;
+    right:0;
+    top:16px;;
+    line-height:1.5;
+}
+.subfooter {
+    padding-bottom: 50px;
+    position: fixed;
+    z-index: -5;
+}
+
+li {
+    list-style-type: none;
+}
+
+.goal-form {
+    background-color: white;
+
+}
+.goals-btn {
+    margin-top: 20px;
+}
+.home-view{
+    background-color: white;
 }
