@@ -6,26 +6,29 @@
  */
 
 
-myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",
+myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",'GiftRangeService',
 
-    function($scope, $filter, $uibModal) {
+    function($scope, $filter, $uibModal,GiftRangeService) {
 
+        var giftRangeService = GiftRangeService;
 
         $scope.rowCollection = [];
         $scope.itemsByPage=15;
-        $scope.accounts = [];
+        $scope.gifts = [];
         $scope.data = [];
         $scope.forceData = [];
         $scope.forceresponse = [];
+        $scope.amountRaised = [];
 
-        //moneyRaisedService.moneyRaised();
+        giftRangeService.giftRange();
+
+        //$scope.data = giftRangeService.data;
         //
-        //$scope.data = moneyRaisedService.data;
+        //$scope.forceData = giftRangeService.forceData;
         //
-        //$scope.forceData = moneyRaisedService.forceData;
-        //
-        //$scope.forceresponse = moneyRaisedService.forceresponse;
-        //$scope.accounts = moneyRaisedService.accountArray;
+        //$scope.forceresponse = giftRangeService.forceresponse;
+        $scope.gifts = giftRangeService.giftArray;
+        $scope.amountRaised = giftRangeService.amountRaised;
 
 
 

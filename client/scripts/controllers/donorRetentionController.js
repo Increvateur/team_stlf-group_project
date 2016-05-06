@@ -6,11 +6,11 @@
  */
 
 
-myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal",
+myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal", "DonorRetentionService",
 
-    function($scope, $filter, $uibModal) {
+    function($scope, $filter, $uibModal, DonorRetentionService) {
 
-        //var moneyRaisedService = MoneyRaisedService;
+        var donorRetentionService = DonorRetentionService;
 
         $scope.rowCollection = [];
         $scope.itemsByPage=15;
@@ -18,15 +18,21 @@ myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal",
         $scope.data = [];
         $scope.forceData = [];
         $scope.forceresponse = [];
+        $scope.retained = [];
+        $scope.recovered = [];
+        $scope.universe = [];
+
         //
-        //moneyRaisedService.moneyRaised();
-        //
-        //$scope.data = moneyRaisedService.data;
-        //
-        //$scope.forceData = moneyRaisedService.forceData;
-        //
-        //$scope.forceresponse = moneyRaisedService.forceresponse;
-        //$scope.accounts = moneyRaisedService.accountArray;
+        donorRetentionService.getDonors();
+
+        $scope.data = donorRetentionService.data;
+
+        $scope.forceData = donorRetentionService.forceData;
+
+        $scope.forceresponse = donorRetentionService.forceresponse;
+        $scope.retained = donorRetentionService.retainedDonorsArray;
+        $scope.recovered = donorRetentionService.recoveredDonorsArray;
+        $scope.universe = donorRetentionService.universeArray;
 
 
 
