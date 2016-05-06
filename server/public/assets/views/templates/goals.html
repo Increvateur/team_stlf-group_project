@@ -2,11 +2,19 @@
 
 <div class="container "ng-controller="GoalsController">
   <form ng-submit=saveGoals(goals) name="outerForm" class="tab-goals">
-    <label>Fiscal Year</label>
+    <!-- <label>Fiscal Year</label>
     <input type="number" class="container form-control year col-xs-4" ng-model="goals.fiscalyear"
-    ng-model-options="{ updateOn: 'blur' }" ng-change="addFyKey(fiscalyear)" placeholder="Fiscal Year" autofocus required/>
+    ng-model-options="{ updateOn: 'blur' }" ng-change="addFyKey(fiscalyear)" placeholder="Fiscal Year" autofocus required/> -->
 
-    <br /> <br /> <br /> <br />
+    <div class="container" >
+      <h3>Fiscal Year</h3>
+      <select id="fiscal-year" class="select" ng-model="goals.fiscalyear" >
+          <option class="fiscal-year" disabled="">Fiscal Year <span class="caret"></span></option>
+          <option class="fiscal-year" ng-repeat="year in yearArray" role="year" > {{ year }} </option>
+      </select>
+    </div>
+
+    <br /> <br />
 
     <uib-tabset class="container col-md-12" active="active">
       <uib-tab ng-repeat="month in monthsObj.months track by month.key" heading="{{month.name}}">
@@ -14,7 +22,7 @@
         <!-- <ng-form name="input-goals"> -->
         <div class="row goal-form">
 
-          <div class="form-group col-md-3"> 
+          <div class="form-group col-md-3">
             <label>Individual Total</label>
             <input type="number" class="form-control individual-total" ng-model="goals.months[month.key].individual_total" ng-disabled="true" placeholder="{{ goals.months[month.key].individual_total || 0 }}" />
             <label>Staff Members Goal</label>
@@ -34,15 +42,6 @@
           </div>
 
           <div class="form-group col-md-3">
-            <label>Corporation Totals</label>
-            <input type="number" class="form-control corporate-total" ng-model="goals.months[month.key].corporate_total" ng-disabled="true" placeholder="{{ goals.months[month.key].corporate_total || 0 }}" />
-            <label>Corporate/Organization Money</label>
-            <input type="number" class="form-control corporate-organization" ng-model="goals.months[month.key].corporate_organization" ng-change="calcTotals()" />
-            <label>Corporate Match</label>
-            <input type="number" class="form-control corporate-match" ng-model="goals.months[month.key].corporate_match" ng-change="calcTotals()"/>
-          </div>
-
-          <div class="form-group col-md-3">
             <label>Foundation Totals</label>
             <input type="number" class="form-control foundation-total" ng-model="goals.months[month.key].foundation_total" ng-disabled="true" placeholder="{{ goals.months[month.key].foundation_total || 0 }}" />
             <label>Corporate Foundation</label>
@@ -51,13 +50,28 @@
             <input type="number" class="form-control family-foundation" ng-model="goals.months[month.key].family_foundation" ng-change="calcTotals()" />
             <label>General Foundation</label>
             <input type="number" class="form-control general-foundation" ng-model="goals.months[month.key].general_foundation" ng-change="calcTotals()" />
+          </div>
 
+          <div class="form-group col-md-3">
+            <label>Corporation Totals</label>
+            <input type="number" class="form-control corporate-total" ng-model="goals.months[month.key].corporate_total" ng-disabled="true" placeholder="{{ goals.months[month.key].corporate_total || 0 }}" />
+            <label>Corporate/Organization Money</label>
+            <input type="number" class="form-control corporate-organization" ng-model="goals.months[month.key].corporate_organization" ng-change="calcTotals()" />
+            <label>Corporate Match</label>
+            <input type="number" class="form-control corporate-match" ng-model="goals.months[month.key].corporate_match" ng-change="calcTotals()"/>
 
             <span></span>
 
             <span></span>
-            <h3>Yearly Total</h3>
-            <p> {{ goals.yearly_totals.year_total }} </p>
+            <h3>Yearly Totals</h3>
+            <h5>{{ goals.fiscalyear }} Year Total</h5>
+            <p> $ {{ goals.yearly_totals.year_total }}.00 </p>
+            <h5>Individual Total</h5>
+            <p> $ {{ goals.yearly_totals.individual_year }}.00 </p>
+            <h5>Corporate Total</h5>
+            <p> $ {{ goals.yearly_totals.corporate_year }}.00 </p>
+            <h5>Foundations Total</h5>
+            <p> $ {{ goals.yearly_totals.foundation_year }}.00 </p>
 
           </div>
 

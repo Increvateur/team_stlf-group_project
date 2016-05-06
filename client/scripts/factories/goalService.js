@@ -1,5 +1,8 @@
 myApp.factory("GoalService", ["$http", function($http) {
 
+  // Object to store a specific year for updating
+  var goals = {};
+
   // Array to store goals when get call is complete from Server/DB
   var goalsArray = [];
 
@@ -26,13 +29,59 @@ myApp.factory("GoalService", ["$http", function($http) {
     });
   };
 
+
+  // Year genrator function
+
+  var date = new Date();
+  date = date.getFullYear();
+  var currentYear = date;
+  var startYear = 2003;
+  var endYear = currentYear + 5;
+  var counter = endYear;
+  var years = [];
+
+  var setYearList = function() {
+    var year = endYear;
+    while (counter >= startYear) {
+      years.push(year);
+      year--;
+      counter--;
+    }
+  };
+
+
+  // GET to check for specific year
+  var getSpecificYear = function(year) {
+    console.log('<><> GET @goalService.js in getSpecificYear(year) - year: ', year);
+    return $http.get('goals/' + year).then(function(response){
+      return response.data;
+
+      // console.log('o` | `o -- @goalService GET specific year goals: ', goals);
+
+    });
+
+  };
+
+
+  // PUT existing goals (edit current year)
+  var updateGoals = function(year) {
+
+    //http.put
+
+  };
+
   // Runs GET to pull goal data even if new goals are not entered
   // getGoals();
 
   return {
     newGoals: newGoals,
     getGoals: getGoals,
-    goalsArray: goalsArray
+    getSpecificYear: getSpecificYear,
+    goalsArray: goalsArray,
+    setYearList: setYearList,
+    currentYear: currentYear,
+    years: years,
+    // goals: goals
   };
 
 }]);

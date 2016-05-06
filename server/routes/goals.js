@@ -16,6 +16,17 @@ router.get("/getgoals", function(req, res){
     });
 });
 
+// GET to find specific year so Admin can update
+router.get('/:year', function(req, res){
+  console.log('^^^ @SERVER - log req.params', req.params);
+  Goals.findOne({fiscal_year: req.params.year}, function(err, data) {
+    if (err) {
+      res.send(err);
+    }
+    res.send(data);
+  });
+});
+
 
 // POST to add goals to the DB
 router.post("/postgoals", function (req, res) {

@@ -12,6 +12,14 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
   goalService.getGoals();
 
+  $scope.yearArray = [];
+  goalService.setYearList();
+
+  console.log('<<< CURRENT YEAR & YEARS >>> : ', goalService.currentYear, goalService.years);
+
+  $scope.yearArray = goalService.years;
+  console.log('// === @GoalsController - $scope.yearArray: ', $scope.yearArray);
+
 
   // Empty object to store the goals entered by the User
   $scope.goals = {};
@@ -73,7 +81,7 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   };
 
   // To save the User's input for the fiscal year. TODO Will need to change to a selection menu
-  $scope.fiscalyear = '';
+  // $scope.fiscalyear = 'Fiscal Year';
 
   // Monthly total for individul goals (staff, board, committee, parent, alum, participant, and community support)
   $scope.indTotal = 0;
@@ -82,12 +90,36 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   $scope.yearlyTotal = 0;
 
   // Function to add the fiscal year to the $scope.goal object once the user is not focused on the fiscal year input
-  $scope.addFyKey = function(year) {
-    $scope.fiscalyear = year;
-    return $scope.fiscalyear;
+
+  $scope.year = '';
+
+  $scope.fiscalYear = function(year){
+    $scope.addFyKey(year);
+    $scope.findYear();
+    return $scope.goals.fiscalyear;
+
   };
 
-  // console.log('~ @goalController after addFyKey - $scope.goals: ', $scope.goals);
+
+  $scope.addFyKey = function(year) {
+    $scope.fiscalyear = year;
+    $scope.goals.fiscalyear = $scope.fiscalyear;
+    return $scope.goals.fiscalyear;
+  };
+
+
+
+  // Checks to see if the year selected by Admin is in the DB
+  // If the year is already recorded it pulls it in to be updated
+  $scope.findYear = function() {
+    console.log('HI, FISCAL YEAR: ', $scope.goals.fiscalyear);
+    console.log('~ @goalController in findYear - $scope.goals: ', $scope.goals);
+
+    goalService.getSpecificYear($scope.goals.fiscalyear).then(function(response){
+        $scope.goals = response;
+        console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals', $scope.goals);
+    });
+  };
 
 
 
