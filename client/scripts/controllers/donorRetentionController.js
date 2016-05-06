@@ -23,14 +23,16 @@ myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal", 
         $scope.universe = [];
 
         //
-        //moneyRaisedService.moneyRaised();
-        //
-        //$scope.data = moneyRaisedService.data;
-        //
-        //$scope.forceData = moneyRaisedService.forceData;
-        //
-        //$scope.forceresponse = moneyRaisedService.forceresponse;
-        //$scope.accounts = moneyRaisedService.accountArray;
+        donorRetentionService.getDonors();
+
+        $scope.data = donorRetentionService.data;
+
+        $scope.forceData = donorRetentionService.forceData;
+
+        $scope.forceresponse = donorRetentionService.forceresponse;
+        $scope.retained = donorRetentionService.retainedDonorsArray;
+        $scope.recovered = donorRetentionService.recoveredDonorsArray;
+        $scope.universe = donorRetentionService.universeArray;
 
 
 

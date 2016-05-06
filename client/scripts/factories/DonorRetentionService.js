@@ -10,7 +10,20 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
     var arrSql = [];
     var sqlIndex = 0;
     var strSql = "";
-
+    var retainedDonorsArray = [];
+    var recoveredDonorsArray = [];
+    var universeArray = [];
+    var firstDonor = {};
+    var retainedDonor = {};
+    var l2ybntyDonor = {};
+    var totalDonorPool = {};
+    var percentRetainedDonor = {};
+    var recoveredDonor = {};
+    var lostDonor = {};
+    var totalLostPool = {};
+    var percentDonorRecovered = {};
+    var donorUniverse = {};
+    var percentTotalRetainedDonors = {};
 
     // TODO for each strSql, make an object, with label: label, and soql: strSql
 
@@ -138,48 +151,47 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
 
 
-
+var getDonors = function() {
 
     // first time donors ytd
     myKey = "c1";
-    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + ytdStart + " AND MIN(CloseDate) <= " + ytdEnd ;
+    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + ytdStart + " AND MIN(CloseDate) <= " + ytdEnd;
 
-    sqlObj = {key: myKey, query:"first time donors  YTD SELECTED", sql: strSql};
+    sqlObj = {key: myKey, query: "first time donors  YTD SELECTED", sql: strSql};
 
     arrSql.push(sqlObj);
 
     // first time donors ytd-1
     myKey = "c2";
-    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + ytdM1Start + " AND MIN(CloseDate) <= " + ytdM1End ;
+    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + ytdM1Start + " AND MIN(CloseDate) <= " + ytdM1End;
 
-    sqlObj = {key: myKey, query:"first time donors  YTD SELECTED -1", sql: strSql};
+    sqlObj = {key: myKey, query: "first time donors  YTD SELECTED -1", sql: strSql};
 
     arrSql.push(sqlObj);
 
     // first time donors ytd-2
     myKey = "c3";
-    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + ytdM2Start + " AND MIN(CloseDate) <= " + ytdM2End ;
+    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + ytdM2Start + " AND MIN(CloseDate) <= " + ytdM2End;
 
-    sqlObj = {key: myKey, query:"first time donors  YTD SELECTED -2", sql: strSql};
+    sqlObj = {key: myKey, query: "first time donors  YTD SELECTED -2", sql: strSql};
 
     arrSql.push(sqlObj);
 
     // first time donors first fy
     myKey = "c4";
-    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + fyM1Start + " AND MIN(CloseDate) <= " + fyM1End ;
+    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + fyM1Start + " AND MIN(CloseDate) <= " + fyM1End;
 
-    sqlObj = {key: myKey, query:"first time donors  First FY before selected", sql: strSql};
+    sqlObj = {key: myKey, query: "first time donors  First FY before selected", sql: strSql};
 
     arrSql.push(sqlObj);
 
     // first time donors second fy
     myKey = "c5";
-    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + fyM2Start + " AND MIN(CloseDate) <= " + fyM2End ;
+    strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MIN(CloseDate) >= " + fyM2Start + " AND MIN(CloseDate) <= " + fyM2End;
 
-    sqlObj = {key: myKey, query:"first time donors  Second FY before selected", sql: strSql};
+    sqlObj = {key: myKey, query: "first time donors  Second FY before selected", sql: strSql};
 
     arrSql.push(sqlObj);
-
 
 
     // TODO current retained donors. They donated this fiscal year and either of the previous two.
@@ -189,11 +201,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "d1";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdStart + " AND CloseDate < =" + ytdEnd +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdStart + " AND CloseDate < =" + ytdEnd + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > =" + fyM2Start + " AND CloseDate < =" + fyM1End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > =" + fyM2Start + " AND CloseDate < =" + fyM1End + ") ";
 
-    sqlObj = {key: myKey, query:"CURRENT RETAINED YTD new def", sql: strSql};
+    sqlObj = {key: myKey, query: "CURRENT RETAINED YTD new def", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -202,11 +214,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "d2";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdM1Start + " AND CloseDate <= " + ytdM1End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdM1Start + " AND CloseDate <= " + ytdM1End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM3Start + " AND CloseDate <= " + fyM2End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM3Start + " AND CloseDate <= " + fyM2End + ") ";
 
-    sqlObj = {key: myKey, query:"CURRENT RETAINED YTD-1 new def", sql: strSql};
+    sqlObj = {key: myKey, query: "CURRENT RETAINED YTD-1 new def", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -215,11 +227,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "d3";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdM2Start + " AND CloseDate <= " + ytdM2End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdM2Start + " AND CloseDate <= " + ytdM2End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM4Start + " AND CloseDate <= " + fyM3End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM4Start + " AND CloseDate <= " + fyM3End + ") ";
 
-    sqlObj = {key: myKey, query:"CURRENT RETAINED YTD-2 new def", sql: strSql};
+    sqlObj = {key: myKey, query: "CURRENT RETAINED YTD-2 new def", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -228,11 +240,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "d4";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM1Start + " AND CloseDate <= " + fyM1End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM1Start + " AND CloseDate <= " + fyM1End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > =" + fyM3Start + " AND CloseDate <= " + fyM2End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > =" + fyM3Start + " AND CloseDate <= " + fyM2End + ") ";
 
-    sqlObj = {key: myKey, query:"CURRENT RETAINED FYM1", sql: strSql};
+    sqlObj = {key: myKey, query: "CURRENT RETAINED FYM1", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -241,11 +253,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "d5";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM2Start + " AND CloseDate <= " + fyM2End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM2Start + " AND CloseDate <= " + fyM2End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > =" + fyM4Start + " AND CloseDate <= " + fyM3End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > =" + fyM4Start + " AND CloseDate <= " + fyM3End + ") ";
 
-    sqlObj = {key: myKey, query:"CURRENT RETAINED FYM2", sql: strSql};
+    sqlObj = {key: myKey, query: "CURRENT RETAINED FYM2", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -254,11 +266,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "e1";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdStart + " AND CloseDate <= " + ytdEnd +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdStart + " AND CloseDate <= " + ytdEnd + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM2Start + " AND CloseDate < =" + fyM1End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM2Start + " AND CloseDate < =" + fyM1End + ") ";
 
-    sqlObj = {key: myKey, query:"l2ybnty YTD new def", sql: strSql};
+    sqlObj = {key: myKey, query: "l2ybnty YTD new def", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -267,11 +279,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "e2";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdM1Start + " AND CloseDate <= " + ytdM1End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdM1Start + " AND CloseDate <= " + ytdM1End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM3Start + " AND CloseDate <= " + fyM2End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM3Start + " AND CloseDate <= " + fyM2End + ") ";
 
-    sqlObj = {key: myKey, query:"l2ybnty YTD-1 new def", sql: strSql};
+    sqlObj = {key: myKey, query: "l2ybnty YTD-1 new def", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -280,11 +292,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "e3";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdM2Start + " AND CloseDate <= " + ytdM2End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + ytdM2Start + " AND CloseDate <= " + ytdM2End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM4Start + " AND CloseDate <= " + fyM3End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM4Start + " AND CloseDate <= " + fyM3End + ") ";
 
-    sqlObj = {key: myKey, query:"l2ybnty YTD-2 new def", sql: strSql};
+    sqlObj = {key: myKey, query: "l2ybnty YTD-2 new def", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -293,11 +305,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "e4";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM1Start + " AND CloseDate <= " + fyM1End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM1Start + " AND CloseDate <= " + fyM1End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM3Start + " AND CloseDate <= " + fyM2End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM3Start + " AND CloseDate <= " + fyM2End + ") ";
 
-    sqlObj = {key: myKey, query:"l2ybnty FYM1", sql: strSql};
+    sqlObj = {key: myKey, query: "l2ybnty FYM1", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -306,11 +318,11 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "e5";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM2Start + " AND CloseDate <= " + fyM2End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM2Start + " AND CloseDate <= " + fyM2End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM4Start + " AND CloseDate <= " + fyM3End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >= " + fyM4Start + " AND CloseDate <= " + fyM3End + ") ";
 
-    sqlObj = {key: myKey, query:"l2ybnty FYM2", sql: strSql};
+    sqlObj = {key: myKey, query: "l2ybnty FYM2", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -319,20 +331,24 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "f1a";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + ytdStart + " AND CloseDate < " + ytdEnd +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + ytdStart + " AND CloseDate < " + ytdEnd + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM3End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM3End + ") ";
 
-    sqlObj = {key: myKey, query:"donated in sel yetd, AND  sometime prior to the previous two fiscal years", sql: strSql};
+    sqlObj = {
+        key: myKey,
+        query: "donated in sel yetd, AND  sometime prior to the previous two fiscal years",
+        sql: strSql
+    };
 
     arrSql.push(sqlObj);
 
     myKey = "f1b";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM2Start + " AND CloseDate < " + fyM1End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM2Start + " AND CloseDate < " + fyM1End + ")";
 
 
-    sqlObj = {key: myKey, query:"donated in the previous 2 fiscal years", sql: strSql};
+    sqlObj = {key: myKey, query: "donated in the previous 2 fiscal years", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -340,20 +356,24 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "f2a";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + ytdM1Start + " AND CloseDate < " + ytdM1End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + ytdM1Start + " AND CloseDate < " + ytdM1End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM4End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM4End + ") ";
 
-    sqlObj = {key: myKey, query:"donated in sel yetd-1, AND  sometime prior to the previous two fiscal years", sql: strSql};
+    sqlObj = {
+        key: myKey,
+        query: "donated in sel yetd-1, AND  sometime prior to the previous two fiscal years",
+        sql: strSql
+    };
 
     arrSql.push(sqlObj);
 
     myKey = "f2b";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM3Start + " AND CloseDate < " + fyM2End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM3Start + " AND CloseDate < " + fyM2End + ")";
 
 
-    sqlObj = {key: myKey, query:"donated in the previous 2 fiscal years", sql: strSql};
+    sqlObj = {key: myKey, query: "donated in the previous 2 fiscal years", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -361,20 +381,24 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "f3a";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + ytdM2Start + " AND CloseDate < " + ytdM2End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + ytdM2Start + " AND CloseDate < " + ytdM2End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM5End +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM5End + ") ";
 
-    sqlObj = {key: myKey, query:"donated in sel yetd-1, AND  sometime prior to the previous two fiscal years", sql: strSql};
+    sqlObj = {
+        key: myKey,
+        query: "donated in sel yetd-1, AND  sometime prior to the previous two fiscal years",
+        sql: strSql
+    };
 
     arrSql.push(sqlObj);
 
     myKey = "f3b";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM4Start + " AND CloseDate < " + fyM3End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM4Start + " AND CloseDate < " + fyM3End + ")";
 
 
-    sqlObj = {key: myKey, query:"donated in the previous 2 fiscal years", sql: strSql};
+    sqlObj = {key: myKey, query: "donated in the previous 2 fiscal years", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -382,11 +406,15 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "f4a";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM1Start + " AND CloseDate < " + fyM1End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM1Start + " AND CloseDate < " + fyM1End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM3Start +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM3Start + ") ";
 
-    sqlObj = {key: myKey, query:"donated in sel yetd-1, AND  sometime prior to the previous two fiscal years", sql: strSql};
+    sqlObj = {
+        key: myKey,
+        query: "donated in sel yetd-1, AND  sometime prior to the previous two fiscal years",
+        sql: strSql
+    };
 
     arrSql.push(sqlObj);
 
@@ -394,11 +422,15 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
 
     myKey = "f5a";
 
-    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM2Start + " AND CloseDate < " + fyM2End +")";
+    strSql = "SELECT Id, Name FROM Account WHERE Id  IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate > " + fyM2Start + " AND CloseDate < " + fyM2End + ")";
 
-    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM4Start +") ";
+    strSql += "AND  Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate < " + fyM4Start + ") ";
 
-    sqlObj = {key: myKey, query:"donated in sel yetd-1, AND  sometime prior to the previous two fiscal years", sql: strSql};
+    sqlObj = {
+        key: myKey,
+        query: "donated in sel yetd-1, AND  sometime prior to the previous two fiscal years",
+        sql: strSql
+    };
 
     arrSql.push(sqlObj);
 
@@ -407,7 +439,7 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
     // TODO*** this is the current working version
     strSql = "SELECT AccountId,  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MAX(CloseDate) <= " + fyM3End;
 
-    sqlObj = {key: myKey, query:"lost ytd (how is this yeartd)", sql: strSql};
+    sqlObj = {key: myKey, query: "lost ytd (how is this yeartd)", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -415,7 +447,7 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
     myKey = "g2";
     strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MAX(CloseDate) <= " + fyM4End;
 
-    sqlObj = {key: myKey, query:"lost ytd-1 (how is this yeartd)", sql: strSql};
+    sqlObj = {key: myKey, query: "lost ytd-1 (how is this yeartd)", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -423,9 +455,13 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
     myKey = "g3";
     strSql = "SELECT  COUNT(Id) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' GROUP BY AccountId HAVING MAX(CloseDate) <= " + fyM5End;
 
-    sqlObj = {key: myKey, query:"lost ytd-2 (how is this yeartd)", sql: strSql};
+    sqlObj = {key: myKey, query: "lost ytd-2 (how is this yeartd)", sql: strSql};
 
     arrSql.push(sqlObj);
+
+    getSalesforce();
+
+};
 
 
 
@@ -472,13 +508,15 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
                 console.log("Hey! In fetchForce in queryService, I think we are done!");
                 forceData.arrResults = arrResults;
                 parseResults();
+                console.log(forceData);
                 return;
             }
             // do a call where the index of the sql array = the length of the arrResults array
             // if forceResult.length < arrSql then all again else return
         }
 
-        console.log("getting ready to get in fetch. sqlIndex=", sqlIndex, "arrSql[sqlIndex]=", arrSql[sqlIndex].sql);
+        //console.log("getting ready to get in fetch. sqlIndex=", sqlIndex, "arrSql[sqlIndex]=", arrSql[sqlIndex].sql);
+
         $http.get("/salesforce/fetch", {
             params: {
                 accessToken: forceresponse.accessToken,
@@ -499,8 +537,6 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         console.log("Hey we are totally in parseResults");
 
 
-
-
         //Donor	Acquistion	&	Retention
         // first time donors
         console.log("Donor	Acquistion	&	Retention");
@@ -511,12 +547,16 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         var ftdFym1 = getCount("c4");
         var ftdFym2 = getCount("c5");
 
+        firstDonor = {
+            type : "First Time Donors",
+            ytd : ftdYTD,
+            ytdM1 : ftdYTDm1,
+            ytdM2 :ftdYTDm2 ,
+            tfyM1 :ftdFym1,
+            tfyM2 :ftdFym2
+        };
+        retainedDonorsArray[0] = firstDonor;
 
-        console.log("ftdYTD", ftdYTD);
-        console.log("ftdYTDm1", ftdYTDm1);
-        console.log("ftdYTDm2", ftdYTDm2);
-        console.log("ftdFym1", ftdFym1);
-        console.log("ftdFym2", ftdFym2);
 
         console.log("Current retained donors");
 
@@ -527,11 +567,15 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         var crdFym1 = getCount("d4");
         var crdFym2 = getCount("d5");
 
-        console.log("crdSelYTD", crdSelYTD);
-        console.log("crdSelYTDm1", crdSelYTDm1);
-        console.log("crdSelYTDm1", crdSelYTDm2);
-        console.log("crdFym1", crdFym1);
-        console.log("crdFym2", crdFym2);
+        retainedDonor = {
+            type : "Current Retained Donors",
+            ytd : crdSelYTD,
+            ytdM1 : crdSelYTDm1,
+            ytdM2 :crdSelYTDm2 ,
+            tfyM1 :crdFym1,
+            tfyM2 :crdFym2
+        };
+        retainedDonorsArray[1] = retainedDonor;
 
         console.log("L2YBNTY");
 
@@ -542,11 +586,15 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         var l2ybntyFym2 = getCount("e5");
 
 
-        console.log("l2ybntyYTD", l2ybntyYTD);
-        console.log("l2ybntyYTDM1", l2ybntyYTDM1);
-        console.log("l2ybntyYTDM2", l2ybntyYTDM2);
-        console.log("l2ybntyFym1", l2ybntyFym1);
-        console.log("l2ybntyFym2", l2ybntyFym2);
+        l2ybntyDonor = {
+            type : "L2YBNTY",
+            ytd : l2ybntyYTD,
+            ytdM1 : l2ybntyYTDM1,
+            ytdM2 :l2ybntyYTDM2 ,
+            tfyM1 :l2ybntyFym1,
+            tfyM2 :l2ybntyFym2
+        };
+        retainedDonorsArray[2] = l2ybntyDonor;
 
         // total current donor pool
         console.log("Total current donor pool");
@@ -557,31 +605,40 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         var tcdpFym1 = ftdFym1 + crdFym1 + l2ybntyFym1;
         var tcdpFym2 = ftdFym2 + crdFym2 + l2ybntyFym2;
 
-        console.log("tcdpYTD", tcdpYTD);
-        console.log("tcdpYTDm1", tcdpYTDm1);
-        console.log("tcdpYTDm2", tcdpYTDm2);
-        console.log("tcdpFym1", tcdpFym1);
-        console.log("tcdpFym2", tcdpFym2);
+        totalDonorPool = {
+            type : "Total Current Donor Pool",
+            ytd : tcdpYTD,
+            ytdM1 : tcdpYTDm1,
+            ytdM2 :tcdpYTDm2 ,
+            tfyM1 :tcdpFym1,
+            tfyM2 :tcdpFym2
+        };
+        retainedDonorsArray[3] = totalDonorPool;
 
         // perect current retained donors
         console.log("Current retained donors percentage");
 
-        var pctCrdSelYTD = crdSelYTD / tcdpYTD;
-        var pctCrdSelYTDm1 = crdSelYTDm1 / tcdpYTDm1;
-        var pctCrdSelYTDm2 = crdSelYTDm2 / tcdpYTDm2;
-        var pctCrdFym1 = crdFym1 / tcdpFym1;
-        var pctCrdFym2 = crdFym2 / tcdpFym2;
+        var pctCrdSelYTD = crdSelYTD / tcdpYTD * 100 ;
+        var pctCrdSelYTDm1 = crdSelYTDm1 / tcdpYTDm1 * 100 ;
+        var pctCrdSelYTDm2 = crdSelYTDm2 / tcdpYTDm2 * 100 ;
+        var pctCrdFym1 = crdFym1 / tcdpFym1 * 100 ;
+        var pctCrdFym2 = crdFym2 / tcdpFym2 * 100 ;
 
-        console.log("pctCrdSelYTD", pctCrdSelYTD);
-        console.log("pctCrdSelYTDm1", pctCrdSelYTDm1);
-        console.log("pctCrdSelYTDm2", pctCrdSelYTDm2);
-        console.log("pctCrdFym1", pctCrdFym1);
-        console.log("pctCrdFym2", pctCrdFym2);
+        percentRetainedDonor = {
+            type : "% Current Retained Donors",
+            ytd : pctCrdSelYTD,
+            ytdM1 : pctCrdSelYTDm1,
+            ytdM2 :pctCrdSelYTDm2 ,
+            tfyM1 :pctCrdFym1,
+            tfyM2 :pctCrdFym2
+        };
+        retainedDonorsArray[4] = percentRetainedDonor;
 
-
-
+        console.log('retained array in function',retainedDonorsArray);
 
         console.log("Recovered Donors");
+
+
 
         var recYTD = nukeBfromA("f1a","f1b");
         var recYTDm1 = nukeBfromA("f2a","f2b");
@@ -589,11 +646,15 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         var recFym1 = nukeBfromA("f4a","f2b");
         var recFym2 = nukeBfromA("f5a","f3b");
 
-        console.log("recYTD", recYTD);
-        console.log("recYTDm1", recYTDm1);
-        console.log("recYTDm2", recYTDm2);
-        console.log("recFym1", recFym1);
-        console.log("recFym2", recFym2);
+        recoveredDonor = {
+            type : "Recovered Donors",
+            ytd : recYTD,
+            ytdM1 : recYTDm1,
+            ytdM2 :recYTDm2 ,
+            tfyM1 :recFym1,
+            tfyM2 :recFym2
+        };
+        recoveredDonorsArray[0] = recoveredDonor;
 
         console.log("Lost Donors");
 
@@ -603,11 +664,15 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         var lostFym1 = getCount("g1");
         var lostFym2 = getCount("g2");
 
-        console.log("lostYTD", lostYTD);
-        console.log("lostYTDm1", lostYTDm1);
-        console.log("lostYTDm2", lostYTDm2);
-        console.log("lostFym1", lostFym1);
-        console.log("lostFym2", lostFym2);
+        lostDonor = {
+            type : "Lost Donors",
+            ytd : lostYTD,
+            ytdM1 : lostYTDm1,
+            ytdM2 :lostYTDm2 ,
+            tfyM1 :lostFym1,
+            tfyM2 :lostFym2
+        };
+        recoveredDonorsArray[1] = lostDonor;
 
         // total lost recovery pool
         console.log("Total lost recovery  pool");
@@ -617,26 +682,39 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         var poolFym1 = recFym1 + lostFym1;
         var poolFym2 = recFym2 + lostFym2;
 
-        console.log("poolYTD",poolYTD);
-        console.log("poolYTDm1",poolYTDm1);
-        console.log("poolYTDm2",poolYTDm2);
-        console.log("poolFym1",poolFym1);
-        console.log("poolFym2",poolFym2);
+
+        totalLostPool = {
+            type : "Total Lost/Recovery Pool",
+            ytd : poolYTD,
+            ytdM1 : poolYTDm1,
+            ytdM2 :poolYTDm2 ,
+            tfyM1 :poolFym1,
+            tfyM2 :poolFym2
+        };
+        recoveredDonorsArray[2] = totalLostPool;
 
         //TODO percentage donors Recovered
         console.log("Percentage donors recovered");
 
-        var pctRecYTD = recYTD / lostYTD;
-        var pctRecYTDm1 = recYTDm1 / lostYTDm1;
-        var pctRecYTDm2 = recYTDm2  / lostYTDm2;
-        var pctRecFym1 = recFym1 / lostFym1;
-        var pctRecFym2 = recFym2 / lostFym2;
+        var pctRecYTD = recYTD / lostYTD * 100;
+        var pctRecYTDm1 = recYTDm1 / lostYTDm1 * 100;
+        var pctRecYTDm2 = recYTDm2  / lostYTDm2 * 100;
+        var pctRecFym1 = recFym1 / lostFym1 * 100;
+        var pctRecFym2 = recFym2 / lostFym2 * 100;
 
-        console.log("pctRecYTD", pctRecYTD);
-        console.log("pctRecYTDm1", pctRecYTDm1);
-        console.log("pctRecYTDm2", pctRecYTDm2);
-        console.log("pctRecFym1", pctRecFym1);
-        console.log("pctRecFym2", pctRecFym2);
+
+        percentDonorRecovered = {
+            type : "% of Donors Recovered",
+            ytd : pctRecYTD,
+            ytdM1 : pctRecYTDm1,
+            ytdM2 :pctRecYTDm2 ,
+            tfyM1 :pctRecFym1,
+            tfyM2 :pctRecFym2
+        };
+        recoveredDonorsArray[3] = percentDonorRecovered;
+
+        console.log('recovered array in function',recoveredDonorsArray);
+
 
         // donor universe
         console.log("Donor Universe");
@@ -646,136 +724,41 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
         var duFym1 = tcdpFym1 + poolFym1;
         var duFym2 = tcdpFym2 + poolFym2;
 
-        console.log("duYTD", duYTD);
-        console.log("duYTDm1", duYTDm1);
-        console.log("duYTDm2", duYTDm2);
-        console.log("duFym1", duFym1);
-        console.log("duFym2", duFym2);
+        donorUniverse = {
+            type : "Total Donor Universe",
+            ytd : duYTD,
+            ytdM1 : duYTDm1,
+            ytdM2 :duYTDm2 ,
+            tfyM1 :duFym1,
+            tfyM2 :duFym2
+        };
+        universeArray[0] = donorUniverse;
 
         // percentage retained donors
         console.log("Percentage retained donors");
 
-        var prdYTD = duYTD / crdSelYTD;
-        var prdYTDm1 = duYTDm1 / crdSelYTDm1;
-        var prdYTDm2 = duYTDm2 / crdSelYTDm2;
-        var prdFym1 = duFym1 / crdFym1;
-        var prdFym2 = duFym2 / crdFym2;
-
-        console.log("prdYTD", prdYTD);
-        console.log("prdYTDm1", prdYTDm1);
-        console.log("prdYTDm2", prdYTDm2);
-        console.log("prdFym1", prdFym1);
-        console.log("prdFym2", prdFym2);
+        var prdYTD = duYTD / crdSelYTD * 100;
+        var prdYTDm1 = duYTDm1 / crdSelYTDm1 * 100;
+        var prdYTDm2 = duYTDm2 / crdSelYTDm2 * 100;
+        var prdFym1 = duFym1 / crdFym1 * 100;
+        var prdFym2 = duFym2 / crdFym2 * 100;
 
 
-    };
+        percentTotalRetainedDonors = {
+            type : "% of Retained Donors",
+            ytd : prdYTD,
+            ytdM1 : prdYTDm1,
+            ytdM2 :prdYTDm2 ,
+            tfyM1 :prdFym1,
+            tfyM2 :prdFym2
+        };
+        universeArray[1] = percentTotalRetainedDonors;
 
-    var totalResults = function(myKey){
-
-        // loop through results and do manual calculations
-
-        for(var i=0; i<arrResults.length; i++){
-            if (arrResults[i].myKey == myKey){
-                // total results
-                // console.log("HEY THERE! ");
-                var mySet = arrResults[i].result.records;
-                var myCash = 0;
-                // console.log("myset length", mySet.length);
-                for (x=0; x<mySet.length; x++)
-                {
-                    // console.log("myset ", x, mySet[x]);
-                    myCash = myCash + mySet[x].expr1;
-                }
-                // console.log("myCash = ", myCash);
-                return myCash;
-
-            }
-        }
+        console.log('universeArray',universeArray);
 
 
     };
 
-    var countInEither2 = function(key1, key2){
-        var arr1 = [];
-        var arr2 = [];
-        var count = 0;
-        var total = 0;
-        for(var i=0; i<arrResults.length; i++){
-            if (arrResults[i].myKey ==key1){
-                arr1 = arrResults[i].result.records;
-            }
-            if (arrResults[i].myKey ==key2){
-                arr2 = arrResults[i].result.records;
-            }
-        }
-        for (i=0; i<arr1.length; i++){
-            for(j=0; j<arr2.length; j++){
-                if (arr1[i].Name == arr2[j].Name){
-                    count ++;
-
-                }
-            }
-        }
-        console.log("Count of dupes", count);
-        total = arr1.length + arr2.length -count;
-        return total;
-
-    };
-
-    var countInEither = function(key1, key2){
-
-        var arrComp = [];
-        var mySet = {};
-
-        // loop through results and do manual calculations
-
-        for(var i=0; i<arrResults.length; i++){
-            if (arrResults[i].myKey == key1){
-                // total results
-                // console.log("HEY THERE! ");
-                mySet = arrResults[i].result.records;
-
-                // console.log("myset length", mySet.length);
-                for (x=0; x<mySet.length; x++)
-                {
-                    // console.log("myset ", x, mySet[x]);
-                    arrComp.push(mySet[x].Id);
-                }
-
-
-            }
-        }
-        for(i=0; i<arrResults.length; i++){
-            if (arrResults[i].myKey == key2){
-                // total results
-                // console.log("HEY THERE! ");
-                mySet = arrResults[i].result.records;
-
-                // console.log("myset length", mySet.length);
-                for (x=0; x<mySet.length; x++)
-                {
-                    // console.log("myset ", x, mySet[x]);
-                    arrComp.push(mySet[x].Id);
-                }
-
-
-            }
-        }
-        // got both loaded in new array
-
-        // this counts unique members of arrComp
-
-        var o = {},  l = arrComp.length, r = [];
-        for(i=0; i<l;i+=1) o[arrComp[i]] = arrComp[i];
-        for(i in o) r.push(o[i]);
-        // console.log("count",r.length);
-        return r.length;
-
-
-        // console.log("Hoping for a total of records unique to these two arrays", counts);
-
-
-    };
 
     var nukeBfromA = function(keyA, keyB){
 
@@ -837,12 +820,16 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
     return{
 
         getSalesforce : getSalesforce,
-
+        getDonors : getDonors,
         data : data,
         forceData : forceData,
         forceresponse : forceresponse,
         arrResults : arrResults,
-        fetchForce : fetchForce
+        fetchForce : fetchForce,
+        retainedDonorsArray : retainedDonorsArray,
+        recoveredDonorsArray : recoveredDonorsArray,
+        universeArray : universeArray
+
     };
 
 }]);

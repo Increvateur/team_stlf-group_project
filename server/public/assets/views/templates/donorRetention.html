@@ -1,6 +1,6 @@
 <div class="home-view container">
 
-    <table st-table="displayedResults" st-safe-src="retained" class="table">
+    <table st-table="retainedResults" st-safe-src="retained" class="table">
         <thead>
         <tr>
             <th st-sort="">Current Retained Donors</th>
@@ -8,7 +8,6 @@
             <th st-sort="">2015 YTD</th>
             <th st-sort="">2014 YTD</th>
             <th st-sort="">Goal</th>
-            <th st-sort="">% of Goal</th>
             <th st-sort="">% to Goal</th>
             <th st-sort="">2015 Fiscal Year</th>
             <th st-sort="">2014 Fiscal Year</th>
@@ -17,16 +16,15 @@
         </thead>
         <tbody>
         <!--currently inop, need to inject the data into this controller.-->
-        <tr st-select-row="result" st-select-mode="single" ng-repeat="result in displayedResults">
+        <tr st-select-row="result" st-select-mode="single" ng-repeat="result in retainedResults">
             <td>{{result.type}}</td>
-            <td>{{result.ytd}}</td>
-            <td>{{result.ytdM1}}</td>
-            <td>{{result.ytdM2}}</td>
-            <td>{{result.goal}}</td>
-            <td>{{result.percentGoal}}</td>
-            <td>{{result.percentToGoal}}</td>
-            <td>{{result.tfyM1}}</td>
-            <td>{{result.tfyM2}}</td>
+            <td>{{result.ytd | number : 0 }}</td>
+            <td>{{result.ytdM1 | number : 0  }}</td>
+            <td>{{result.ytdM2 | number : 0  }}</td>
+            <td>{{result.goal | number : 0  }}</td>
+            <td>{{result.percentToGoal | number : 0  }}</td>
+            <td>{{result.tfyM1 | number : 0  }}</td>
+            <td>{{result.tfyM2 | number : 0  }}</td>
 
         </tr>
         </tbody>
@@ -49,21 +47,19 @@
             <th st-sort=""></th>
             <th st-sort=""></th>
             <th st-sort=""></th>
-            <th st-sort=""></th>
         </tr>
 
         </thead>
         <tbody>
         <tr st-select-row="result" st-select-mode="single" ng-repeat="result in recoveredResults">
             <td>{{result.type}}</td>
-            <td>{{result.ytd}}</td>
-            <td>{{result.ytdM1}}</td>
-            <td>{{result.ytdM2}}</td>
-            <td>{{result.goal}}</td>
-            <td>{{result.percentGoal}}</td>
-            <td>{{result.percentToGoal}}</td>
-            <td>{{result.tfyM1}}</td>
-            <td>{{result.tfyM2}}</td>
+            <td>{{result.ytd  | number : 0   }}</td>
+            <td>{{result.ytdM1  | number : 0   }}</td>
+            <td>{{result.ytdM2  | number : 0   }}</td>
+            <td>{{result.goal  | number : 0   }} 0 </td>
+            <td>{{result.percentToGoal  | number : 0   }} 0 </td>
+            <td>{{result.tfyM1  | number : 0   }}</td>
+            <td>{{result.tfyM2  | number : 0   }}</td>
 
         </tr>
         </tbody>
@@ -80,21 +76,19 @@
             <th st-sort=""></th>
             <th st-sort=""></th>
             <th st-sort=""></th>
-            <th st-sort=""></th>
         </tr>
 
         </thead>
         <tbody>
         <tr st-select-row="result" st-select-mode="single" ng-repeat="result in universeResults">
             <td>{{result.type}}</td>
-            <td>{{result.ytd}}</td>
-            <td>{{result.ytdM1}}</td>
-            <td>{{result.ytdM2}}</td>
-            <td>{{result.goal}}</td>
-            <td>{{result.percentGoal}}</td>
-            <td>{{result.percentToGoal}}</td>
-            <td>{{result.tfyM1}}</td>
-            <td>{{result.tfyM2}}</td>
+            <td>{{result.ytd  | number : 0   }}</td>
+            <td>{{result.ytdM1  | number : 0   }}</td>
+            <td>{{result.ytdM2  | number : 0   }}</td>
+            <td>{{result.goal  | number : 0   }} 0 </td>
+            <td>{{result.percentToGoal  | number : 0   }} 0 </td>
+            <td>{{result.tfyM1  | number : 0   }}</td>
+            <td>{{result.tfyM2  | number : 0   }}</td>
 
         </tr>
         </tbody>

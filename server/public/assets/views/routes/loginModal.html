@@ -24,7 +24,9 @@
         <input type="password" class="form-control" name="password" id="password" placeholder="Password" required />
       </div>
     </div>
+    <label class="login-failure" ng-show="loginFailed" style="color:red">Login failed. Please try again.</label>
   </form>
+  <ng-show ></ng-show>
 </div>
 <div class="modal-footer modal-stlf-footer">
   <button type="submit" class="btn btn-info" form="loginForm">Login</button>

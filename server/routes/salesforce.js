@@ -94,7 +94,7 @@ router.get("/fetch", function (req, res) {
 
 
           result: result
-      }
+      };
       res.status(200).send(objRow);
 
     });
@@ -111,8 +111,8 @@ router.get("/force", function (req, res) {
     // loginUrl : 'https://test.salesforce.com'
   });
 
-  var username = process.env.username;
-  var password = process.env.password;
+  // var username = process.env.username;
+  // var password = process.env.password;
 
   console.log(" in index username = ", username);
   conn.login(username, password, function(err, userInfo) {
