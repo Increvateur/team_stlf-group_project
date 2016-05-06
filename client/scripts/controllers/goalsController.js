@@ -109,16 +109,252 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     goalService.getGoals();
   };
 
+
+
   // Adding Totals up
-  $scope.indTotal = 0;
+  // $scope.indTotal = 0;
+
+  $scope.individualTotal = 0;
 
 
-  // Function used to call the calcIndTot() & calcYearlyTotals() functions to calculate totals on form
+  // Function used to calculate totals on form
   $scope.calcTotals = function() {
 
-    $scope.calcIndTot();
+    // $scope.calcIndTot();
     // $scope.calcYearlyTotals();
+
+    // Log to make sure it works!
+    console.log('=_-_= @goalsController in calcTotals');
+
+
+    // main variables
+    $scope.goals.yearly_totals = {};
+    var goals = $scope.goals;
+    var months = goals.months;
+    var yearly_totals = goals.yearly_totals;
+    // var staff_total;
+    // var board_total;
+    // var committee_total;
+    // var parent_total;
+    // var alum_total;
+    // var participant_total;
+    // var community_total;
+    // var individual_yearly_total;
+    // var corporate_organization_total;
+    // var corporate_match_total;
+    // var corporate_yearly_total;
+    // var corporate_foundation_total;
+    // var family_foundation_total;
+    // var general_foundation_total;
+    // var foundation_yearly_total;
+
+
+    console.log('~~ - ~~ @goalsController in calcTotals - goals, months, yearly_totals: ', goals, months, yearly_totals);
+
+
+    // Declaring all neccessary variables here:
+    var yearlyTotal;
+    var month;
+
+    var staffTotal = 0;
+    var boardTotal = 0;
+    var committeeTotal = 0;
+    var parentTotal = 0;
+    var alumTotal = 0;
+    var participantTotal = 0;
+    var communityTotal = 0;
+    var individualTotal = 0;
+    var corporateTotal = 0;
+    var corporateOrganizationTotal = 0;
+    var corporateMatchTotal = 0;
+    var foundationTotal = 0;
+    var corporateFoundationTotal = 0;
+    var familyFoundationTotal = 0;
+    var generalFoundationTotal = 0;
+
+    var monthlyTotal;
+
+    // Loop through $scope.goals object to calculate totals
+    var i;
+
+    for(i in months) {
+
+      // Declare variables for loop (specific to each month)
+      month = months[i];
+      console.log('~~~~ @@goalsController in for loop of calcTotals - month: ', month);
+
+      // var staff = month.staff;
+      // var board = month.board;
+      // var committee = month.committee;
+      // var parent = month.parent;
+      // var alum = month.alum;
+      // var participant = month.participant;
+      // var community = month.community;
+      // var individualMonthTotal = month.individual;
+      // var corporateMonthTotal = month.corporate_total;
+      // var corporateOrganization = month.corporate_organization;
+      // var corporateMatch = month.corporate_match;
+      // var foundationMonthTotal = month.foundation_total;
+      // var corporateFoundation = month.corporate_foundation;
+      // var familyFoundation = month.family_foundation;
+      // var generalFoundation = month.general_foundation;
+
+      var staff = month.staff;
+      if ( isNaN(staff) ){
+        staff = 0;
+      }
+
+      var board = month.board;
+      if ( isNaN(board) ){
+        board = 0;
+      }
+
+      var committee = month.committee;
+      if ( isNaN(committee) ){
+        committee = 0;
+      }
+
+      var parent = month.parent;
+      if ( isNaN(parent) ){
+        parent = 0;
+      }
+
+      var alum = month.alum;
+      if ( isNaN(alum) ){
+        alum = 0;
+      }
+
+      var participant = month.participant;
+      if ( isNaN(participant) ){
+        participant = 0;
+      }
+
+      var community = month.community;
+      if ( isNaN(community) ){
+        community = 0;
+      }
+
+      var corporateOrganization = month.corporate_organization;
+      if ( isNaN(corporateOrganization) ){
+        corporateOrganization = 0;
+      }
+
+      var corporateMatch = month.corporate_match;
+      if ( isNaN(corporateMatch) ){
+        corporateMatch = 0;
+      }
+
+      var corporateFoundation = month.corporate_foundation;
+      if ( isNaN(corporateFoundation) ){
+        corporateFoundation = 0;
+      }
+
+      var familyFoundation = month.family_foundation;
+      if ( isNaN(familyFoundation) ){
+        familyFoundation = 0;
+      }
+
+      var generalFoundation = month.general_foundation;
+      if ( isNaN(generalFoundation) ){
+        generalFoundation = 0;
+      }
+
+      // MONTHLY TOTALS
+
+      var individualMonthTotal = staff + board + committee + parent + alum + participant + community;
+      // if ( isNaN(individual) ){
+      //   individual = 0;
+      // }
+      month.individual_total = individualMonthTotal;
+
+      var corporateMonthTotal = corporateOrganization + corporateMatch;
+      // if ( isNaN(corporateMonthTotal) ){
+      //   corporateMonthTotal = 0;
+      // }
+      month.corporate_total = corporateMonthTotal;
+
+      var foundationMonthTotal = corporateFoundation + familyFoundation + generalFoundation;
+      // if ( isNaN(foundationMonthTotal) ){
+      //   foundationMonthTotal = 0;
+      // }
+      month.foundation_total = foundationMonthTotal;
+
+
+      console.log('HERE IS THE FOR LOOP @goalsController calcTotals() - months[i].all: ', staff,
+      board, committee, parent, alum, participant, community, individualMonthTotal,
+      corporateOrganization, corporateMatch, corporateMonthTotal, foundationMonthTotal, corporateFoundation, familyFoundation, generalFoundation);
+
+
+      monthlyTotal = individualMonthTotal + corporateMonthTotal + foundationMonthTotal;
+      console.log('% %  %   @@@goalsController in calcTotals - monthlyTotal in for loop: ', monthlyTotal);
+
+      console.log('** - = @goalsController in calcTotals - $scope.goals: ', $scope.goals);
+
+      // Dynamically saves and creates totals
+
+      // monthly_total creates totals for all goals in each month
+      month.monthly_total = monthlyTotal;
+
+      staffTotal += month.staff;
+      console.log('+++ @goalsController in loop - staffTotal: ', staffTotal);
+      yearly_totals.staff_year = staffTotal;
+
+      boardTotal += month.board;
+      yearly_totals.board_year = boardTotal;
+
+      committeeTotal += month.committee;
+      yearly_totals.committee_year = committeeTotal;
+
+      parentTotal += month.parent;
+      yearly_totals.parent_year = parentTotal;
+
+      alumTotal += month.alum;
+      yearly_totals.alum_year = alumTotal;
+
+      participantTotal += month.participant;
+      yearly_totals.participant_year = participantTotal;
+
+      communityTotal += month.community;
+      yearly_totals.community_year = communityTotal;
+
+      individualTotal += month.individual_total;
+      yearly_totals.individual_year = individualTotal;
+
+      corporateOrganizationTotal += month.corporate_organization;
+      yearly_totals.corporate_organization_year = corporateOrganizationTotal;
+
+      corporateMatchTotal += month.corporate_match;
+      yearly_totals.corporate_match_year = corporateMatchTotal;
+
+      corporateTotal += month.corporate_total;
+      yearly_totals.corporate_year = corporateTotal;
+
+      corporateFoundationTotal += month.corporate_foundation;
+      yearly_totals.corporate_foundation_year = corporateFoundationTotal;
+
+      familyFoundationTotal += month.family_foundation;
+      yearly_totals.family_foundation_year = familyFoundationTotal;
+
+      generalFoundationTotal += month.general_foundation;
+      yearly_totals.general_foundation_year = generalFoundationTotal;
+
+      foundationTotal += month.foundation_total;
+      yearly_totals.foundation_year = foundationTotal;
+
+
+      yearlyTotal = individualTotal + corporateTotal + foundationTotal;
+      console.log('! - H E L L O  @goalsController in calcTotals in loop - yearlyTotal: ', yearlyTotal);
+      yearly_totals.year_total = yearlyTotal;
+
+    }
+
+
+
   };
+
+
+
+  ///////////////////
 
 
   // Calculates Yearly totals for all goals for Admin to view
