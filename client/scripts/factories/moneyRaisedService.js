@@ -416,11 +416,11 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         accountArray[4].goal = goals.object[0].months.september.alum;
         accountArray[5].goal = goals.object[0].months.september.participant;
         accountArray[6].goal = goals.object[0].months.september.community;
-        //accountArray[7].goal = goals.object[0].months.september.staff;
-        //accountArray[8].goal = goals.object[0].months.september.staff;
-        //accountArray[9].goal = goals.object[0].months.september.staff;
-        //accountArray[10].goal = goals.object[0].months.september.staff;
-        //accountArray[11].goal = goals.object[0].months.september.staff;
+        accountArray[7].goal = goals.object[0].months.september.corporate_organization;
+        accountArray[8].goal = goals.object[0].months.september.corporate_match;
+        accountArray[9].goal = goals.object[0].months.september.corporate_foundation;
+        accountArray[10].goal = goals.object[0].months.september.family_foundation;
+        accountArray[11].goal = goals.object[0].months.september.general_foundation;
 
         setPercentToGoal(accountArray);
         setPercentOfGoal(accountArray);
@@ -474,4 +474,3 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
 
 }]);
-
