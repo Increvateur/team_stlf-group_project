@@ -1,7 +1,7 @@
-.st-selected {
-  background-color: #003366;
-  color: white;
-}
+/*.st-selected {*/
+  /*background-color: #003366;*/
+  /*color: white;*/
+/*}*/
 
 /*start user authentication styles*/
 
@@ -52,12 +52,9 @@
 }
 
 body {
-  padding-top: 93px;
-  /*padding-bottom: 750px;*/
+    padding-top: 93px;
+
 }
-/*.navbar-custom {
-  background-color: #B3E7F4;
-}*/
 
 .navbar-default {
     background-image: url("http://stlf.net/assets/templates/stlf/images/bg_header.jpg");
@@ -222,12 +219,12 @@ body {
     font-size: 16px;
     color: #444;
 }
-/*.blue-lines{
-    height: 119px;
-    width: 100%;
-    background-image: url('http://stlf.net/assets/templates/stlf/images/bg_home_content.png');
-    background-repeat: repeat;
-}*/
+/*.blue-lines{*/
+/*height: 119px;*/
+/*width: 100%;*/
+    /*background-image: url('http://stlf.net/assets/templates/stlf/images/bg_home_content.png');*/
+    /*background-repeat: repeat;*/
+/*}*/
 
 .register-user {
   margin-top: 30px;
@@ -241,4 +238,13 @@ select {
   border: 1px solid grey;
   padding: 2px;
   margin: 5px;
+}
+.content {
+    height: 119px;
+    width: 100%;
+    background-image: url('http://stlf.net/assets/templates/stlf/images/bg_home_content.png');
+    margin-top: 22px;
+    background-position: left bottom;
+    background-repeat: repeat-x;
+    padding-bottom: 40px;
 }
