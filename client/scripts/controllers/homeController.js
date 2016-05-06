@@ -4,8 +4,7 @@
 
 
 myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaisedService','GoalService',
-
-    function($scope, $filter, $uibModal, MoneyRaisedService,GoalService) {
+    function($scope, $filter, $uibModal, MoneyRaisedService, GoalService) {
 
         var moneyRaisedService = MoneyRaisedService;
         var goalService = GoalService;
@@ -30,8 +29,8 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         };
 
 
-        $scope.open = function(size,result) {
-            console.log(result);
+        $scope.open = function(size, data) {
+            console.log("Inside the Chart Open Function:", data);
 
             var modalInstance = $uibModal.open({
               animation: true,
@@ -39,7 +38,10 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
               controller: 'ChartContentController',
               size: size,
               keyboard: true,
-      				backdrop: 'static'
+      		  backdrop: 'static',
+              resolve: {
+                  results: function() { return data; }
+              }
             });
           };
         moneyRaisedService.getTotals();
@@ -50,5 +52,3 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         $scope.buildtable();
 
 }]);
-
-

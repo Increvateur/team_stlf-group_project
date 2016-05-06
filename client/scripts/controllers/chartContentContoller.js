@@ -1,9 +1,11 @@
 /**
  * Created by JFCS on 4/29/16.
  */
-myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", function($scope, $uibModalInstance) {
+myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "results",
+    function($scope, $uibModalInstance, results) {
 
-
+    $scope.results = results;
+    console.log("Inside the actual ChartContentController:", $scope.results);
 
     $scope.chartType = function(type) {
         if (type == "piechart") {
@@ -16,7 +18,7 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", funct
     };
 
     $scope.piechart = function(data) {
-
+        console.log("Pie Chart Data:", data);
         AmCharts.makeChart("chartdiv",
             {
                 "type": "pie",
