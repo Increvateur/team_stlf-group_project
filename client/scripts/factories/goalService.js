@@ -1,5 +1,8 @@
 myApp.factory("GoalService", ["$http", function($http) {
 
+  // Object to store a specific year for updating
+  var goals = {};
+
   // Array to store goals when get call is complete from Server/DB
   var goalsArray = [];
 
@@ -49,8 +52,13 @@ myApp.factory("GoalService", ["$http", function($http) {
 
   // GET to check for specific year
   var getSpecificYear = function(year) {
+    console.log('<><> GET @goalService.js in getSpecificYear(year) - year: ', year);
+    return $http.get('goals/' + year).then(function(response){
+      return response.data;
 
-    //http.get
+      // console.log('o` | `o -- @goalService GET specific year goals: ', goals);
+
+    });
 
   };
 
@@ -68,10 +76,12 @@ myApp.factory("GoalService", ["$http", function($http) {
   return {
     newGoals: newGoals,
     getGoals: getGoals,
+    getSpecificYear: getSpecificYear,
     goalsArray: goalsArray,
     setYearList: setYearList,
     currentYear: currentYear,
-    years: years
+    years: years,
+    // goals: goals
   };
 
 }]);
