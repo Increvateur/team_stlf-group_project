@@ -20,51 +20,57 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
     $scope.piechart = function(data) {
         console.log("Pie Chart Data:", data);
         AmCharts.makeChart("chartdiv",
-            {
-                "type": "pie",
-                "angle": 20,
-                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
-                "depth3D": 20,
-                "titleField": "country",
-                "valueField": "litres",
-                "fontSize": 12,
-                "theme": "default",
-                "allLabels": [],
-                "balloon": {},
-                "titles": [],
-                "dataProvider": [
-                    {
-                        "country": "Events",
-                        "litres": "356.9"
-                    },
-                    {
-                        "country": "Ireland",
-                        "litres": 131.1
-                    },
-                    {
-                        "country": "Germany",
-                        "litres": 115.8
-                    },
-                    {
-                        "country": "Australia",
-                        "litres": 109.9
-                    },
-                    {
-                        "country": "Austria",
-                        "litres": 108.3
-                    },
-                    {
-                        "country": "UK",
-                        "litres": 65
-                    },
-                    {
-                        "country": "Belgium",
-                        "litres": "20"
-                    }
-                ]
-            }
-        );
-    };
+        {
+            "type": "pie",
+            "angle": 20,
+            "balloonText": "[[title]]<br><span style='font-size:14px'><b>$[[value]]</b> ([[percents]]%)</span>",
+            "depth3D": 20,
+            "titleField": "group",
+            "valueField": "money",
+            "fontSize": 12,
+            "theme": "default",
+            "allLabels": [],
+            "balloon": {},
+            "titles": [
+                {
+                    "id": "goals",
+                    "size": 16,
+                    "text": "Donations by Individuals"
+                }
+            ],
+            "dataProvider": [
+                {
+                    "group": "Staff",
+                    "money": 6526
+                },
+                {
+                    "group": "Board",
+                    "money": 9135
+                },
+                {
+                    "group": "Committee",
+                    "money": 1480
+                },
+                {
+                    "group": "Parents",
+                    "money": 10228
+                },
+                {
+                    "group": "Alums",
+                    "money": 21262
+                },
+                {
+                    "group": "Participants",
+                    "money": 2376
+                },
+                {
+                    "group": "Community Support",
+                    "money": 22013
+                }
+            ],
+        }
+    );
+};
 
     $scope.bargraph = function(data) {
 
