@@ -290,3 +290,6 @@ li {
 .home-view{
     background-color: white;
 }
+.datepicker {
+    width: 150px;
+}

@@ -367,8 +367,6 @@ var setDates = function(endDate) {
         sqlIndex = 0;
         myKey = "";
         strSql = "";
-        //accountArray = [];
-        console.log('all of these should be empty', arrResults , arrSql, Sqlobj, sqlIndex,myKey,strSql);
         // account is a holder object for properly sorted information
 
         var account = {};
@@ -377,11 +375,11 @@ var setDates = function(endDate) {
         // this loop goes through and makes sure that we dont have any null category values and removes them before we create new objects
         for(var i = 0; i < resultsArrays.length; i++) {
             //resultsArrays[0].result.records.shift()
-            if(resultsArrays[i].result.records.length > 12){
+            //if(resultsArrays[i].result.records.length >= 12){
                 for(var m = 0; m < resultsArrays[i].result.records.length; m++){
                     if(resultsArrays[i].result.records[m].Donation_SubCategory__c === null){
                         resultsArrays[i].result.records.splice(m,1);
-                    }
+                    //}
                 }
             }
         }
@@ -438,7 +436,6 @@ var setDates = function(endDate) {
         accountArray[9].goal = goals.object[0].yearly_totals.corporate_foundation_year;
         accountArray[10].goal = goals.object[0].yearly_totals.family_foundation_year;
         accountArray[11].goal = goals.object[0].yearly_totals.general_foundation_year;
-        //accountArray[12].goal = goals.object[0].yearly_totals.year_total;
         buildTotalObject();
         setPercentToGoal(accountArray);
         setPercentOfGoal(accountArray);
@@ -538,13 +535,6 @@ var setDates = function(endDate) {
 
     };
 
-    //var getTotalGoals = function(year) {
-    //    $http.get('/goals/getYear/'+ year).then(function(response){
-    //        //console.log('getting goals in money raised ', response.data);
-    //        goals.object = response.data;
-    //
-    //    });
-    //};
 
     return{
 

@@ -9,7 +9,8 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
 
         var moneyRaisedService = MoneyRaisedService;
         var goalService = GoalService;
-
+        var endDate = new Date();
+        var today = new Date();
         $scope.rowCollection = [];
         $scope.itemsByPage=15;
         $scope.accounts = [];
@@ -17,6 +18,7 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         $scope.forceData = [];
         $scope.forceresponse = [];
         $scope.goals=[];
+        $scope.date = today.getFullYear();
 
 
         $scope.getGoals = function(){
@@ -81,8 +83,14 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         };
 
         $scope.setEndDate = function(date){
-            console.log(date);
-            var endDate = date.toFormat("MM-DD-YYYY");
+            console.log(date.getMonth());
+            if(date.getMonth() < 8) {
+                $scope.date = date.getFullYear();
+            } else {
+                $scope.date = date.getFullYear() + 1 ;
+            }
+            console.log('date display',$scope.date);
+            endDate = date.toFormat("MM-DD-YYYY");
             console.log(endDate);
             moneyRaisedService.setEndDate(endDate);
         };
