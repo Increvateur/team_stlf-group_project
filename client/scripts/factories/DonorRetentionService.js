@@ -24,22 +24,13 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
     var percentDonorRecovered = {};
     var donorUniverse = {};
     var percentTotalRetainedDonors = {};
-
-    // TODO for each strSql, make an object, with label: label, and soql: strSql
-
-
-
-    var selEndDate = new Date("12-31-2015");
-
     var ytdStart = new Date();
     var ytdEnd = new Date();
     var ytdM1Start = new Date();
     var ytdM1End = new Date();
     var ytdM2Start = new Date();
     var ytdM2End = new Date();
-    var ytdM3Start = new Date();
     var ytdM3End = new Date();
-    var ytdM4Start = new Date();
     var ytdM4End = new Date();
     var fyM1Start = new Date();
     var fyM1End = new Date();
@@ -49,15 +40,30 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
     var fyM3End = new Date();
     var fyM4Start = new Date();
     var fyM4End = new Date();
-
     var fyM5End = new Date();
-
-    var myKey = "";
-
-
+    var endDate = {};
+    endDate.date = new Date();
 
 
-    ytdEnd = new Date(selEndDate);
+
+    var setEndDate = function(date){
+        //console.log(date);
+        endDate.date = date;
+        setDates(endDate);
+        getDonors();
+
+    };
+
+    var setDates = function(endDate) {
+        console.log('enddate object in set dates',endDate);
+        date = endDate.date;
+
+        var selEndDate = new Date(date);
+
+        console.log('date in query', selEndDate);
+
+        ytdEnd = new Date(selEndDate);
+
 
 
     // ytd start - figure out fiscal year start previous to this date
@@ -149,6 +155,44 @@ myApp.factory("DonorRetentionService", ["$http", function($http) {
     fyM5End = fyM5End.toFormat("YYYY-MM-DD");
 
 
+
+
+
+
+    console.log("selEndDate", selEndDate);
+
+    console.log("ytdStart", ytdStart);
+    console.log("ytdEnd", ytdEnd);
+    console.log("ytdM1Start", ytdM1Start);
+    console.log("ytdM1End", ytdM1End);
+    console.log("ytdM2Start", ytdM2Start);
+    console.log("ytdM2End", ytdM2End);
+    console.log("ytdM3Start", ytdM3Start);
+    console.log("ytdM3End", ytdM3End);
+    console.log("ytdM4Start", ytdM4Start);
+    console.log("ytdM4End", ytdM4End);
+
+
+
+
+
+    console.log("fyM1Start", fyM1Start);
+    console.log("fyM1End", fyM1End);
+    console.log("fyM2Start", fyM2Start);
+    console.log("fyM2End", fyM2End);
+    console.log("fyM3Start", fyM3Start);
+    console.log("fyM3End", fyM3End);
+    console.log("fyM4Start", fyM4Start);
+    console.log("fyM4End", fyM4End);
+
+    console.log("fyM5End", fyM5End);
+
+    };
+
+    /////
+    // sets the initial date on page load.
+    /////
+    setDates(endDate);
 
 
 var getDonors = function() {
@@ -737,11 +781,11 @@ var getDonors = function() {
         // percentage retained donors
         console.log("Percentage retained donors");
 
-        var prdYTD = duYTD / crdSelYTD * 100;
-        var prdYTDm1 = duYTDm1 / crdSelYTDm1 * 100;
-        var prdYTDm2 = duYTDm2 / crdSelYTDm2 * 100;
-        var prdFym1 = duFym1 / crdFym1 * 100;
-        var prdFym2 = duFym2 / crdFym2 * 100;
+        var prdYTD = duYTD / crdSelYTD ;
+        var prdYTDm1 = duYTDm1 / crdSelYTDm1 ;
+        var prdYTDm2 = duYTDm2 / crdSelYTDm2 ;
+        var prdFym1 = duFym1 / crdFym1 ;
+        var prdFym2 = duFym2 / crdFym2 ;
 
 
         percentTotalRetainedDonors = {
@@ -828,7 +872,9 @@ var getDonors = function() {
         fetchForce : fetchForce,
         retainedDonorsArray : retainedDonorsArray,
         recoveredDonorsArray : recoveredDonorsArray,
-        universeArray : universeArray
+        universeArray : universeArray,
+        setEndDate:setEndDate,
+        endDate : endDate
 
     };
 

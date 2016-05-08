@@ -23,10 +23,10 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     var ytdM1End = new Date();
     var ytdM2Start = new Date();
     var ytdM2End = new Date();
-    var ytdM3Start = new Date();
-    var ytdM3End = new Date();
-    var ytdM4Start = new Date();
-    var ytdM4End = new Date();
+    //var ytdM3Start = new Date();
+    //var ytdM3End = new Date();
+    //var ytdM4Start = new Date();
+    //var ytdM4End = new Date();
     var fyM1Start = new Date();
     var fyM1End = new Date();
     var fyM2Start = new Date();
@@ -78,11 +78,11 @@ var setDates = function(endDate) {
     ytdM2Start = new Date(ytdStart);
     ytdM2Start.add({"years": -2});
 
-    ytdM3Start = new Date(ytdStart);
-    ytdM3Start.add({"years": -3});
-
-    ytdM4Start = new Date(ytdStart);
-    ytdM4Start.add({"years": -4});
+    //ytdM3Start = new Date(ytdStart);
+    //ytdM3Start.add({"years": -3});
+    //
+    //ytdM4Start = new Date(ytdStart);
+    //ytdM4Start.add({"years": -4});
 
 
     ytdM1End = new Date(ytdEnd);
@@ -91,11 +91,11 @@ var setDates = function(endDate) {
     ytdM2End = new Date(ytdEnd);
     ytdM2End.add({"years": -2});
 
-    ytdM3End = new Date(ytdEnd);
-    ytdM3End.add({"years": -3});
-
-    ytdM4End = new Date(ytdEnd);
-    ytdM4End.add({"years": -4});
+    //ytdM3End = new Date(ytdEnd);
+    //ytdM3End.add({"years": -3});
+    //
+    //ytdM4End = new Date(ytdEnd);
+    //ytdM4End.add({"years": -4});
 
     //fiscal year start and end, first full fiscal year before end date
 
@@ -120,11 +120,11 @@ var setDates = function(endDate) {
     ytdM2Start = ytdM2Start.toFormat("YYYY-MM-DD");
     ytdM2End = ytdM2End.toFormat("YYYY-MM-DD");
 
-    ytdM3Start = ytdM3Start.toFormat("YYYY-MM-DD");
-    ytdM3End = ytdM3End.toFormat("YYYY-MM-DD");
-
-    ytdM4Start = ytdM4Start.toFormat("YYYY-MM-DD");
-    ytdM4End = ytdM4End.toFormat("YYYY-MM-DD");
+    //ytdM3Start = ytdM3Start.toFormat("YYYY-MM-DD");
+    //ytdM3End = ytdM3End.toFormat("YYYY-MM-DD");
+    //
+    //ytdM4Start = ytdM4Start.toFormat("YYYY-MM-DD");
+    //ytdM4End = ytdM4End.toFormat("YYYY-MM-DD");
 
     fyM1Start = fyM1Start.toFormat("YYYY-MM-DD");
     fyM1End = fyM1End.toFormat("YYYY-MM-DD");
