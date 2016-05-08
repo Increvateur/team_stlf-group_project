@@ -515,7 +515,7 @@ var setDates = function(endDate) {
             ytdM2 :totalforceData.totalarrResults[2].result.records[0].expr0 ,
             tfyM1 : totalforceData.totalarrResults[3].result.records[0].expr0,
             tfyM2 : totalforceData.totalarrResults[4].result.records[0].expr0,
-            goal : 0,
+            goal : goals.object[0].yearly_totals.year_total ,
             percentOfGoal : 0,
             percentToGoal : 0
         };
@@ -527,6 +527,8 @@ var setDates = function(endDate) {
         console.log("totals",totalObject);
         accountArray[index] = totalObject;
         console.log('array with totals',accountArray);
+        setPercentToGoal(accountArray);
+        setPercentOfGoal(accountArray);
     };
 
     var clearTotals = function(){
