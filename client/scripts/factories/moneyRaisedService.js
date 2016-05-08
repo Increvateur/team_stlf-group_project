@@ -17,25 +17,6 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     var totalarrResults = [];
     var totalsqlIndex = 0;
     var totalforceData = {};
-
-    // TODO for each strSql, make an object, with label: label, and soql: strSql
-
-    //end date
-    // for ytd, fiscal year start date until end date for fiscal year end date is in, plus 2 previous.
-    // full fiscal years for the 2 fiscal years PRIOR to the fiscal year end date is in.
-    // ytd - fiscal year start to end date of fiscal year containing end date
-    // ytd-1
-    // ytd-2
-    // fy-1
-    // fy-2
-
-    // fiscal year is 1 sep to aug 31
-    // current fiscal year start is 1 sep before end date, and aug 31 after end date
-    // ytd is 1 sep before end date until end date
-    // ytd is 1 sep before end date -1 year
-
-    var selEndDate = new Date("12-31-2015");
-
     var ytdStart = new Date();
     var ytdEnd = new Date();
     var ytdM1Start = new Date();
@@ -50,56 +31,72 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     var fyM1End = new Date();
     var fyM2Start = new Date();
     var fyM2End = new Date();
+    var endDate = '12-31-2015';
+    var totalObject = {};
 
+    // TODO for each strSql, make an object, with label: label, and soql: strSql
+
+     var setEndDate = function(date){
+        //console.log(date);
+        endDate = date;
+         setDates(endDate);
+         moneyRaised();
+         getTotals();
+    };
+
+
+
+var setDates = function(endDate) {
+    var selEndDate = new Date(endDate);
+
+    console.log('date in query', selEndDate);
 
     ytdEnd = new Date(selEndDate);
 
-
     // ytd start - figure out fiscal year start previous to this date
-    ytdStart =  new Date("09/01/" + selEndDate.getFullYear());
+    ytdStart = new Date("09/01/" + selEndDate.getFullYear());
 
 
-
-    if (ytdStart > ytdEnd){
-        ytdStart = new Date("09/01/" + (selEndDate.getFullYear()-1));
+    if (ytdStart > ytdEnd) {
+        ytdStart = new Date("09/01/" + (selEndDate.getFullYear() - 1));
     }
 
     ytdM1Start = new Date(ytdStart);
-    ytdM1Start.add({"years":-1});
+    ytdM1Start.add({"years": -1});
 
     ytdM2Start = new Date(ytdStart);
-    ytdM2Start.add({"years":-2});
+    ytdM2Start.add({"years": -2});
 
     ytdM3Start = new Date(ytdStart);
-    ytdM3Start.add({"years":-3});
+    ytdM3Start.add({"years": -3});
 
     ytdM4Start = new Date(ytdStart);
-    ytdM4Start.add({"years":-4});
+    ytdM4Start.add({"years": -4});
 
 
     ytdM1End = new Date(ytdEnd);
-    ytdM1End.add({"years":-1});
+    ytdM1End.add({"years": -1});
 
     ytdM2End = new Date(ytdEnd);
-    ytdM2End.add({"years":-2});
+    ytdM2End.add({"years": -2});
 
     ytdM3End = new Date(ytdEnd);
-    ytdM3End.add({"years":-3});
+    ytdM3End.add({"years": -3});
 
     ytdM4End = new Date(ytdEnd);
-    ytdM4End.add({"years":-4});
+    ytdM4End.add({"years": -4});
 
     //fiscal year start and end, first full fiscal year before end date
 
     fyM1End = new Date("08/31/" + selEndDate.getFullYear());
 
-    if (fyM1End > selEndDate){
-        fyM1End = new Date("08/31/" + (selEndDate.getFullYear()-1));
+    if (fyM1End > selEndDate) {
+        fyM1End = new Date("08/31/" + (selEndDate.getFullYear() - 1));
 
     }
     // one year PRIOR
     fyM2End = new Date(fyM1End);
-    fyM2End.add({"years":-1});
+    fyM2End.add({"years": -1});
 
     fyM1Start = new Date(ytdM1Start);
     fyM2Start = new Date(ytdM2Start);
@@ -124,7 +121,26 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     fyM2End = fyM2End.toFormat("YYYY-MM-DD");
 
 
+    console.log("selEndDate", selEndDate);
 
+    //console.log("ytdStart", ytdStart);
+    //console.log("ytdEnd", ytdEnd);
+    //console.log("ytdM1Start", ytdM1Start);
+    //console.log("ytdM1End", ytdM1End);
+    //console.log("ytdM2Start", ytdM2Start);
+    //console.log("ytdM2End", ytdM2End);
+    //console.log("ytdM3Start", ytdM3Start);
+    //console.log("ytdM3End", ytdM3End);
+    //console.log("ytdM4Start", ytdM4Start);
+    //console.log("ytdM4End", ytdM4End);
+    //console.log("fyM1Start", fyM1Start);
+    //console.log("fyM1End", fyM1End);
+    //console.log("fyM2Start", fyM2Start);
+    //console.log("fyM2End", fyM2End);
+
+};
+
+    setDates(endDate);
 
     var moneyRaised = function () {
 
@@ -244,18 +260,21 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
     var fetchTotalForce = function(forceResult){
 
-        console.log("in total force, forceResult=", forceResult);
+        //console.log("in total force, forceResult=", forceResult);
         if(forceResult){
 
             totalarrResults.push(forceResult.data);
 
             totalsqlIndex = totalarrResults.length;
-            console.log("sql index", totalsqlIndex);
+            console.log("total sql index", totalsqlIndex);
 
 
             if (totalarrResults.length == totalarrSql.length){
                 // we are done
                 totalforceData.totalarrResults = totalarrResults;
+
+                updateTotalObject();
+
 
                 return;
             }
@@ -348,10 +367,10 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         sqlIndex = 0;
         myKey = "";
         strSql = "";
+        //accountArray = [];
+        console.log('all of these should be empty', arrResults , arrSql, Sqlobj, sqlIndex,myKey,strSql);
         // account is a holder object for properly sorted information
-       if(accountArray.length > 0){
-           return console.log('all done.');
-       }
+
         var account = {};
         account.total = [];
 
@@ -377,7 +396,7 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
             account.total[2] = resultsArrays[2].result.records[j].expr0;
             account.total[3] = resultsArrays[3].result.records[j].expr0;
             account.total[4] = resultsArrays[4].result.records[j].expr0;
-       new Account(account.type, account.total[0], account.total[1], account.total[2], account.total[3], account.total[4]);
+            accountArray[j]= new Account(account.type, account.total[0], account.total[1], account.total[2], account.total[3], account.total[4]);
       }
 
         console.log("did this actually work?!?!?", accountArray);
@@ -395,12 +414,10 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         this.percentOfGoal = 0;
         this.percentToGoal = 0;
 
-        accountArray.push(this);
-
     }
     var getGoals = function(year) {
         $http.get('/goals/getYear/'+ year).then(function(response){
-            console.log('getting goals in money raised ', response.data);
+            //console.log('getting goals in money raised ', response.data);
             goals.object = response.data;
             setGoals();
 
@@ -408,7 +425,7 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     };
 
     var setGoals = function(){
-        console.log('goals in set goals function',goals);
+        //console.log('goals in set goals function',goals);
         accountArray[0].goal = goals.object[0].months.september.staff;
         accountArray[1].goal = goals.object[0].months.september.board;
         accountArray[2].goal = goals.object[0].months.september.committee;
@@ -438,25 +455,82 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
             //console.log(percentToGoal);
             accountArray[i].percentToGoal = percentToGoal;
         }
+
     };
 
     var setPercentOfGoal = function(accountArray){
-        //console.log('totalforcedata',totalforceData);
+        console.log('totalforcedata',totalforceData);
       console.log('ytd total',totalforceData.totalarrResults[0].result.records[0].expr0);
         var total = totalforceData.totalarrResults[0].result.records[0].expr0;
         total = Math.round(total);
-        console.log(total);
+        //console.log(total);
         var goal = 0;
         for(var i = 0; i < accountArray.length; i++){
             goal = accountArray[i].ytd;
-            console.log('current goal',goal);
+            //console.log('current goal',goal);
             var percentOfGoal = goal/total;
             percentOfGoal = percentOfGoal * 100;
             percentOfGoal = Math.round(percentOfGoal);
-            console.log(percentOfGoal);
+            //console.log(percentOfGoal);
             accountArray[i].percentOfGoal = percentOfGoal;
-
         }
+            buildTotalObject();
+
+    };
+
+    var buildTotalObject = function (){
+        console.log("in build object");
+        totalObject = {
+            type :"Totals",
+            ytd : totalforceData.totalarrResults[0].result.records[0].expr0,
+            ytdM1 : totalforceData.totalarrResults[1].result.records[0].expr0,
+            ytdM2 :totalforceData.totalarrResults[2].result.records[0].expr0 ,
+            tfyM1 : totalforceData.totalarrResults[3].result.records[0].expr0,
+            tfyM2 : totalforceData.totalarrResults[4].result.records[0].expr0,
+            goal : 0,
+            percentOfGoal : 0,
+            percentToGoal : 0
+        };
+        var index = accountArray.length;
+        if (index >= 12) {
+            index = 12;
+        }
+        console.log("index number",index);
+        console.log("totals",totalObject);
+        accountArray[index] = totalObject;
+        console.log('array with totals',accountArray);
+
+        clearTotals();
+    };
+
+    var updateTotalObject = function(){
+        console.log('in update totals');
+        totalObject = {
+            type :"Totals",
+            ytd : totalforceData.totalarrResults[0].result.records[0].expr0,
+            ytdM1 : totalforceData.totalarrResults[1].result.records[0].expr0,
+            ytdM2 :totalforceData.totalarrResults[2].result.records[0].expr0 ,
+            tfyM1 : totalforceData.totalarrResults[3].result.records[0].expr0,
+            tfyM2 : totalforceData.totalarrResults[4].result.records[0].expr0,
+            goal : 0,
+            percentOfGoal : 0,
+            percentToGoal : 0
+        };
+        var index = accountArray.length;
+        if (index >= 12) {
+            index = 12;
+        }
+        console.log("index number",index);
+        console.log("totals",totalObject);
+        accountArray[index] = totalObject;
+        console.log('array with totals',accountArray);
+    };
+
+    var clearTotals = function(){
+        totalarrResults = [];
+        totalarrSql = [];
+        totalsqlIndex = 0;
+
     };
 
     return{
@@ -469,7 +543,8 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         arrResults : arrResults,
         fetchForce : fetchForce,
         accountArray:accountArray,
-        getTotals:getTotals
+        getTotals:getTotals,
+        setEndDate:setEndDate
     };
 
 
