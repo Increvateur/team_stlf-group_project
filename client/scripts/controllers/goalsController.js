@@ -7,10 +7,24 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   // Renames GoalService
   var goalService = GoalService;
 
-  $scope.goalsArray = goalService.goalsArray;
-  console.log('*** == @GoalsController - $scope.goalsArray: ', $scope.goalsArray);
 
-  goalService.getGoals();
+  function getYears() {
+    goalService.getGoals().then(function(response) {
+
+      $scope.goalsArray = response;
+      console.log('*** == @GoalsController - $scope.goalsArray: ', $scope.goalsArray);
+    });
+  }
+
+  getYears();
+
+  $scope.showYear = false;
+
+  $scope.addYear = function() {
+    $scope.goals = {};
+    $scope.fiscalyear = '';
+    $scope.showYear = true;
+  };
 
   $scope.yearArray = [];
   goalService.setYearList();
@@ -92,12 +106,14 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   // Function to add the fiscal year to the $scope.goal object once the user is not focused on the fiscal year input
 
   $scope.yearSelected = 0;
-  $scope.fiscalyear = 0;
+  $scope.fiscalyear = '';
 
   $scope.fiscalYear = function(year){
 
     console.log('/////// year: ', year);
-    $scope.addFyKey(year);
+    $scope.fiscalyear = parseInt(year);
+    var fy = $scope.fiscalyear;
+    $scope.goals.fiscalyear = fy;
     $scope.findYear();
     // return $scope.goals.fiscalyear;
 
@@ -108,7 +124,9 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     $scope.fiscalyear = parseInt(year);
     var fy = $scope.fiscalyear;
     $scope.goals.fiscalyear = fy;
-    // console.log('#$#$ = @goalsController in addFyKey() year, fy, $scope.fiscalyear, and $scope.goals.fiscalyear', year, fy, $scope.fiscalyear, $scope.goals.fiscalyear);
+    $scope.showYear = false;
+    $scope.fiscalyear = '';
+    console.log('#$#$ = @goalsController in addFyKey() year, fy, $scope.fiscalyear, and $scope.goals.fiscalyear', year, fy, $scope.fiscalyear, $scope.goals.fiscalyear);
   };
 
 
@@ -152,6 +170,7 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     $scope.goals = {};
 
     goalService.getGoals();
+    getYears();
   };
 
 

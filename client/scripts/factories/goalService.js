@@ -20,12 +20,14 @@ myApp.factory("GoalService", ["$http", function($http) {
 
   // GET from Server/DB to pull goals and stores them in goalsArray declared above
   var getGoals = function() {
-    $http.get('/goals/getgoals').then(function(response){
+    return $http.get('/goals/getgoals').then(function(response){
       console.log('@GoalService in getGoals() - response from server: ', response);
 
       // Saves goals from GET into array
       goalsArray = response.data;
       console.log('!-@GoalService in getGoals() - goalsArray: ', goalsArray);
+
+      return response.data;
     });
   };
 
