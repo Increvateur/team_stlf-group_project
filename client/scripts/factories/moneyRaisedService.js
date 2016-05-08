@@ -36,6 +36,10 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
     // TODO for each strSql, make an object, with label: label, and soql: strSql
 
+    //////////
+    // function that accepts new date input from the datepicker, changes all the date variables and calls salesfore
+    // for the updated date ranges.
+    //////////
      var setEndDate = function(date){
         //console.log(date);
         endDate = date;
@@ -45,8 +49,12 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     };
 
 
+    ////////////
+    // sets all the dates for the salesforce queries.
+    ////////////
 
 var setDates = function(endDate) {
+
     var selEndDate = new Date(endDate);
 
     console.log('date in query', selEndDate);
@@ -121,7 +129,7 @@ var setDates = function(endDate) {
     fyM2End = fyM2End.toFormat("YYYY-MM-DD");
 
 
-    console.log("selEndDate", selEndDate);
+    //console.log("selEndDate", selEndDate);
 
     //console.log("ytdStart", ytdStart);
     //console.log("ytdEnd", ytdEnd);
@@ -140,8 +148,15 @@ var setDates = function(endDate) {
 
 };
 
+    /////
+    // sets the initial date on page load.
+    /////
     setDates(endDate);
 
+
+    ///////////
+    // these are the queries for the money raised table.
+    ////////////
     var moneyRaised = function () {
 
         // new query first with new dates
@@ -188,6 +203,10 @@ var setDates = function(endDate) {
 
     };
 
+
+    //////////////
+    // these are the queries for the totals of the money raised tables.
+    //////////////
     var getTotals = function(){
         // total for ytd selected
         myKey = "b1";
@@ -233,6 +252,13 @@ var setDates = function(endDate) {
 
     };
 
+
+    ///////////////////
+    // function to check and see if we have logged into salesforce. this is for the totals of the money raised table.
+    // if we havent authenticated go grab our tokens and then start our queries,
+    // if we have authenticated, go right to sending out queries to salesfoce.
+    //////////////////
+
     var getTotalsSalesforce = function(data){
 
         if (!forceresponse.accessToken){
@@ -256,7 +282,15 @@ var setDates = function(endDate) {
 
     };
 
-
+    ////////////////
+    //  function for money raised totals.
+    // this function first checks to see if we have a result coming back from saleforce, if we do push it into a results array
+    // and set the sql query index to the number of results we have.
+    // then it checks to see if the number of results we have is the same as the number of queries we were suppose to make
+    // if it is, we are done. if we are not done, we move to the next portion of the function and perform a salesforce query
+    // with the current index of the salesforce query array. then it calls the function again passsing in the response from
+    // salesforce rinse repeat until the queries are done.
+    ///////////////
 
     var fetchTotalForce = function(forceResult){
 
@@ -298,6 +332,10 @@ var setDates = function(endDate) {
 
 
 
+    /////////////
+    // same as the totals authentication function above
+    ////////////
+
     var getSalesforce = function(data){
 
         if (!forceresponse.accessToken){
@@ -320,6 +358,10 @@ var setDates = function(endDate) {
 
     };
 
+
+    /////////////
+    // same as the fetch totals function above.
+    /////////////
 
 
     var fetchForce = function(forceResult){
@@ -359,7 +401,8 @@ var setDates = function(endDate) {
     };
 
 
-    // Sort results is a function that takes the salesforce information and creates new objects that are formatted properly to fit on our tables
+    // Sort results is a function that takes the salesforce information and creates new objects that are
+    // formatted properly to fit on our tables
     var sortResults = function(resultsArrays){
         arrResults = [];
         arrSql = [];
@@ -368,25 +411,20 @@ var setDates = function(endDate) {
         myKey = "";
         strSql = "";
         // account is a holder object for properly sorted information
-
         var account = {};
         account.total = [];
 
         // this loop goes through and makes sure that we dont have any null category values and removes them before we create new objects
         for(var i = 0; i < resultsArrays.length; i++) {
-            //resultsArrays[0].result.records.shift()
-            //if(resultsArrays[i].result.records.length >= 12){
                 for(var m = 0; m < resultsArrays[i].result.records.length; m++){
                     if(resultsArrays[i].result.records[m].Donation_SubCategory__c === null){
                         resultsArrays[i].result.records.splice(m,1);
-                    //}
                 }
             }
         }
         //console.log(resultsArrays);
-       // loops through the saleforce results and rebuilds them into properly formatted objects
-       // pushs those objects into the accounts array which is then used in the controller to make the money raised table.
-
+        // loops through the saleforce results and rebuilds them into properly formatted objects
+        // assigns those objects in the correct position of the array to display on the view.
         for (var j = 0 ; j < resultsArrays[0].result.records.length ; j++){
             account.type = resultsArrays[0].result.records[j].Donation_SubCategory__c;
             account.total[0] = resultsArrays[0].result.records[j].expr0;
@@ -401,6 +439,9 @@ var setDates = function(endDate) {
 
     };
 
+    ////////
+    // object constructor for building the money raised table objects.
+    ///////
     function Account (type,ytd,ytdM1,ytdM2,tfyM1,tfyM2){
         this.type = type;
         this.ytd = ytd;
@@ -413,14 +454,23 @@ var setDates = function(endDate) {
         this.percentToGoal = 0;
 
     }
+
+    //////////////
+    // make a call to the goals collection and grab the yearly goals for that specific year.
+    ////////////
     var getGoals = function(year) {
         $http.get('/goals/getYear/'+ year).then(function(response){
             //console.log('getting goals in money raised ', response.data);
             goals.object = response.data;
             setGoals();
-            //accountArray[12].goal = goals.object[0].yearly_totals.year_total;
         });
     };
+
+
+    //////////////
+    // assign the goals returned from our database.
+    // then calls functions to set up the rest of the table.
+    //////////////
 
     var setGoals = function(){
         //console.log('goals in set goals function',goals);
@@ -441,6 +491,10 @@ var setDates = function(endDate) {
         setPercentOfGoal(accountArray);
     };
 
+
+    /////////////
+    // sets the percent to goal column in the array of objects to be displayed on the view.
+    //////////////
     var setPercentToGoal = function(accountArray){
         for(var i = 0; i < accountArray.length; i++){
             var total = accountArray[i].ytd;
@@ -455,6 +509,11 @@ var setDates = function(endDate) {
         }
 
     };
+
+    //////////////////
+    // sets the percent of goal column in the array of objects to be displayed on the view.
+    /////////////////
+
 
     var setPercentOfGoal = function(accountArray){
         console.log('totalforcedata',totalforceData);
@@ -477,6 +536,11 @@ var setDates = function(endDate) {
 
     };
 
+    //////////////
+    // builds the object that contains the totals for each column and then makes sure it is in the last position
+    // of the array that is displayed in the view.
+    /////////////
+
     var buildTotalObject = function (){
         console.log("in build object");
         totalObject = {
@@ -494,16 +558,21 @@ var setDates = function(endDate) {
         if (index >= 12) {
             index = 12;
         }
-        console.log("index number",index);
-        console.log("totals",totalObject);
         accountArray[index] = totalObject;
-        console.log('array with totals',accountArray);
+        //console.log('array with totals',accountArray);
 
         //clearTotals();
     };
 
+    /////////////////
+    // needed another function to handle async issues between the two different salesforce calls being made
+    // this one creates the total object the first time through before the goals have returned, in future calls
+    // to salesforce this updates the totals correctly and allows the goals and totals to change in sync with
+    // the other data.
+    //
+    /////////////////
     var updateTotalObject = function(){
-        console.log('in update totals');
+        //console.log('in update totals');
         //console.log(goals.object[0].yearly_totals.year_total);
         totalObject = {
             type :"Totals",
@@ -520,14 +589,16 @@ var setDates = function(endDate) {
         if (index >= 12) {
             index = 12;
         }
-        console.log("index number",index);
-        console.log("totals",totalObject);
+        //console.log("totals",totalObject);
         accountArray[index] = totalObject;
-        console.log('array with totals',accountArray);
+        //console.log('array with totals',accountArray);
         setPercentToGoal(accountArray);
         setPercentOfGoal(accountArray);
     };
 
+    //////
+    // resets the variables needed to preform the totals queries.
+    ///////
     var clearTotals = function(){
         totalarrResults = [];
         totalarrSql = [];

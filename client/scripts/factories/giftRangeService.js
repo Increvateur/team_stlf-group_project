@@ -17,9 +17,6 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
     var major = {};
     var total = {};
 
-    // TODO for each strSql, make an object, with label: label, and soql: strSql
-
-
 
     var selEndDate = new Date("12-31-2015");
 
@@ -29,19 +26,19 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
     var ytdM1End = new Date();
     var ytdM2Start = new Date();
     var ytdM2End = new Date();
-    var ytdM3Start = new Date();
+    //var ytdM3Start = new Date();
     var ytdM3End = new Date();
-    var ytdM4Start = new Date();
+    //var ytdM4Start = new Date();
     var ytdM4End = new Date();
     var fyM1Start = new Date();
     var fyM1End = new Date();
     var fyM2Start = new Date();
     var fyM2End = new Date();
-    var fyM3Start = new Date();
-    var fyM3End = new Date();
-    var fyM4Start = new Date();
-    var fyM4End = new Date();
-    var fyM5End = new Date();
+    //var fyM3Start = new Date();
+    //var fyM3End = new Date();
+    //var fyM4Start = new Date();
+    //var fyM4End = new Date();
+    //var fyM5End = new Date();
 
 
     ytdEnd = new Date(selEndDate);
@@ -77,11 +74,11 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
     ytdM2End = new Date(ytdEnd);
     ytdM2End.add({"years":-2});
 
-    ytdM3End = new Date(ytdEnd);
-    ytdM3End.add({"years":-3});
-
-    ytdM4End = new Date(ytdEnd);
-    ytdM4End.add({"years":-4});
+    //ytdM3End = new Date(ytdEnd);
+    //ytdM3End.add({"years":-3});
+    //
+    //ytdM4End = new Date(ytdEnd);
+    //ytdM4End.add({"years":-4});
 
 
 
