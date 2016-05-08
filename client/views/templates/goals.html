@@ -8,8 +8,7 @@
 
     <div class="container" >
       <h3>Fiscal Year</h3>
-      <select id="fiscal-year" class="select" ng-model="goals.fiscalyear" >
-          <option class="fiscal-year" disabled="">Fiscal Year <span class="caret"></span></option>
+      <select id="fiscal-year" class="select" ng-model="yearSelected" ng-change="fiscalYear(yearSelected)" ng-required="number" >
           <option class="fiscal-year" ng-repeat="year in yearArray" role="year" > {{ year }} </option>
       </select>
     </div>
@@ -18,7 +17,7 @@
 
     <uib-tabset class="container col-md-12" active="active">
       <uib-tab ng-repeat="month in monthsObj.months track by month.key" heading="{{month.name}}">
-        {{ $index }} {{ month.name }} {{ month.key }}
+        <!-- {{ $index }} {{ month.name }} {{ month.key }} -->
         <!-- <ng-form name="input-goals"> -->
         <div class="row goal-form">
 

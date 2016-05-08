@@ -91,20 +91,24 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
   // Function to add the fiscal year to the $scope.goal object once the user is not focused on the fiscal year input
 
-  $scope.year = '';
+  $scope.yearSelected = 0;
+  $scope.fiscalyear = 0;
 
   $scope.fiscalYear = function(year){
+
+    console.log('/////// year: ', year);
     $scope.addFyKey(year);
     $scope.findYear();
-    return $scope.goals.fiscalyear;
+    // return $scope.goals.fiscalyear;
 
   };
 
 
   $scope.addFyKey = function(year) {
-    $scope.fiscalyear = year;
-    $scope.goals.fiscalyear = $scope.fiscalyear;
-    return $scope.goals.fiscalyear;
+    $scope.fiscalyear = parseInt(year);
+    var fy = $scope.fiscalyear;
+    $scope.goals.fiscalyear = fy;
+    // console.log('#$#$ = @goalsController in addFyKey() year, fy, $scope.fiscalyear, and $scope.goals.fiscalyear', year, fy, $scope.fiscalyear, $scope.goals.fiscalyear);
   };
 
 
@@ -113,11 +117,20 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   // If the year is already recorded it pulls it in to be updated
   $scope.findYear = function() {
     console.log('HI, FISCAL YEAR: ', $scope.goals.fiscalyear);
-    console.log('~ @goalController in findYear - $scope.goals: ', $scope.goals);
+    // console.log('~ @goalController in findYear - $scope.goals: ', $scope.goals);
 
     goalService.getSpecificYear($scope.goals.fiscalyear).then(function(response){
+      if (response.fiscal_year === $scope.fiscalyear) {
+        console.log('||| ---- @goalsController.js in getSpecificYear() after return from Service - $scope.fiscalyear: ', $scope.fiscalyear);
         $scope.goals = response;
-        console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals', $scope.goals);
+        console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals: ', $scope.goals);
+      } else {
+        console.log('........ @goalsController.js in getSpecificYear() else after return from Service - $scope.fiscalyear: ', $scope.fiscalyear);
+        $scope.goals = {};
+        $scope.goals.fiscalyear = $scope.fiscalyear;
+        console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals: ', $scope.goals);
+      }
+
     });
   };
 
