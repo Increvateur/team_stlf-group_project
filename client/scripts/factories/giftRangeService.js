@@ -16,124 +16,135 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
     var large = {};
     var major = {};
     var total = {};
-
-
-    var selEndDate = new Date("12-31-2015");
-
     var ytdStart = new Date();
     var ytdEnd = new Date();
     var ytdM1Start = new Date();
     var ytdM1End = new Date();
     var ytdM2Start = new Date();
     var ytdM2End = new Date();
-    //var ytdM3Start = new Date();
     var ytdM3End = new Date();
-    //var ytdM4Start = new Date();
     var ytdM4End = new Date();
     var fyM1Start = new Date();
     var fyM1End = new Date();
     var fyM2Start = new Date();
     var fyM2End = new Date();
-    //var fyM3Start = new Date();
-    //var fyM3End = new Date();
-    //var fyM4Start = new Date();
-    //var fyM4End = new Date();
-    //var fyM5End = new Date();
-
-
-    ytdEnd = new Date(selEndDate);
-
-
-    // ytd start - figure out fiscal year start previous to this date
-    ytdStart =  new Date("09/01/" + selEndDate.getFullYear());
+    var endDate = {};
+    endDate.date = new Date();
 
 
 
-    if (ytdStart > ytdEnd){
-        ytdStart = new Date("09/01/" + (selEndDate.getFullYear()-1));
-    }
+    var setEndDate = function(date){
+        //console.log(date);
+        endDate.date = date;
+        setDates(endDate);
+        giftRange();
+
+    };
+
+    var setDates = function(endDate) {
+        console.log('enddate object in set dates',endDate);
+        date = endDate.date;
+
+        var selEndDate = new Date(date);
+
+        console.log('date in query', selEndDate);
+
+        ytdEnd = new Date(selEndDate);
+
+        // ytd start - figure out fiscal year start previous to this date
+        ytdStart = new Date("09/01/" + selEndDate.getFullYear());
 
 
+        if (ytdStart > ytdEnd) {
+            ytdStart = new Date("09/01/" + (selEndDate.getFullYear() - 1));
+        }
 
-    ytdM1Start = new Date(ytdStart);
-    ytdM1Start.add({"years":-1});
+        ytdM1Start = new Date(ytdStart);
+        ytdM1Start.add({"years": -1});
 
-    ytdM2Start = new Date(ytdStart);
-    ytdM2Start.add({"years":-2});
+        ytdM2Start = new Date(ytdStart);
+        ytdM2Start.add({"years": -2});
 
-    ytdM3Start = new Date(ytdStart);
-    ytdM3Start.add({"years":-3});
+        ytdM3Start = new Date(ytdStart);
+        ytdM3Start.add({"years": -3});
 
-    ytdM4Start = new Date(ytdStart);
-    ytdM4Start.add({"years":-4});
-
-
-    ytdM1End = new Date(ytdEnd);
-    ytdM1End.add({"years":-1});
-
-    ytdM2End = new Date(ytdEnd);
-    ytdM2End.add({"years":-2});
-
-    //ytdM3End = new Date(ytdEnd);
-    //ytdM3End.add({"years":-3});
-    //
-    //ytdM4End = new Date(ytdEnd);
-    //ytdM4End.add({"years":-4});
+        ytdM4Start = new Date(ytdStart);
+        ytdM4Start.add({"years": -4});
 
 
+        ytdM1End = new Date(ytdEnd);
+        ytdM1End.add({"years": -1});
 
-    //fiscal year start and end, first full fiscal year before end date
+        ytdM2End = new Date(ytdEnd);
+        ytdM2End.add({"years": -2});
 
-    fyM1End = new Date("08/31/" + selEndDate.getFullYear());
+        ytdM3End = new Date(ytdEnd);
+        ytdM3End.add({"years": -3});
 
-    if (fyM1End > selEndDate){
-        fyM1End = new Date("08/31/" + (selEndDate.getFullYear()-1));
+        ytdM4End = new Date(ytdEnd);
+        ytdM4End.add({"years": -4});
 
-    }
-    // one year PRIOR
-    fyM2End = new Date(fyM1End);
-    fyM2End.add({"years":-1});
-    fyM3End = new Date(fyM1End);
-    fyM3End.add({"years":-2});
-    fyM4End = new Date(fyM1End);
-    fyM4End.add({"years":-3});
-    fyM5End = new Date(fyM1End);
-    fyM5End.add({"years":-4});
+        //fiscal year start and end, first full fiscal year before end date
 
-    fyM1Start = new Date(ytdM1Start);
-    fyM2Start = new Date(ytdM2Start);
-    fyM3Start = new Date(ytdM3Start);
-    fyM4Start = new Date(ytdM4Start);
+        fyM1End = new Date("08/31/" + selEndDate.getFullYear());
 
-    selEndDate = selEndDate.toFormat("YYYY-MM-DD");
-    ytdStart = ytdStart.toFormat("YYYY-MM-DD");
-    ytdEnd = ytdEnd.toFormat("YYYY-MM-DD");
-    ytdM1Start = ytdM1Start.toFormat("YYYY-MM-DD");
-    ytdM1End = ytdM1End.toFormat("YYYY-MM-DD");
-    ytdM2Start = ytdM2Start.toFormat("YYYY-MM-DD");
-    ytdM2End = ytdM2End.toFormat("YYYY-MM-DD");
+        if (fyM1End > selEndDate) {
+            fyM1End = new Date("08/31/" + (selEndDate.getFullYear() - 1));
 
-    ytdM3Start = ytdM3Start.toFormat("YYYY-MM-DD");
-    ytdM3End = ytdM3End.toFormat("YYYY-MM-DD");
+        }
+        // one year PRIOR
+        fyM2End = new Date(fyM1End);
+        fyM2End.add({"years": -1});
 
-    ytdM4Start = ytdM4Start.toFormat("YYYY-MM-DD");
-    ytdM4End = ytdM4End.toFormat("YYYY-MM-DD");
+        fyM1Start = new Date(ytdM1Start);
+        fyM2Start = new Date(ytdM2Start);
 
-    fyM1Start = fyM1Start.toFormat("YYYY-MM-DD");
-    fyM1End = fyM1End.toFormat("YYYY-MM-DD");
-    fyM2Start = fyM2Start.toFormat("YYYY-MM-DD");
-    fyM2End = fyM2End.toFormat("YYYY-MM-DD");
-    fyM3Start = fyM3Start.toFormat("YYYY-MM-DD");
-    fyM3End = fyM3End.toFormat("YYYY-MM-DD");
-    fyM4Start = fyM4Start.toFormat("YYYY-MM-DD");
-    fyM4End = fyM4End.toFormat("YYYY-MM-DD");
+        selEndDate = selEndDate.toFormat("YYYY-MM-DD");
+        ytdStart = ytdStart.toFormat("YYYY-MM-DD");
+        ytdEnd = ytdEnd.toFormat("YYYY-MM-DD");
+        ytdM1Start = ytdM1Start.toFormat("YYYY-MM-DD");
+        ytdM1End = ytdM1End.toFormat("YYYY-MM-DD");
+        ytdM2Start = ytdM2Start.toFormat("YYYY-MM-DD");
+        ytdM2End = ytdM2End.toFormat("YYYY-MM-DD");
 
-    fyM5End = fyM5End.toFormat("YYYY-MM-DD");
+        ytdM3Start = ytdM3Start.toFormat("YYYY-MM-DD");
+        ytdM3End = ytdM3End.toFormat("YYYY-MM-DD");
+
+        ytdM4Start = ytdM4Start.toFormat("YYYY-MM-DD");
+        ytdM4End = ytdM4End.toFormat("YYYY-MM-DD");
+
+        fyM1Start = fyM1Start.toFormat("YYYY-MM-DD");
+        fyM1End = fyM1End.toFormat("YYYY-MM-DD");
+        fyM2Start = fyM2Start.toFormat("YYYY-MM-DD");
+        fyM2End = fyM2End.toFormat("YYYY-MM-DD");
 
 
+        //console.log("selEndDate", selEndDate);
+
+        //console.log("ytdStart", ytdStart);
+        //console.log("ytdEnd", ytdEnd);
+        //console.log("ytdM1Start", ytdM1Start);
+        //console.log("ytdM1End", ytdM1End);
+        //console.log("ytdM2Start", ytdM2Start);
+        //console.log("ytdM2End", ytdM2End);
+        //console.log("ytdM3Start", ytdM3Start);
+        //console.log("ytdM3End", ytdM3End);
+        //console.log("ytdM4Start", ytdM4Start);
+        //console.log("ytdM4End", ytdM4End);
+        //console.log("fyM1Start", fyM1Start);
+        //console.log("fyM1End", fyM1End);
+        //console.log("fyM2Start", fyM2Start);
+        //console.log("fyM2End", fyM2End);
+
+    };
+
+    /////
+    // sets the initial date on page load.
+    /////
+    setDates(endDate);
 
 
-var giftRange = function() {
+    var giftRange = function() {
     // base selected YTD
     myKey = "m1";
     strSql = "SELECT  COUNT(Id), SUM(Amount) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >=" + ytdStart + " AND CloseDate < =" + ytdEnd + " GROUP BY AccountId HAVING ( SUM(Amount) <= 95 )  ";
@@ -688,7 +699,9 @@ var giftRange = function() {
         arrResults : arrResults,
         fetchForce : fetchForce,
         giftArray : giftArray,
-        amountRaised : amountRaised
+        amountRaised : amountRaised,
+        setEndDate:setEndDate,
+        endDate : endDate
     };
 
 }]);

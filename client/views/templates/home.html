@@ -1,6 +1,5 @@
 <div class="home-view container">
 <div>
-    <span>
     <h4 class="text-center table-header">Money Raised for period ending : {{endDate.date | date : shortDate}}</h4>
         <div class="row">
             <div class="datepicker">
@@ -12,9 +11,7 @@
                 </span>
                 </p>
             </div>
-
         </div>
-           </span>
     </div>
 
     <table st-table="displayedResults" st-safe-src="accounts" class="table table-striped">
