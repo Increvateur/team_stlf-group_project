@@ -24,10 +24,6 @@
 
 }
 
-.container {
-
-}
-
 .message {
   padding: 10px 0;
 }
@@ -132,6 +128,7 @@ body {
   /*position: absolute;*/
   right: 2rem;
   color: yellow;
+  list-style-type: none;
   /*font-weight: bold;*/
 }
 .navbar-link {

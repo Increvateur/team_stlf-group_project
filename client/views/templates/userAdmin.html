@@ -1,0 +1,59 @@
+
+<div class="container-fluid row register-user">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+
+    <form ng-submit="submit(stlfuser)" role="form">
+      <div class="form-group">
+        <div class="btn-group" uib-dropdown>
+          <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle>
+            Select User <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+            <li ng-repeat="user in userList | orderBy:'username'" role="menuitem"><a ng-click="selectedUser(user.username)">{{ user.username }}</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="firstname">First Name</label>
+        <input ng-model="stlfuser.firstname" class="form-control" ng-change="changed()" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="lastname">Last Name</label>
+        <input ng-model="stlfuser.lastname" class="form-control" ng-change="changed()" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input ng-model="stlfuser.email" class="form-control" ng-change="changed()" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label><span class="pull-right" ng-show="selected"><label>Modify:</label>
+          <input type="checkbox" ng-model="modify" ng-click="enableUsername()" /></span>
+          <input ng-model="stlfuser.username" class="form-control" ng-change="changed()" ng-disabled="username" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input ng-model="stlfuser.password" class="form-control" ng-change="changed()" type="password" />
+      </div>
+      <div class="form-group">
+        <label for="admin">User is an Admin:</label>
+        <input ng-model="stlfuser.admin" ng-change="changed()" type="checkbox" />
+      </div>
+
+      <div class="btn-group">
+        <button type="submit" ng-disabled="add" class="btn btn-info">Add User</button>
+        <button ng-click="saveUser()" ng-disabled="save" class="btn btn-success">Save Changes</button>
+        <button ng-click="resetForm()" ng-disabled="clear" class="btn btn-primary">Clear Form</button>
+        <button type="button" ng-click="deleteUser()" ng-disabled="delete" class="btn btn-danger">Delete User</button>
+      </div>
+
+      <div class="form-group">
+        <br />
+        <uib-alert type="danger" close="closeAlert()" dismiss-on-timeout="7000" ng-if="showDeleteAlert">Successfully Deleted the User!</uib-alert>
+        <uib-alert type="success" close="closeAlert()" dismiss-on-timeout="7000" ng-if="showAddAlert">Successfully Added the User!</uib-alert>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-4"></div>
+</div>

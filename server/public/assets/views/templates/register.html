@@ -7,7 +7,7 @@
 
       <div class="form-group col-md-4">
         <label for="firstname">First Name</label>
-        <input ng-model="addUser.firstname" id="firstname" type="firstname" class="form-control" size="20" placeholder="" />
+        <input ng-model="addUser.firstname" id="firstname" type="firstname" class="form-control" size="50" placeholder="" />
 
         <label for="lastname">Last Name</label>
         <input ng-model="addUser.lastname" id="lastname" type="lastname" class="form-control" size="20" placeholder="" />
@@ -27,7 +27,7 @@
 
         <br>
 
-        <button type="" class="btn btn-danger user-btn">Delete User</button>
+        <button ng-click="deleteUser()" class="btn btn-danger user-btn">Delete User</button>
         <button type="submit" class="btn btn-info user-btn">Add User</button>
       </div>
 

@@ -1,8 +1,8 @@
-myApp.controller("MainController", ["$scope", "$http", "UserService", "$uibModal", function($scope, $http, UserService, $uibModal) {
+myApp.controller("MainController", ["$scope", "UserService", "$uibModal",
+function($scope, UserService, $uibModal) {
   var userService = UserService;
 
   // User verification
-
   userService.verifyUser().then(function(response) {
     if(response.authenticated) {
       if (response.admin === true) {
@@ -11,6 +11,7 @@ myApp.controller("MainController", ["$scope", "$http", "UserService", "$uibModal
         $scope.admin = false;
       }
       $scope.login = true;
+      $scope.user = response;
     } else {
       $scope.admin = false;
       $scope.login = false;

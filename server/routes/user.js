@@ -3,19 +3,16 @@ var router = express.Router();
 var passport = require('passport');
 var User = require("../models/user.js");
 
-// Site verification and privileges
-
+// Verifies whether a user is logged in or not
 router.get('/', function(req, res) {
-  // check if logged in
   if(req.isAuthenticated()) {
-    // send back user object from database
     res.send(req.user);
   } else {
-    // failure best handled on the server.
     res.send(false);
   }
 });
 
+// Gets a list of users (by username) for the Users page
 router.get("/getusers", function(req, res) {
   User.find({}, "username", function(err, data){
     if (err) {
@@ -25,7 +22,9 @@ router.get("/getusers", function(req, res) {
   });
 });
 
+// Gets the data for the selected user on the Users page
 router.get("/getuserdata/:id", function(req, res) {
+  console.log("Trying to get User Data:", req.params.id);
   User.findOne({ username: req.params.id }, function(err, data) {
     if (err) {
       res.send(err);
@@ -34,15 +33,26 @@ router.get("/getuserdata/:id", function(req, res) {
   });
 });
 
+// Deletes the selected user on the Users page from the database
+router.post("/deleteuser", function(req, res) {
+  console.log("Deleted user:", req.body.username);
+  User.remove({ username: req.body.username }, function(err, data) {
+    if (err) {
+      res.send(err);
+    }
+    res.send(data);
+  });
+});
+
+// Adds a user to the database via the Users page
 router.post("/adduser", function (req, res) {
   var request = req.body;
-  console.log(request);
   var newUser = new User({ 'firstname' : request.firstname, 'lastname' : request.lastname,
   'email' : request.email, 'username' : request.username, 'password' : request.password,
   'admin' : request.admin });
   newUser.save(function(err, data) {
     if (err) {
-      console.log("Error Saving Names to Database", err);
+      res.send(err);
     }
     res.send(data);
   });
