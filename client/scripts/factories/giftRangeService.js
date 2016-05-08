@@ -424,7 +424,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
             arrResults.push(forceResult.data);
 
             sqlIndex = arrResults.length;
-            console.log("sql index", sqlIndex);
+            //console.log("sql index", sqlIndex);
 
 
             if (arrResults.length == arrSql.length){
@@ -459,9 +459,9 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
     var parseResults = function(){
 
         // gift range chart
-        console.log("Gift Range Chart");
-        console.log("Donors at each level");
-        console.log("Base");
+        //console.log("Gift Range Chart");
+        //console.log("Donors at each level");
+        //console.log("Base");
 
         // Base
         var baseYTD = getCount("m1");
@@ -472,7 +472,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
 
 
         // Inter
-        console.log("Inter");
+        //console.log("Inter");
 
         var interYTD = getCount("n1");
         var interYTDm1 = getCount("n2");
@@ -482,7 +482,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
 
 
         // Large
-        console.log("Large");
+        //console.log("Large");
         var largeYTD = getCount("o1");
         var largeYTDm1 = getCount("o2");
         var largeYTDm2 = getCount("o3");
@@ -491,7 +491,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
 
 
         // Major
-        console.log("Major");
+        //console.log("Major");
         var majorYTD = getCount("p1");
         var majorYTDm1 = getCount("p2");
         var majorYTDm2 = getCount("p3");
@@ -500,7 +500,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
 
 
         // total donors
-        console.log("Total Donors");
+        //console.log("Total Donors");
         var totDonYTD = baseYTD + interYTD + largeYTD + majorYTD;
         var totDonYTDm1 = baseYTDm1 + interYTDm1 + largeYTDm1 + majorYTDm1;
         var totDonYTDm2 = baseYTDm2 + interYTDm2 + largeYTDm2 + majorYTDm2;
@@ -510,10 +510,10 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
 
 
         // gift range amounts
-        console.log("gift range amounts");
+        //console.log("gift range amounts");
 
 
-        console.log("Base");
+        //console.log("Base");
 
         //base
         var totalBaseSelYTD = totalResults("m1");
@@ -532,7 +532,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
         };
         amountRaised[0]= base ;
 
-        console.log("intermediate");
+        //console.log("intermediate");
         // intermediate
 
         var totalInterSelYTD = totalResults("n1");
@@ -552,7 +552,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
         amountRaised[1]= inter ;
 
 
-        console.log("Large");
+        //console.log("Large");
         // large
 
         var totalLargeSelYTD = totalResults("o1");
@@ -571,9 +571,9 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
         };
         amountRaised[2]= large ;
 
-        console.log(amountRaised);
+        //console.log(amountRaised);
 
-        console.log("major");
+        //console.log("major");
         // major
 
         var totalMajorSelYTD = totalResults("p1");
@@ -592,7 +592,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
         };
         amountRaised[3]= major ;
 
-        console.log("Total");
+        //console.log("Total");
         // total
         var totalAllSelYTD = totalResults("q1");
         var totalAllSelYTDm1 = totalResults("q2");
@@ -665,12 +665,18 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
         strSql = "";
         console.log('hit sort results', resultsArrays);
         // account is a holder object for properly sorted information
-        if(giftArray.length > 0){
-            return console.log('all done.');
-        }
-
+        //if(giftArray.length > 0){
+        //    return console.log('all done.');
+        //}
+        var index = 0;
         for(var i = 0; i < resultsArrays.length; i = i + 5) {
-            new Gift( resultsArrays[i].queryInfo ,resultsArrays[i].count, resultsArrays[i+1].count, resultsArrays[i+2].count, resultsArrays[i+3].count, resultsArrays[i+4].count);
+            var giftResults = {};
+                giftResults = new Gift( resultsArrays[i].queryInfo ,resultsArrays[i].count, resultsArrays[i+1].count, resultsArrays[i+2].count, resultsArrays[i+3].count, resultsArrays[i+4].count);
+                console.log(giftResults);
+                giftArray[index] = giftResults;
+                console.log(giftArray);
+                index++;
+
         }
 
         console.log("did this actually work?!?!?", giftArray);
@@ -684,7 +690,7 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
         this.ytdM2=ytdM2;
         this.tfyM1=tfyM1;
         this.tfyM2=tfyM2;
-        giftArray.push(this);
+        //giftArray.push(this);
 
     }
 
