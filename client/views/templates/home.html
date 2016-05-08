@@ -1,19 +1,22 @@
 <div class="home-view container">
 <div>
-    <h4 class="text-center table-header">Money Raised</h4>
-        <!--<div class="row">-->
+    <span>
+    <h4 class="text-center table-header">Money Raised for period ending : {{endDate.date | date : shortDate}}</h4>
+        <div class="row">
             <div class="datepicker">
                 <label>Select End Date</label>
                 <p class="input-group">
                     <input type="text" class="form-control" ng-click uib-datepicker-popup="MM-dd-yyyy" ng-model="dt" ng-change="setEndDate(dt)" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" />
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span>
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
                 </p>
             </div>
 
-        <!--</div>-->
+        </div>
+           </span>
     </div>
+
     <table st-table="displayedResults" st-safe-src="accounts" class="table table-striped">
         <thead>
         <tr >
@@ -21,7 +24,7 @@
             <th st-sort="">{{date}} YTD</th>
             <th st-sort="">{{date - 1}} YTD</th>
             <th st-sort="">{{date - 2}} YTD</th>
-            <th st-sort="">Goal</th>
+            <th st-sort="">{{date}} Goal</th>
             <th st-sort=""> % of Total Goal {{date}}</th>
             <th st-sort=""> % of Individual Goal</th>
             <th st-sort="">{{date -1}} Fiscal Year</th>

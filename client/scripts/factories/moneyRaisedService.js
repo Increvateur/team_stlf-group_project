@@ -31,7 +31,8 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     var fyM1End = new Date();
     var fyM2Start = new Date();
     var fyM2End = new Date();
-    var endDate = new Date();
+    var endDate = {};
+    endDate.date = new Date();
     var totalObject = {};
 
     // TODO for each strSql, make an object, with label: label, and soql: strSql
@@ -42,10 +43,11 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     //////////
      var setEndDate = function(date){
         //console.log(date);
-        endDate = date;
+         endDate.date = date;
          setDates(endDate);
          moneyRaised();
          getTotals();
+
     };
 
 
@@ -54,8 +56,9 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     ////////////
 
 var setDates = function(endDate) {
-
-    var selEndDate = new Date(endDate);
+    console.log('enddate object in set dates',endDate);
+    date = endDate.date;
+    var selEndDate = new Date(date);
 
     console.log('date in query', selEndDate);
 
@@ -300,7 +303,7 @@ var setDates = function(endDate) {
             totalarrResults.push(forceResult.data);
 
             totalsqlIndex = totalarrResults.length;
-            console.log("total sql index", totalsqlIndex);
+            //console.log("total sql index", totalsqlIndex);
 
 
             if (totalarrResults.length == totalarrSql.length){
@@ -372,7 +375,7 @@ var setDates = function(endDate) {
             arrResults.push(forceResult.data);
 
             sqlIndex = arrResults.length;
-            console.log("sql index", sqlIndex);
+            //console.log("sql index", sqlIndex);
 
 
             if (arrResults.length == arrSql.length){
@@ -458,7 +461,8 @@ var setDates = function(endDate) {
     //////////////
     // make a call to the goals collection and grab the yearly goals for that specific year.
     ////////////
-    var getGoals = function(date) {
+    var getGoals = function(endDate) {
+        var date = endDate.date;
         date = new Date(date);
         console.log('date in get goals', date);
         var month = date.getMonth();
@@ -528,8 +532,8 @@ var setDates = function(endDate) {
 
 
     var setPercentOfGoal = function(accountArray){
-        console.log('totalforcedata',totalforceData);
-      console.log('ytd total',totalforceData.totalarrResults[0].result.records[0].expr0);
+        //console.log('totalforcedata',totalforceData);
+      //console.log('ytd total',totalforceData.totalarrResults[0].result.records[0].expr0);
         var total = totalforceData.totalarrResults[0].result.records[0].expr0;
         total = Math.round(total);
         //console.log(total);
@@ -554,7 +558,7 @@ var setDates = function(endDate) {
     /////////////
 
     var buildTotalObject = function (){
-        console.log("in build object");
+        //console.log("in build object");
         totalObject = {
             type :"Totals",
             ytd : totalforceData.totalarrResults[0].result.records[0].expr0,
@@ -630,7 +634,8 @@ var setDates = function(endDate) {
         fetchForce : fetchForce,
         accountArray:accountArray,
         getTotals:getTotals,
-        setEndDate:setEndDate
+        setEndDate:setEndDate,
+        endDate : endDate
     };
 
 

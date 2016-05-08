@@ -162,7 +162,7 @@ body {
 .user-nav a:active,
 .user-nav a:focus  {
 
-    box-shadow: inset 0 0 0 5px #00cdff;
+    box-shadow: inset 0 0 0 5px #000000;
     background-image: url("http://www.stlf.net/assets/templates/stlf/images/bg_subhead.jpg");
 
 }
@@ -292,4 +292,8 @@ li {
 }
 .datepicker {
     width: 150px;
+}
+.datepicker-two{
+    width: 150px;
+
 }

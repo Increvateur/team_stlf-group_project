@@ -19,7 +19,7 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         $scope.forceresponse = [];
         $scope.goals=[];
         $scope.date = today.getFullYear();
-
+        $scope.endDate = moneyRaisedService.endDate;
         ////////////////
         // Get the info to build the tables
         ////////////////
@@ -91,7 +91,7 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         ////////////////////
 
         $scope.setEndDate = function(date){
-            console.log(date.getMonth());
+            //console.log(date.getMonth());
             // this updates the table columns to the correct fiscal year for the data to be displayed.
             if(date.getMonth() < 8) {
                 $scope.date = date.getFullYear();
@@ -99,8 +99,8 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
                 $scope.date = date.getFullYear() + 1 ;
             }
             console.log('date display',$scope.date);
-            endDate = date.toFormat("MM-DD-YYYY");
-            console.log(endDate);
+            endDate = date;
+            //console.log(endDate);
             moneyRaisedService.setEndDate(endDate);
         };
 
