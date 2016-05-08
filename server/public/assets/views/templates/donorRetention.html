@@ -1,6 +1,7 @@
 <div class="home-view container">
+    <h4 class="text-center table-header">Donor Acquistion and Retention </h4>
 
-    <table st-table="retainedResults" st-safe-src="retained" class="table">
+    <table st-table="retainedResults" st-safe-src="retained" class="table table-striped">
         <thead>
         <tr>
             <th st-sort="">Current Retained Donors</th>
@@ -15,7 +16,7 @@
         </thead>
         <tbody>
         <!--currently inop, need to inject the data into this controller.-->
-        <tr st-select-row="result" st-select-mode="single" ng-repeat="result in retainedResults">
+        <tr st-select-row="result" st-select-mode="single" ng-click="open('lg', result)"  ng-repeat="result in retainedResults">
             <td>{{result.type}}</td>
             <td>{{result.ytd | number : 0 }}</td>
             <td>{{result.ytdM1 | number : 0  }}</td>
@@ -27,18 +28,12 @@
 
         </tr>
         </tbody>
-        <!--<tfoot>-->
-        <!--<tr>-->
-            <!--<td colspan="5" class="text-center">-->
-                <!--<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>-->
-            <!--</td>-->
-        <!--</tr>-->
-        <!--</tfoot>-->
+
     </table>
-    <table st-table="recoveredResults" st-safe-src="recovered" class="table">
+    <table st-table="recoveredResults" st-safe-src="recovered" class="table table-striped">
         <thead>
         <tr>
-            <th st-sort="">Current Retained Donors</th>
+            <th st-sort="">Current Recovered Donors</th>
             <th st-sort="">2016 YTD</th>
             <th st-sort="">2015 YTD</th>
             <th st-sort="">2014 YTD</th>
@@ -50,7 +45,7 @@
 
         </thead>
         <tbody>
-        <tr st-select-row="result" st-select-mode="single" ng-repeat="result in recoveredResults">
+        <tr st-select-row="result" st-select-mode="single" ng-click="open('lg', result)"  ng-repeat="result in recoveredResults">
             <td>{{result.type}}</td>
             <td>{{result.ytd  | number : 0}}</td>
             <td>{{result.ytdM1 | number : 0}}</td>
@@ -64,7 +59,7 @@
         </tbody>
     </table>
 
-    <table st-table="universeResults" st-safe-src="universe" class="table">
+    <table st-table="universeResults" st-safe-src="universe" class="table table-striped">
         <thead>
         <tr>
             <th st-sort="">Donor Universe</th>
@@ -79,7 +74,7 @@
 
         </thead>
         <tbody>
-        <tr st-select-row="result" st-select-mode="single" ng-repeat="result in universeResults">
+        <tr st-select-row="result" st-select-mode="single" ng-click="open('lg', result)"  ng-repeat="result in universeResults">
             <td>{{result.type}}</td>
             <td>{{result.ytd  | number : 0 }}</td>
             <td>{{result.ytdM1  | number : 0 }}</td>
@@ -93,7 +88,6 @@
     </table>
 
 
-    <!--<button type="button" class="btn btn-default" ng-click="open('lg')">View Charts</button>-->
 
 
 </div>

@@ -32,7 +32,7 @@ myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",'GiftR
 
 
 
-        $scope.open = function(size) {
+        $scope.open = function(size ,data) {
 
             var modalInstance = $uibModal.open({
                 animation: true,
@@ -40,7 +40,10 @@ myApp.controller("GiftRangeController", ["$scope", "$filter", "$uibModal",'GiftR
                 controller: 'ChartContentController',
                 size: size,
                 keyboard: true,
-                backdrop: 'static'
+                backdrop: 'static',
+                resolve: {
+                    results: function() { return data; }
+                }
             });
         };
 

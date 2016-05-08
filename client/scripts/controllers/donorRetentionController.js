@@ -36,7 +36,7 @@ myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal", 
 
 
 
-        $scope.open = function(size) {
+        $scope.open = function(size , data) {
 
             var modalInstance = $uibModal.open({
                 animation: true,
@@ -44,7 +44,10 @@ myApp.controller("DonorRetentionController", ["$scope", "$filter", "$uibModal", 
                 controller: 'ChartContentController',
                 size: size,
                 keyboard: true,
-                backdrop: 'static'
+                backdrop: 'static',
+                resolve: {
+                    results: function() { return data; }
+                }
             });
         };
 

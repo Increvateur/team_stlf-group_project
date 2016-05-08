@@ -142,7 +142,7 @@ var giftRange = function() {
     strSql = "SELECT  COUNT(Id), SUM(Amount) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >=" + ytdStart + " AND CloseDate < =" + ytdEnd + " GROUP BY AccountId HAVING ( SUM(Amount) <= 95 )  ";
 
 
-    sqlObj = {key: myKey, query: "BASE donors Selected YTD", sql: strSql};
+    sqlObj = {key: myKey, query: "Base", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -191,7 +191,7 @@ var giftRange = function() {
     // strSql = "SELECT  COUNT(Id), SUM(Amount), Account.Name FROM Opportunity WHERE CloseDate >= " + ytdStart + " AND CloseDate < =" + ytdEnd + " GROUP BY Account.Name HAVING ( SUM(Amount) < 400 AND SUM(Amount) >= 95 )  ORDER BY Account.Name ";
 
 
-    sqlObj = {key: myKey, query: "INTERMEDIATE donors Selected YTD", sql: strSql};
+    sqlObj = {key: myKey, query: "Intermediate", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -240,7 +240,7 @@ var giftRange = function() {
     // strSql = "SELECT  COUNT(Id), SUM(Amount), Account.Name FROM Opportunity WHERE CloseDate >= " + ytdStart + " AND CloseDate < =" + ytdEnd + " GROUP BY Account.Name HAVING ( SUM(Amount) < 400 AND SUM(Amount) >= 95 )  ORDER BY Account.Name ";
 
 
-    sqlObj = {key: myKey, query: "LARGE donors Selected YTD", sql: strSql};
+    sqlObj = {key: myKey, query: "Large", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -289,7 +289,7 @@ var giftRange = function() {
     // strSql = "SELECT  COUNT(Id), SUM(Amount), Account.Name FROM Opportunity WHERE CloseDate >= " + ytdStart + " AND CloseDate < =" + ytdEnd + " GROUP BY Account.Name HAVING ( SUM(Amount) < 400 AND SUM(Amount) >= 95 )  ORDER BY Account.Name ";
 
 
-    sqlObj = {key: myKey, query: "MAJOR donors Selected YTD", sql: strSql};
+    sqlObj = {key: myKey, query: "Major", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -338,7 +338,7 @@ var giftRange = function() {
     // strSql = "SELECT  COUNT(Id), SUM(Amount), Account.Name FROM Opportunity WHERE CloseDate >= " + ytdStart + " AND CloseDate < =" + ytdEnd + " GROUP BY Account.Name HAVING ( SUM(Amount) < 400 AND SUM(Amount) >= 95 )  ORDER BY Account.Name ";
 
 
-    sqlObj = {key: myKey, query: "TOTAL donors Selected YTD", sql: strSql};
+    sqlObj = {key: myKey, query: "Total", sql: strSql};
 
     arrSql.push(sqlObj);
 
@@ -517,7 +517,7 @@ var giftRange = function() {
         var totalBaseFYm2 = totalResults("m5");
 
         base = {
-            type: "base",
+            type: "Base",
             ytd : totalBaseSelYTD,
             ytdM1: totalBaseSelYTDm1,
             ytdM2 : totalBaseSelYTDm2,
