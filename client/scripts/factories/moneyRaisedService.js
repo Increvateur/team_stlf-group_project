@@ -378,7 +378,7 @@ var setDates = function(endDate) {
             if (arrResults.length == arrSql.length){
                 // we are done
                 forceData.arrResults = arrResults;
-                getGoals('2015');
+                getGoals(endDate);
                 sortResults(arrResults);
                 return;
             }
@@ -458,7 +458,19 @@ var setDates = function(endDate) {
     //////////////
     // make a call to the goals collection and grab the yearly goals for that specific year.
     ////////////
-    var getGoals = function(year) {
+    var getGoals = function(date) {
+        date = new Date(date);
+        console.log('date in get goals', date);
+        var month = date.getMonth();
+        var year = new Date();
+
+        if(month < 8) {
+          year = date.getFullYear();
+        } else {
+            year= date.getFullYear() + 1 ;
+        }
+        console.log('year in goals get call' , year);
+
         $http.get('/goals/getYear/'+ year).then(function(response){
             //console.log('getting goals in money raised ', response.data);
             goals.object = response.data;

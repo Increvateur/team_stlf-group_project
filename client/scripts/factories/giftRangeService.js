@@ -447,8 +447,6 @@ var giftRange = function() {
 
     var parseResults = function(){
 
-
-
         // gift range chart
         console.log("Gift Range Chart");
         console.log("Donors at each level");
