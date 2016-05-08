@@ -31,7 +31,7 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     var fyM1End = new Date();
     var fyM2Start = new Date();
     var fyM2End = new Date();
-    var endDate = '12-31-2015';
+    var endDate = new Date();
     var totalObject = {};
 
     // TODO for each strSql, make an object, with label: label, and soql: strSql
@@ -420,25 +420,26 @@ var setDates = function(endDate) {
             //console.log('getting goals in money raised ', response.data);
             goals.object = response.data;
             setGoals();
-
+            //accountArray[12].goal = goals.object[0].yearly_totals.year_total;
         });
     };
 
     var setGoals = function(){
         //console.log('goals in set goals function',goals);
-        accountArray[0].goal = goals.object[0].months.september.staff;
-        accountArray[1].goal = goals.object[0].months.september.board;
-        accountArray[2].goal = goals.object[0].months.september.committee;
-        accountArray[3].goal = goals.object[0].months.september.parent;
-        accountArray[4].goal = goals.object[0].months.september.alum;
-        accountArray[5].goal = goals.object[0].months.september.participant;
-        accountArray[6].goal = goals.object[0].months.september.community;
-        accountArray[7].goal = goals.object[0].months.september.corporate_organization;
-        accountArray[8].goal = goals.object[0].months.september.corporate_match;
-        accountArray[9].goal = goals.object[0].months.september.corporate_foundation;
-        accountArray[10].goal = goals.object[0].months.september.family_foundation;
-        accountArray[11].goal = goals.object[0].months.september.general_foundation;
-
+        accountArray[0].goal = goals.object[0].yearly_totals.staff_year;
+        accountArray[1].goal = goals.object[0].yearly_totals.board_year;
+        accountArray[2].goal = goals.object[0].yearly_totals.committee_year;
+        accountArray[3].goal = goals.object[0].yearly_totals.parent_year;
+        accountArray[4].goal = goals.object[0].yearly_totals.alum_year;
+        accountArray[5].goal = goals.object[0].yearly_totals.participant_year;
+        accountArray[6].goal = goals.object[0].yearly_totals.community_year;
+        accountArray[7].goal = goals.object[0].yearly_totals.corporate_organization_year;
+        accountArray[8].goal = goals.object[0].yearly_totals.corporate_match_year;
+        accountArray[9].goal = goals.object[0].yearly_totals.corporate_foundation_year;
+        accountArray[10].goal = goals.object[0].yearly_totals.family_foundation_year;
+        accountArray[11].goal = goals.object[0].yearly_totals.general_foundation_year;
+        //accountArray[12].goal = goals.object[0].yearly_totals.year_total;
+        buildTotalObject();
         setPercentToGoal(accountArray);
         setPercentOfGoal(accountArray);
     };
@@ -474,7 +475,8 @@ var setDates = function(endDate) {
             //console.log(percentOfGoal);
             accountArray[i].percentOfGoal = percentOfGoal;
         }
-            buildTotalObject();
+            //buildTotalObject();
+            clearTotals();
 
     };
 
@@ -487,7 +489,7 @@ var setDates = function(endDate) {
             ytdM2 :totalforceData.totalarrResults[2].result.records[0].expr0 ,
             tfyM1 : totalforceData.totalarrResults[3].result.records[0].expr0,
             tfyM2 : totalforceData.totalarrResults[4].result.records[0].expr0,
-            goal : 0,
+            goal : goals.object[0].yearly_totals.year_total,
             percentOfGoal : 0,
             percentToGoal : 0
         };
@@ -500,11 +502,12 @@ var setDates = function(endDate) {
         accountArray[index] = totalObject;
         console.log('array with totals',accountArray);
 
-        clearTotals();
+        //clearTotals();
     };
 
     var updateTotalObject = function(){
         console.log('in update totals');
+        //console.log(goals.object[0].yearly_totals.year_total);
         totalObject = {
             type :"Totals",
             ytd : totalforceData.totalarrResults[0].result.records[0].expr0,
@@ -532,6 +535,14 @@ var setDates = function(endDate) {
         totalsqlIndex = 0;
 
     };
+
+    //var getTotalGoals = function(year) {
+    //    $http.get('/goals/getYear/'+ year).then(function(response){
+    //        //console.log('getting goals in money raised ', response.data);
+    //        goals.object = response.data;
+    //
+    //    });
+    //};
 
     return{
 

@@ -2,44 +2,7 @@
  * Created by JFCS on 4/22/16.
  */
 
-//myApp.controller('DatepickerPopupDemoCtrl', ['$scope', function ($scope) {
-//    $scope.today = function() {
-//        $scope.dt = new Date();
-//    };
-//    $scope.today();
-//
-//    $scope.clear = function() {
-//        $scope.dt = null;
-//    };
-//
-//    $scope.dateOptions = {
-//        //dateDisabled: disabled,
-//        formatYear: 'yy',
-//        maxDate: new Date(),
-//        minDate: null,
-//        startingDay: 1
-//    };
-//
-//    $scope.open1 = function() {
-//        $scope.popup1.opened = true;
-//    };
-//
-//    $scope.setDate = function(year, month, day) {
-//        $scope.dt = new Date(year, month, day);
-//    };
-//
-//    $scope.popup1 = {
-//        opened: false
-//    };
-//
-//    $scope.setEndDate = function(date){
-//        console.log(date);
-//       var endDate = date.toFormat("MM-DD-YYYY");
-//        console.log(endDate);
-//    };
-//
-//
-//}]);
+
 
 myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaisedService','GoalService',
     function($scope, $filter, $uibModal, MoneyRaisedService, GoalService) {
