@@ -1,11 +1,13 @@
 /**
  * Created by JFCS on 4/29/16.
  */
-myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "results",
-    function($scope, $uibModalInstance, results) {
-
+myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "results", "MoneyRaisedService",
+    function($scope, $uibModalInstance, results,MoneyRaisedService) {
+    var moneyRaisedService = MoneyRaisedService;
     $scope.results = results;
+    $scope.accounts = moneyRaisedService.accountArray;
     console.log("Inside the actual ChartContentController:", $scope.results);
+    console.log("Inside the actual ChartContentController:", $scope.accounts);
 
     $scope.chartType = function(type) {
         if (type == "piechart") {
@@ -35,37 +37,37 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
                 {
                     "id": "goals",
                     "size": 16,
-                    "text": "Donations by Individuals"
+                    "text": "Donations by Individuals 2016"
                 }
             ],
             "dataProvider": [
                 {
-                    "group": $scope.results.type,
-                    "money": $scope.results.ytd
+                    "group": $scope.accounts[0].type,
+                    "money": $scope.accounts[0].ytd
                 },
                 {
-                    "group": "Board",
-                    "money": 9135
+                    "group": $scope.accounts[1].type,
+                    "money": $scope.accounts[1].ytd
                 },
                 {
-                    "group": "Committee",
-                    "money": 1480
+                    "group": $scope.accounts[2].type,
+                    "money": $scope.accounts[2].ytd
                 },
                 {
-                    "group": "Parents",
-                    "money": 10228
+                    "group": $scope.accounts[3].type,
+                    "money": $scope.accounts[3].ytd
                 },
                 {
-                    "group": "Alums",
-                    "money": 21262
+                    "group": $scope.accounts[4].type,
+                    "money": $scope.accounts[4].ytd
                 },
                 {
-                    "group": "Participants",
-                    "money": 2376
+                    "group": $scope.accounts[5].type,
+                    "money": $scope.accounts[5].ytd
                 },
                 {
-                    "group": "Community Support",
-                    "money": 22013
+                    "group": $scope.accounts[6].type,
+                    "money": $scope.accounts[6].ytd
                 }
             ],
         }
