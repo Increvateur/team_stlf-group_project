@@ -125,8 +125,8 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     var fy = $scope.fiscalyear;
     $scope.goals.fiscalyear = fy;
     $scope.showYear = false;
-    $scope.fiscalyear = '';
-    console.log('#$#$ = @goalsController in addFyKey() year, fy, $scope.fiscalyear, and $scope.goals.fiscalyear', year, fy, $scope.fiscalyear, $scope.goals.fiscalyear);
+    $scope.fiscalyear = 0;
+    console.log('#$#$ = @goalsController in addFyKey() year, ', year, 'fy, ', fy,'$scope.fiscalyear, ', $scope.fiscalyear, 'and $scope.goals.fiscalyear', $scope.goals.fiscalyear);
   };
 
 
