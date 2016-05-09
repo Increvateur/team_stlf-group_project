@@ -17,89 +17,97 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     var totalarrResults = [];
     var totalsqlIndex = 0;
     var totalforceData = {};
-
-    // TODO for each strSql, make an object, with label: label, and soql: strSql
-
-    //end date
-    // for ytd, fiscal year start date until end date for fiscal year end date is in, plus 2 previous.
-    // full fiscal years for the 2 fiscal years PRIOR to the fiscal year end date is in.
-    // ytd - fiscal year start to end date of fiscal year containing end date
-    // ytd-1
-    // ytd-2
-    // fy-1
-    // fy-2
-
-    // fiscal year is 1 sep to aug 31
-    // current fiscal year start is 1 sep before end date, and aug 31 after end date
-    // ytd is 1 sep before end date until end date
-    // ytd is 1 sep before end date -1 year
-
-    var selEndDate = new Date("12-31-2015");
-
     var ytdStart = new Date();
     var ytdEnd = new Date();
     var ytdM1Start = new Date();
     var ytdM1End = new Date();
     var ytdM2Start = new Date();
     var ytdM2End = new Date();
-    var ytdM3Start = new Date();
-    var ytdM3End = new Date();
-    var ytdM4Start = new Date();
-    var ytdM4End = new Date();
+    //var ytdM3Start = new Date();
+    //var ytdM3End = new Date();
+    //var ytdM4Start = new Date();
+    //var ytdM4End = new Date();
     var fyM1Start = new Date();
     var fyM1End = new Date();
     var fyM2Start = new Date();
     var fyM2End = new Date();
+    var endDate = {};
+    endDate.date = new Date();
+    var totalObject = {};
 
+    // TODO for each strSql, make an object, with label: label, and soql: strSql
+
+    //////////
+    // function that accepts new date input from the datepicker, changes all the date variables and calls salesfore
+    // for the updated date ranges.
+    //////////
+     var setEndDate = function(date){
+        //console.log(date);
+         endDate.date = date;
+         setDates(endDate);
+         moneyRaised();
+         getTotals();
+
+    };
+
+
+    ////////////
+    // sets all the dates for the salesforce queries.
+    ////////////
+
+var setDates = function(endDate) {
+    console.log('enddate object in set dates',endDate);
+    date = endDate.date;
+    var selEndDate = new Date(date);
+
+    console.log('date in query', selEndDate);
 
     ytdEnd = new Date(selEndDate);
 
-
     // ytd start - figure out fiscal year start previous to this date
-    ytdStart =  new Date("09/01/" + selEndDate.getFullYear());
+    ytdStart = new Date("09/01/" + selEndDate.getFullYear());
 
 
-
-    if (ytdStart > ytdEnd){
-        ytdStart = new Date("09/01/" + (selEndDate.getFullYear()-1));
+    if (ytdStart > ytdEnd) {
+        ytdStart = new Date("09/01/" + (selEndDate.getFullYear() - 1));
     }
 
     ytdM1Start = new Date(ytdStart);
-    ytdM1Start.add({"years":-1});
+    ytdM1Start.add({"years": -1});
 
     ytdM2Start = new Date(ytdStart);
-    ytdM2Start.add({"years":-2});
+    ytdM2Start.add({"years": -2});
 
-    ytdM3Start = new Date(ytdStart);
-    ytdM3Start.add({"years":-3});
-
-    ytdM4Start = new Date(ytdStart);
-    ytdM4Start.add({"years":-4});
+    //ytdM3Start = new Date(ytdStart);
+    //ytdM3Start.add({"years": -3});
+    //
+    //ytdM4Start = new Date(ytdStart);
+    //ytdM4Start.add({"years": -4});
 
 
     ytdM1End = new Date(ytdEnd);
-    ytdM1End.add({"years":-1});
+    ytdM1End.add({"years": -1});
 
     ytdM2End = new Date(ytdEnd);
-    ytdM2End.add({"years":-2});
+    ytdM2End.add({"years": -2});
 
-    ytdM3End = new Date(ytdEnd);
-    ytdM3End.add({"years":-3});
-
-    ytdM4End = new Date(ytdEnd);
-    ytdM4End.add({"years":-4});
+    //ytdM3End = new Date(ytdEnd);
+    //ytdM3End.add({"years": -3});
+    //
+    //ytdM4End = new Date(ytdEnd);
+    //ytdM4End.add({"years": -4});
 
     //fiscal year start and end, first full fiscal year before end date
 
     fyM1End = new Date("08/31/" + selEndDate.getFullYear());
 
-    if (fyM1End > selEndDate){
-        fyM1End = new Date("08/31/" + (selEndDate.getFullYear()-1));
+    if (fyM1End > selEndDate) {
+        fyM1End = new Date("08/31/" + (selEndDate.getFullYear() - 1));
 
     }
     // one year PRIOR
     fyM2End = new Date(fyM1End);
-    fyM2End.add({"years":-1});
+    fyM2End.add({"years": -1});
 
     fyM1Start = new Date(ytdM1Start);
     fyM2Start = new Date(ytdM2Start);
@@ -112,11 +120,11 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     ytdM2Start = ytdM2Start.toFormat("YYYY-MM-DD");
     ytdM2End = ytdM2End.toFormat("YYYY-MM-DD");
 
-    ytdM3Start = ytdM3Start.toFormat("YYYY-MM-DD");
-    ytdM3End = ytdM3End.toFormat("YYYY-MM-DD");
-
-    ytdM4Start = ytdM4Start.toFormat("YYYY-MM-DD");
-    ytdM4End = ytdM4End.toFormat("YYYY-MM-DD");
+    //ytdM3Start = ytdM3Start.toFormat("YYYY-MM-DD");
+    //ytdM3End = ytdM3End.toFormat("YYYY-MM-DD");
+    //
+    //ytdM4Start = ytdM4Start.toFormat("YYYY-MM-DD");
+    //ytdM4End = ytdM4End.toFormat("YYYY-MM-DD");
 
     fyM1Start = fyM1Start.toFormat("YYYY-MM-DD");
     fyM1End = fyM1End.toFormat("YYYY-MM-DD");
@@ -124,8 +132,34 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     fyM2End = fyM2End.toFormat("YYYY-MM-DD");
 
 
+    //console.log("selEndDate", selEndDate);
+
+    //console.log("ytdStart", ytdStart);
+    //console.log("ytdEnd", ytdEnd);
+    //console.log("ytdM1Start", ytdM1Start);
+    //console.log("ytdM1End", ytdM1End);
+    //console.log("ytdM2Start", ytdM2Start);
+    //console.log("ytdM2End", ytdM2End);
+    //console.log("ytdM3Start", ytdM3Start);
+    //console.log("ytdM3End", ytdM3End);
+    //console.log("ytdM4Start", ytdM4Start);
+    //console.log("ytdM4End", ytdM4End);
+    //console.log("fyM1Start", fyM1Start);
+    //console.log("fyM1End", fyM1End);
+    //console.log("fyM2Start", fyM2Start);
+    //console.log("fyM2End", fyM2End);
+
+};
+
+    /////
+    // sets the initial date on page load.
+    /////
+    setDates(endDate);
 
 
+    ///////////
+    // these are the queries for the money raised table.
+    ////////////
     var moneyRaised = function () {
 
         // new query first with new dates
@@ -172,6 +206,10 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
     };
 
+
+    //////////////
+    // these are the queries for the totals of the money raised tables.
+    //////////////
     var getTotals = function(){
         // total for ytd selected
         myKey = "b1";
@@ -217,6 +255,13 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
     };
 
+
+    ///////////////////
+    // function to check and see if we have logged into salesforce. this is for the totals of the money raised table.
+    // if we havent authenticated go grab our tokens and then start our queries,
+    // if we have authenticated, go right to sending out queries to salesfoce.
+    //////////////////
+
     var getTotalsSalesforce = function(data){
 
         if (!forceresponse.accessToken){
@@ -240,22 +285,33 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
 
     };
 
-
+    ////////////////
+    //  function for money raised totals.
+    // this function first checks to see if we have a result coming back from saleforce, if we do push it into a results array
+    // and set the sql query index to the number of results we have.
+    // then it checks to see if the number of results we have is the same as the number of queries we were suppose to make
+    // if it is, we are done. if we are not done, we move to the next portion of the function and perform a salesforce query
+    // with the current index of the salesforce query array. then it calls the function again passsing in the response from
+    // salesforce rinse repeat until the queries are done.
+    ///////////////
 
     var fetchTotalForce = function(forceResult){
 
-        console.log("in total force, forceResult=", forceResult);
+        //console.log("in total force, forceResult=", forceResult);
         if(forceResult){
 
             totalarrResults.push(forceResult.data);
 
             totalsqlIndex = totalarrResults.length;
-            console.log("sql index", totalsqlIndex);
+            //console.log("total sql index", totalsqlIndex);
 
 
             if (totalarrResults.length == totalarrSql.length){
                 // we are done
                 totalforceData.totalarrResults = totalarrResults;
+
+                updateTotalObject();
+
 
                 return;
             }
@@ -278,6 +334,10 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     };
 
 
+
+    /////////////
+    // same as the totals authentication function above
+    ////////////
 
     var getSalesforce = function(data){
 
@@ -302,6 +362,10 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     };
 
 
+    /////////////
+    // same as the fetch totals function above.
+    /////////////
+
 
     var fetchForce = function(forceResult){
 
@@ -311,13 +375,13 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
             arrResults.push(forceResult.data);
 
             sqlIndex = arrResults.length;
-            console.log("sql index", sqlIndex);
+            //console.log("sql index", sqlIndex);
 
 
             if (arrResults.length == arrSql.length){
                 // we are done
                 forceData.arrResults = arrResults;
-                getGoals('2015');
+                getGoals(endDate);
                 sortResults(arrResults);
                 return;
             }
@@ -340,7 +404,8 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
     };
 
 
-    // Sort results is a function that takes the salesforce information and creates new objects that are formatted properly to fit on our tables
+    // Sort results is a function that takes the salesforce information and creates new objects that are
+    // formatted properly to fit on our tables
     var sortResults = function(resultsArrays){
         arrResults = [];
         arrSql = [];
@@ -349,27 +414,20 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         myKey = "";
         strSql = "";
         // account is a holder object for properly sorted information
-       if(accountArray.length > 0){
-           return console.log('all done.');
-       }
         var account = {};
         account.total = [];
 
         // this loop goes through and makes sure that we dont have any null category values and removes them before we create new objects
         for(var i = 0; i < resultsArrays.length; i++) {
-            //resultsArrays[0].result.records.shift()
-            if(resultsArrays[i].result.records.length > 12){
                 for(var m = 0; m < resultsArrays[i].result.records.length; m++){
                     if(resultsArrays[i].result.records[m].Donation_SubCategory__c === null){
                         resultsArrays[i].result.records.splice(m,1);
-                    }
                 }
             }
         }
         //console.log(resultsArrays);
-       // loops through the saleforce results and rebuilds them into properly formatted objects
-       // pushs those objects into the accounts array which is then used in the controller to make the money raised table.
-
+        // loops through the saleforce results and rebuilds them into properly formatted objects
+        // assigns those objects in the correct position of the array to display on the view.
         for (var j = 0 ; j < resultsArrays[0].result.records.length ; j++){
             account.type = resultsArrays[0].result.records[j].Donation_SubCategory__c;
             account.total[0] = resultsArrays[0].result.records[j].expr0;
@@ -377,13 +435,16 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
             account.total[2] = resultsArrays[2].result.records[j].expr0;
             account.total[3] = resultsArrays[3].result.records[j].expr0;
             account.total[4] = resultsArrays[4].result.records[j].expr0;
-       new Account(account.type, account.total[0], account.total[1], account.total[2], account.total[3], account.total[4]);
+            accountArray[j]= new Account(account.type, account.total[0], account.total[1], account.total[2], account.total[3], account.total[4]);
       }
 
         console.log("did this actually work?!?!?", accountArray);
 
     };
 
+    ////////
+    // object constructor for building the money raised table objects.
+    ///////
     function Account (type,ytd,ytdM1,ytdM2,tfyM1,tfyM2){
         this.type = type;
         this.ytd = ytd;
@@ -395,37 +456,61 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         this.percentOfGoal = 0;
         this.percentToGoal = 0;
 
-        accountArray.push(this);
-
     }
-    var getGoals = function(year) {
+
+    //////////////
+    // make a call to the goals collection and grab the yearly goals for that specific year.
+    ////////////
+    var getGoals = function(endDate) {
+        var date = endDate.date;
+        date = new Date(date);
+        console.log('date in get goals', date);
+        var month = date.getMonth();
+        var year = new Date();
+
+        if(month < 8) {
+          year = date.getFullYear();
+        } else {
+            year= date.getFullYear() + 1 ;
+        }
+        console.log('year in goals get call' , year);
+
         $http.get('/goals/getYear/'+ year).then(function(response){
-            console.log('getting goals in money raised ', response.data);
+            //console.log('getting goals in money raised ', response.data);
             goals.object = response.data;
             setGoals();
-
         });
     };
 
-    var setGoals = function(){
-        console.log('goals in set goals function',goals);
-        accountArray[0].goal = goals.object[0].months.september.staff;
-        accountArray[1].goal = goals.object[0].months.september.board;
-        accountArray[2].goal = goals.object[0].months.september.committee;
-        accountArray[3].goal = goals.object[0].months.september.parent;
-        accountArray[4].goal = goals.object[0].months.september.alum;
-        accountArray[5].goal = goals.object[0].months.september.participant;
-        accountArray[6].goal = goals.object[0].months.september.community;
-        //accountArray[7].goal = goals.object[0].months.september.staff;
-        //accountArray[8].goal = goals.object[0].months.september.staff;
-        //accountArray[9].goal = goals.object[0].months.september.staff;
-        //accountArray[10].goal = goals.object[0].months.september.staff;
-        //accountArray[11].goal = goals.object[0].months.september.staff;
 
+    //////////////
+    // assign the goals returned from our database.
+    // then calls functions to set up the rest of the table.
+    //////////////
+
+    var setGoals = function(){
+        //console.log('goals in set goals function',goals);
+        accountArray[0].goal = goals.object[0].yearly_totals.staff_year;
+        accountArray[1].goal = goals.object[0].yearly_totals.board_year;
+        accountArray[2].goal = goals.object[0].yearly_totals.committee_year;
+        accountArray[3].goal = goals.object[0].yearly_totals.parent_year;
+        accountArray[4].goal = goals.object[0].yearly_totals.alum_year;
+        accountArray[5].goal = goals.object[0].yearly_totals.participant_year;
+        accountArray[6].goal = goals.object[0].yearly_totals.community_year;
+        accountArray[7].goal = goals.object[0].yearly_totals.corporate_organization_year;
+        accountArray[8].goal = goals.object[0].yearly_totals.corporate_match_year;
+        accountArray[9].goal = goals.object[0].yearly_totals.corporate_foundation_year;
+        accountArray[10].goal = goals.object[0].yearly_totals.family_foundation_year;
+        accountArray[11].goal = goals.object[0].yearly_totals.general_foundation_year;
+        buildTotalObject();
         setPercentToGoal(accountArray);
         setPercentOfGoal(accountArray);
     };
 
+
+    /////////////
+    // sets the percent to goal column in the array of objects to be displayed on the view.
+    //////////////
     var setPercentToGoal = function(accountArray){
         for(var i = 0; i < accountArray.length; i++){
             var total = accountArray[i].ytd;
@@ -438,26 +523,105 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
             //console.log(percentToGoal);
             accountArray[i].percentToGoal = percentToGoal;
         }
+
     };
+
+    //////////////////
+    // sets the percent of goal column in the array of objects to be displayed on the view.
+    /////////////////
+
 
     var setPercentOfGoal = function(accountArray){
         //console.log('totalforcedata',totalforceData);
-      console.log('ytd total',totalforceData.totalarrResults[0].result.records[0].expr0);
+      //console.log('ytd total',totalforceData.totalarrResults[0].result.records[0].expr0);
         var total = totalforceData.totalarrResults[0].result.records[0].expr0;
         total = Math.round(total);
-        console.log(total);
+        //console.log(total);
         var goal = 0;
         for(var i = 0; i < accountArray.length; i++){
             goal = accountArray[i].ytd;
-            console.log('current goal',goal);
+            //console.log('current goal',goal);
             var percentOfGoal = goal/total;
             percentOfGoal = percentOfGoal * 100;
             percentOfGoal = Math.round(percentOfGoal);
-            console.log(percentOfGoal);
+            //console.log(percentOfGoal);
             accountArray[i].percentOfGoal = percentOfGoal;
-
         }
+            //buildTotalObject();
+            clearTotals();
+
     };
+
+    //////////////
+    // builds the object that contains the totals for each column and then makes sure it is in the last position
+    // of the array that is displayed in the view.
+    /////////////
+
+    var buildTotalObject = function (){
+        //console.log("in build object");
+        totalObject = {
+            type :"Totals",
+            ytd : totalforceData.totalarrResults[0].result.records[0].expr0,
+            ytdM1 : totalforceData.totalarrResults[1].result.records[0].expr0,
+            ytdM2 :totalforceData.totalarrResults[2].result.records[0].expr0 ,
+            tfyM1 : totalforceData.totalarrResults[3].result.records[0].expr0,
+            tfyM2 : totalforceData.totalarrResults[4].result.records[0].expr0,
+            goal : goals.object[0].yearly_totals.year_total,
+            percentOfGoal : 0,
+            percentToGoal : 0
+        };
+        var index = accountArray.length;
+        if (index >= 12) {
+            index = 12;
+        }
+        accountArray[index] = totalObject;
+        //console.log('array with totals',accountArray);
+
+        //clearTotals();
+    };
+
+    /////////////////
+    // needed another function to handle async issues between the two different salesforce calls being made
+    // this one creates the total object the first time through before the goals have returned, in future calls
+    // to salesforce this updates the totals correctly and allows the goals and totals to change in sync with
+    // the other data.
+    //
+    /////////////////
+    var updateTotalObject = function(){
+        //console.log('in update totals');
+        //console.log(goals.object[0].yearly_totals.year_total);
+        totalObject = {
+            type :"Totals",
+            ytd : totalforceData.totalarrResults[0].result.records[0].expr0,
+            ytdM1 : totalforceData.totalarrResults[1].result.records[0].expr0,
+            ytdM2 :totalforceData.totalarrResults[2].result.records[0].expr0 ,
+            tfyM1 : totalforceData.totalarrResults[3].result.records[0].expr0,
+            tfyM2 : totalforceData.totalarrResults[4].result.records[0].expr0,
+            goal : goals.object[0].yearly_totals.year_total ,
+            percentOfGoal : 0,
+            percentToGoal : 0
+        };
+        var index = accountArray.length;
+        if (index >= 12) {
+            index = 12;
+        }
+        //console.log("totals",totalObject);
+        accountArray[index] = totalObject;
+        //console.log('array with totals',accountArray);
+        setPercentToGoal(accountArray);
+        setPercentOfGoal(accountArray);
+    };
+
+    //////
+    // resets the variables needed to preform the totals queries.
+    ///////
+    var clearTotals = function(){
+        totalarrResults = [];
+        totalarrSql = [];
+        totalsqlIndex = 0;
+
+    };
+
 
     return{
 
@@ -469,9 +633,10 @@ myApp.factory("MoneyRaisedService", ["$http", function($http) {
         arrResults : arrResults,
         fetchForce : fetchForce,
         accountArray:accountArray,
-        getTotals:getTotals
+        getTotals:getTotals,
+        setEndDate:setEndDate,
+        endDate : endDate
     };
 
 
 }]);
-

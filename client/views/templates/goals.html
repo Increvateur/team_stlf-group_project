@@ -31,9 +31,9 @@
     <uib-tabset class="container col-md-12" active="active">
       <uib-tab ng-repeat="month in monthsObj.months track by month.key" heading="{{month.name}}">
         <!-- {{ $index }} {{ month.name }} {{ month.key }} -->
+
         <!-- <ng-form name="input-goals"> -->
         <div class="row goal-form">
-
           <div class="form-group col-md-3">
             <label>Individual Total</label>
             <input type="number" class="form-control individual-total" ng-model="goals.months[month.key].individual_total" ng-disabled="true" placeholder="{{ goals.months[month.key].individual_total || 0 }}" />
@@ -75,18 +75,23 @@
             <span></span>
 
             <span></span>
-            <h3>Yearly Totals</h3>
-            <h5>{{ goals.fiscalyear }} Year Total</h5>
-            <p> $ {{ goals.yearly_totals.year_total }}.00 </p>
-            <h5>Individual Total</h5>
-            <p> $ {{ goals.yearly_totals.individual_year }}.00 </p>
-            <h5>Corporate Total</h5>
-            <p> $ {{ goals.yearly_totals.corporate_year }}.00 </p>
-            <h5>Foundations Total</h5>
-            <p> $ {{ goals.yearly_totals.foundation_year }}.00 </p>
 
           </div>
+          <div class="col-md-2">
 
+          <h3>Yearly Totals</h3>
+          <h5>{{ goals.fiscalyear }} Year Total</h5>
+          <p> {{ goals.yearly_totals.year_total | currency : $ }} </p>
+          <h5>Individual Total</h5>
+          <p> {{ goals.yearly_totals.individual_year | currency : $  }}</p>
+          <h5>Corporate Total</h5>
+          <p> {{ goals.yearly_totals.corporate_year | currency : $  }} </p>
+          <h5>Foundations Total</h5>
+          <p> {{ goals.yearly_totals.foundation_year | currency : $  }}</p>
+        </div>
+          <div class="col-md-1">
+            <button class="btn btn-primary pull-right goals-btn" type="submit" >Save Goals</button>
+          </div>
         </div>
 
         <!-- </ng-form> -->
@@ -94,13 +99,12 @@
 
     </uib-tabset>
 
-    <button class="btn btn-primary pull-right" type="submit" >Save Goals</button>
   </form>
 
-  <div>
+  <!-- <div>
     goals:
     <pre>{{ goals | json }}</pre>
-  </div>
+  </div> -->
 
 
 </div>

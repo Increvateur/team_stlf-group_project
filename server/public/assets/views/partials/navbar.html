@@ -1,9 +1,8 @@
 <div class="subhead" ng-controller="UserController">
     <nav class="container">
-        <!--<p class="welcome">Welcome, {{ user.firstname }} {{ user.lastname }}</p>-->
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-left" >
-                <li><a href="/queries" >Queries</a></li>
+            <ul class="nav navbar-nav navbar-left user-nav" >
+
                 <li><a href="/" ng-show="login">Money Raised</a></li>
                 <li><a href="/giftRange" ng-show="login">Gift Range Tables</a></li>
                 <li><a href="/donorRetention" ng-show="login">Donor Acquistion & Retention</a></li>
@@ -12,7 +11,7 @@
             </ul>
             <ul>
                 <li>
-                    <p class="navbar-text navbar-right">signed in as - <a href="#" class="navbar-link">{{ user.firstname }} {{ user.lastname }}</a></p>
+                    <p ng-show="login" class="navbar-text navbar-right">signed in as - <a href="#" class="navbar-link">{{ user.firstname }} {{ user.lastname }}</a></p>
 
                 </li>
             </ul>

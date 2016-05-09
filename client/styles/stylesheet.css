@@ -1,6 +1,10 @@
 .st-selected {
-  background-color: #003366;
-  color: white;
+  background-color: #202566 !important;
+  color: white !important;
+}
+.nav, .pagination, .carousel, .panel-title a
+{
+    cursor: pointer;
 }
 
 /*start user authentication styles*/
@@ -24,9 +28,6 @@
 
 }
 
-.container {
-
-}
 
 .message {
   padding: 10px 0;
@@ -52,12 +53,9 @@
 }
 
 body {
-  padding-top: 93px;
-  /*padding-bottom: 750px;*/
+    padding-top: 93px;
+
 }
-/*.navbar-custom {
-  background-color: #B3E7F4;
-}*/
 
 .navbar-default {
     background-image: url("http://stlf.net/assets/templates/stlf/images/bg_header.jpg");
@@ -91,11 +89,10 @@ body {
   color: black;
 }
 
-.navbar-default .navbar-nav > li:hover,
-.navbar-default .navbar-nav > li:active,
-.navbar-default .navbar-nav > li:focus {
-  /*border-bottom: 4px solid black;*/
-}
+/*.navbar-default .navbar-nav > li:hover,*/
+/*.navbar-default .navbar-nav > li:active,*/
+/*.navbar-default .navbar-nav > li:focus {*/
+/*}*/
 
 .navbar-default .navbar-nav > li > a {
   color: orange;
@@ -135,10 +132,10 @@ body {
   /*font-weight: bold;*/
 }
 .navbar-link {
-  font-family: cursive;
+  font-family: monospace;
   font-size: large;
   font-weight: bold;
-  color: orange;
+  color: #7deeff;
 }
 
 .nav > li {
@@ -152,15 +149,24 @@ body {
   /*background-color: #B3E7F4;*/
 }
 
-.navbar-left a:hover,
-.navbar-left a:active,
-.navbar-left a:focus  {
-  font-weight: bold;
-  color: black;
+/*.navbar-left a:hover,*/
+/*.navbar-left a:active,*/
+/*.navbar-left a:focus  {*/
+  /*font-weight: bold;*/
+  /*color: black;*/
   /*opacity: 0.3;*/
-  /*background-color: black;*/
+  /*background-color: transparent;*/
   /*background-image: url("http://stlf.net/assets/templates/stlf/images/bg_header.jpg");*/
+/*}*/
+.user-nav a:hover,
+.user-nav a:active,
+.user-nav a:focus  {
+    color: #7deeff;
+    /*box-shadow: inset 0 0 0 5px #000000;*/
+    background-image: url("http://www.stlf.net/assets/templates/stlf/images/bg_subhead.jpg");
+
 }
+
 
   /*end navbar styles*/
 
@@ -202,7 +208,6 @@ body {
     background-image: url("http://www.stlf.net/assets/templates/stlf/images/bg_subhead.jpg");
     font-size: medium;
     height: 55px;
-    /*border-bottom:solid;*/
     border-top: solid;
 }
 .welcome {
@@ -222,12 +227,14 @@ body {
     font-size: 16px;
     color: #444;
 }
-/*.blue-lines{
+.blue-lines{
     height: 119px;
     width: 100%;
     background-image: url('http://stlf.net/assets/templates/stlf/images/bg_home_content.png');
     background-repeat: repeat;
-}*/
+    /*z-index: -10;*/
+
+}
 
 .register-user {
   margin-top: 30px;
@@ -241,4 +248,48 @@ select {
   border: 1px solid grey;
   padding: 2px;
   margin: 5px;
+}
+
+#sponsors {
+    height:84px;
+    clear:both;
+    position:relative;
+    overflow:hidden;
+}
+
+#sponsors .logo {
+    float:left;
+    border:1px solid #fff;
+    margin-right:6px;
+}
+
+.sponsorText {
+    width:240px;
+    position:absolute;
+    right:0;
+    top:16px;;
+    line-height:1.5;
+}
+.subfooter {
+    padding-bottom: 50px;
+    position: fixed;
+    z-index: -5;
+}
+
+li {
+    list-style-type: none;
+}
+
+.goal-form {
+    background-color: white;
+
+}
+.goals-btn {
+    margin-top: 20px;
+}
+.home-view{
+    background-color: white;
+}
+.datepicker {
+    width: 150px;
 }
