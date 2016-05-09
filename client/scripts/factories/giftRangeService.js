@@ -16,127 +16,135 @@ myApp.factory("GiftRangeService", ["$http", function($http) {
     var large = {};
     var major = {};
     var total = {};
-
-    // TODO for each strSql, make an object, with label: label, and soql: strSql
-
-
-
-    var selEndDate = new Date("12-31-2015");
-
     var ytdStart = new Date();
     var ytdEnd = new Date();
     var ytdM1Start = new Date();
     var ytdM1End = new Date();
     var ytdM2Start = new Date();
     var ytdM2End = new Date();
-    var ytdM3Start = new Date();
-    var ytdM3End = new Date();
-    var ytdM4Start = new Date();
-    var ytdM4End = new Date();
+    //var ytdM3End = new Date();
+    //var ytdM4End = new Date();
     var fyM1Start = new Date();
     var fyM1End = new Date();
     var fyM2Start = new Date();
     var fyM2End = new Date();
-    var fyM3Start = new Date();
-    var fyM3End = new Date();
-    var fyM4Start = new Date();
-    var fyM4End = new Date();
-    var fyM5End = new Date();
-
-
-    ytdEnd = new Date(selEndDate);
-
-
-    // ytd start - figure out fiscal year start previous to this date
-    ytdStart =  new Date("09/01/" + selEndDate.getFullYear());
+    var endDate = {};
+    endDate.date = new Date();
 
 
 
-    if (ytdStart > ytdEnd){
-        ytdStart = new Date("09/01/" + (selEndDate.getFullYear()-1));
-    }
+    var setEndDate = function(date){
+        //console.log(date);
+        endDate.date = date;
+        setDates(endDate);
+        giftRange();
+
+    };
+
+    var setDates = function(endDate) {
+        console.log('enddate object in set dates',endDate);
+        date = endDate.date;
+
+        var selEndDate = new Date(date);
+
+        console.log('date in query', selEndDate);
+
+        ytdEnd = new Date(selEndDate);
+
+        // ytd start - figure out fiscal year start previous to this date
+        ytdStart = new Date("09/01/" + selEndDate.getFullYear());
 
 
+        if (ytdStart > ytdEnd) {
+            ytdStart = new Date("09/01/" + (selEndDate.getFullYear() - 1));
+        }
 
-    ytdM1Start = new Date(ytdStart);
-    ytdM1Start.add({"years":-1});
+        ytdM1Start = new Date(ytdStart);
+        ytdM1Start.add({"years": -1});
 
-    ytdM2Start = new Date(ytdStart);
-    ytdM2Start.add({"years":-2});
+        ytdM2Start = new Date(ytdStart);
+        ytdM2Start.add({"years": -2});
 
-    ytdM3Start = new Date(ytdStart);
-    ytdM3Start.add({"years":-3});
-
-    ytdM4Start = new Date(ytdStart);
-    ytdM4Start.add({"years":-4});
-
-
-    ytdM1End = new Date(ytdEnd);
-    ytdM1End.add({"years":-1});
-
-    ytdM2End = new Date(ytdEnd);
-    ytdM2End.add({"years":-2});
-
-    ytdM3End = new Date(ytdEnd);
-    ytdM3End.add({"years":-3});
-
-    ytdM4End = new Date(ytdEnd);
-    ytdM4End.add({"years":-4});
+        //ytdM3Start = new Date(ytdStart);
+        //ytdM3Start.add({"years": -3});
+        //
+        //ytdM4Start = new Date(ytdStart);
+        //ytdM4Start.add({"years": -4});
 
 
+        ytdM1End = new Date(ytdEnd);
+        ytdM1End.add({"years": -1});
 
-    //fiscal year start and end, first full fiscal year before end date
+        ytdM2End = new Date(ytdEnd);
+        ytdM2End.add({"years": -2});
 
-    fyM1End = new Date("08/31/" + selEndDate.getFullYear());
+        //ytdM3End = new Date(ytdEnd);
+        //ytdM3End.add({"years": -3});
+        //
+        //ytdM4End = new Date(ytdEnd);
+        //ytdM4End.add({"years": -4});
 
-    if (fyM1End > selEndDate){
-        fyM1End = new Date("08/31/" + (selEndDate.getFullYear()-1));
+        //fiscal year start and end, first full fiscal year before end date
 
-    }
-    // one year PRIOR
-    fyM2End = new Date(fyM1End);
-    fyM2End.add({"years":-1});
-    fyM3End = new Date(fyM1End);
-    fyM3End.add({"years":-2});
-    fyM4End = new Date(fyM1End);
-    fyM4End.add({"years":-3});
-    fyM5End = new Date(fyM1End);
-    fyM5End.add({"years":-4});
+        fyM1End = new Date("08/31/" + selEndDate.getFullYear());
 
-    fyM1Start = new Date(ytdM1Start);
-    fyM2Start = new Date(ytdM2Start);
-    fyM3Start = new Date(ytdM3Start);
-    fyM4Start = new Date(ytdM4Start);
+        if (fyM1End > selEndDate) {
+            fyM1End = new Date("08/31/" + (selEndDate.getFullYear() - 1));
 
-    selEndDate = selEndDate.toFormat("YYYY-MM-DD");
-    ytdStart = ytdStart.toFormat("YYYY-MM-DD");
-    ytdEnd = ytdEnd.toFormat("YYYY-MM-DD");
-    ytdM1Start = ytdM1Start.toFormat("YYYY-MM-DD");
-    ytdM1End = ytdM1End.toFormat("YYYY-MM-DD");
-    ytdM2Start = ytdM2Start.toFormat("YYYY-MM-DD");
-    ytdM2End = ytdM2End.toFormat("YYYY-MM-DD");
+        }
+        // one year PRIOR
+        fyM2End = new Date(fyM1End);
+        fyM2End.add({"years": -1});
 
-    ytdM3Start = ytdM3Start.toFormat("YYYY-MM-DD");
-    ytdM3End = ytdM3End.toFormat("YYYY-MM-DD");
+        fyM1Start = new Date(ytdM1Start);
+        fyM2Start = new Date(ytdM2Start);
 
-    ytdM4Start = ytdM4Start.toFormat("YYYY-MM-DD");
-    ytdM4End = ytdM4End.toFormat("YYYY-MM-DD");
+        selEndDate = selEndDate.toFormat("YYYY-MM-DD");
+        ytdStart = ytdStart.toFormat("YYYY-MM-DD");
+        ytdEnd = ytdEnd.toFormat("YYYY-MM-DD");
+        ytdM1Start = ytdM1Start.toFormat("YYYY-MM-DD");
+        ytdM1End = ytdM1End.toFormat("YYYY-MM-DD");
+        ytdM2Start = ytdM2Start.toFormat("YYYY-MM-DD");
+        ytdM2End = ytdM2End.toFormat("YYYY-MM-DD");
 
-    fyM1Start = fyM1Start.toFormat("YYYY-MM-DD");
-    fyM1End = fyM1End.toFormat("YYYY-MM-DD");
-    fyM2Start = fyM2Start.toFormat("YYYY-MM-DD");
-    fyM2End = fyM2End.toFormat("YYYY-MM-DD");
-    fyM3Start = fyM3Start.toFormat("YYYY-MM-DD");
-    fyM3End = fyM3End.toFormat("YYYY-MM-DD");
-    fyM4Start = fyM4Start.toFormat("YYYY-MM-DD");
-    fyM4End = fyM4End.toFormat("YYYY-MM-DD");
+        //ytdM3Start = ytdM3Start.toFormat("YYYY-MM-DD");
+        //ytdM3End = ytdM3End.toFormat("YYYY-MM-DD");
+        //
+        //ytdM4Start = ytdM4Start.toFormat("YYYY-MM-DD");
+        //ytdM4End = ytdM4End.toFormat("YYYY-MM-DD");
 
-    fyM5End = fyM5End.toFormat("YYYY-MM-DD");
+        fyM1Start = fyM1Start.toFormat("YYYY-MM-DD");
+        fyM1End = fyM1End.toFormat("YYYY-MM-DD");
+        fyM2Start = fyM2Start.toFormat("YYYY-MM-DD");
+        fyM2End = fyM2End.toFormat("YYYY-MM-DD");
 
 
+        //console.log("selEndDate", selEndDate);
+
+        //console.log("ytdStart", ytdStart);
+        //console.log("ytdEnd", ytdEnd);
+        //console.log("ytdM1Start", ytdM1Start);
+        //console.log("ytdM1End", ytdM1End);
+        //console.log("ytdM2Start", ytdM2Start);
+        //console.log("ytdM2End", ytdM2End);
+        //console.log("ytdM3Start", ytdM3Start);
+        //console.log("ytdM3End", ytdM3End);
+        //console.log("ytdM4Start", ytdM4Start);
+        //console.log("ytdM4End", ytdM4End);
+        //console.log("fyM1Start", fyM1Start);
+        //console.log("fyM1End", fyM1End);
+        //console.log("fyM2Start", fyM2Start);
+        //console.log("fyM2End", fyM2End);
+
+    };
+
+    /////
+    // sets the initial date on page load.
+    /////
+    setDates(endDate);
 
 
-var giftRange = function() {
+    var giftRange = function() {
     // base selected YTD
     myKey = "m1";
     strSql = "SELECT  COUNT(Id), SUM(Amount) FROM Opportunity WHERE StageName = 'Posted' AND RecordTypeID = '012800000002KPtAAM' AND CloseDate >=" + ytdStart + " AND CloseDate < =" + ytdEnd + " GROUP BY AccountId HAVING ( SUM(Amount) <= 95 )  ";
@@ -416,7 +424,7 @@ var giftRange = function() {
             arrResults.push(forceResult.data);
 
             sqlIndex = arrResults.length;
-            console.log("sql index", sqlIndex);
+            //console.log("sql index", sqlIndex);
 
 
             if (arrResults.length == arrSql.length){
@@ -450,12 +458,10 @@ var giftRange = function() {
 
     var parseResults = function(){
 
-
-
         // gift range chart
-        console.log("Gift Range Chart");
-        console.log("Donors at each level");
-        console.log("Base");
+        //console.log("Gift Range Chart");
+        //console.log("Donors at each level");
+        //console.log("Base");
 
         // Base
         var baseYTD = getCount("m1");
@@ -466,7 +472,7 @@ var giftRange = function() {
 
 
         // Inter
-        console.log("Inter");
+        //console.log("Inter");
 
         var interYTD = getCount("n1");
         var interYTDm1 = getCount("n2");
@@ -476,7 +482,7 @@ var giftRange = function() {
 
 
         // Large
-        console.log("Large");
+        //console.log("Large");
         var largeYTD = getCount("o1");
         var largeYTDm1 = getCount("o2");
         var largeYTDm2 = getCount("o3");
@@ -485,7 +491,7 @@ var giftRange = function() {
 
 
         // Major
-        console.log("Major");
+        //console.log("Major");
         var majorYTD = getCount("p1");
         var majorYTDm1 = getCount("p2");
         var majorYTDm2 = getCount("p3");
@@ -494,7 +500,7 @@ var giftRange = function() {
 
 
         // total donors
-        console.log("Total Donors");
+        //console.log("Total Donors");
         var totDonYTD = baseYTD + interYTD + largeYTD + majorYTD;
         var totDonYTDm1 = baseYTDm1 + interYTDm1 + largeYTDm1 + majorYTDm1;
         var totDonYTDm2 = baseYTDm2 + interYTDm2 + largeYTDm2 + majorYTDm2;
@@ -504,10 +510,10 @@ var giftRange = function() {
 
 
         // gift range amounts
-        console.log("gift range amounts");
+        //console.log("gift range amounts");
 
 
-        console.log("Base");
+        //console.log("Base");
 
         //base
         var totalBaseSelYTD = totalResults("m1");
@@ -526,7 +532,7 @@ var giftRange = function() {
         };
         amountRaised[0]= base ;
 
-        console.log("intermediate");
+        //console.log("intermediate");
         // intermediate
 
         var totalInterSelYTD = totalResults("n1");
@@ -546,7 +552,7 @@ var giftRange = function() {
         amountRaised[1]= inter ;
 
 
-        console.log("Large");
+        //console.log("Large");
         // large
 
         var totalLargeSelYTD = totalResults("o1");
@@ -565,9 +571,9 @@ var giftRange = function() {
         };
         amountRaised[2]= large ;
 
-        console.log(amountRaised);
+        //console.log(amountRaised);
 
-        console.log("major");
+        //console.log("major");
         // major
 
         var totalMajorSelYTD = totalResults("p1");
@@ -586,7 +592,7 @@ var giftRange = function() {
         };
         amountRaised[3]= major ;
 
-        console.log("Total");
+        //console.log("Total");
         // total
         var totalAllSelYTD = totalResults("q1");
         var totalAllSelYTDm1 = totalResults("q2");
@@ -659,12 +665,18 @@ var giftRange = function() {
         strSql = "";
         console.log('hit sort results', resultsArrays);
         // account is a holder object for properly sorted information
-        if(giftArray.length > 0){
-            return console.log('all done.');
-        }
-
+        //if(giftArray.length > 0){
+        //    return console.log('all done.');
+        //}
+        var index = 0;
         for(var i = 0; i < resultsArrays.length; i = i + 5) {
-            new Gift( resultsArrays[i].queryInfo ,resultsArrays[i].count, resultsArrays[i+1].count, resultsArrays[i+2].count, resultsArrays[i+3].count, resultsArrays[i+4].count);
+            var giftResults = {};
+                giftResults = new Gift( resultsArrays[i].queryInfo ,resultsArrays[i].count, resultsArrays[i+1].count, resultsArrays[i+2].count, resultsArrays[i+3].count, resultsArrays[i+4].count);
+                console.log(giftResults);
+                giftArray[index] = giftResults;
+                console.log(giftArray);
+                index++;
+
         }
 
         console.log("did this actually work?!?!?", giftArray);
@@ -678,7 +690,7 @@ var giftRange = function() {
         this.ytdM2=ytdM2;
         this.tfyM1=tfyM1;
         this.tfyM2=tfyM2;
-        giftArray.push(this);
+        //giftArray.push(this);
 
     }
 
@@ -693,7 +705,9 @@ var giftRange = function() {
         arrResults : arrResults,
         fetchForce : fetchForce,
         giftArray : giftArray,
-        amountRaised : amountRaised
+        amountRaised : amountRaised,
+        setEndDate:setEndDate,
+        endDate : endDate
     };
 
 }]);

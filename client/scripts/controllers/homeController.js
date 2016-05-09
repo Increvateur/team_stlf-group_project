@@ -19,8 +19,10 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         $scope.forceresponse = [];
         $scope.goals=[];
         $scope.date = today.getFullYear();
-
-
+        $scope.endDate = moneyRaisedService.endDate;
+        ////////////////
+        // Get the info to build the tables
+        ////////////////
         $scope.getGoals = function(){
           $scope.goals = goalService.getGoals();
         };
@@ -28,10 +30,14 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
         $scope.buildtable = function() {
             $scope.accounts = moneyRaisedService.accountArray;
             //$scope.getGoals();
-
         };
 
+        ///////////////////
 
+
+        ///////////
+        // open the chart modal.
+        ///////////
         $scope.open = function(size, data) {
             console.log("Inside the Chart Open Function:", data);
 
@@ -82,16 +88,19 @@ myApp.controller("HomeController", ["$scope", "$filter", "$uibModal",'MoneyRaise
             opened: false
         };
 
+        ////////////////////
+
         $scope.setEndDate = function(date){
-            console.log(date.getMonth());
+            //console.log(date.getMonth());
+            // this updates the table columns to the correct fiscal year for the data to be displayed.
             if(date.getMonth() < 8) {
                 $scope.date = date.getFullYear();
             } else {
                 $scope.date = date.getFullYear() + 1 ;
             }
             console.log('date display',$scope.date);
-            endDate = date.toFormat("MM-DD-YYYY");
-            console.log(endDate);
+            endDate = date;
+            //console.log(endDate);
             moneyRaisedService.setEndDate(endDate);
         };
 

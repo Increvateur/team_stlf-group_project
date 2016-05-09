@@ -1,17 +1,30 @@
 <div class="home-view container">
-    <h4 class="text-center table-header">Donor Acquistion and Retention </h4>
+    <div>
+    <h4 class="text-center table-header">Donor Acquistion and Retention for period ending : {{endDate.date | date : shortDate}} </h4>
+        <div class="row">
+            <div class="datepicker">
+                <label>Select End Date</label>
+                <p class="input-group">
+                    <input type="text" class="form-control" ng-click uib-datepicker-popup="MM-dd-yyyy" ng-model="dt" ng-change="setEndDate(dt)" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" />
+                    <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
 
     <table st-table="retainedResults" st-safe-src="retained" class="table table-striped">
         <thead>
         <tr>
             <th st-sort="">Current Retained Donors</th>
-            <th st-sort="">2016 YTD</th>
-            <th st-sort="">2015 YTD</th>
-            <th st-sort="">2014 YTD</th>
-            <th st-sort="">Goal</th>
+            <th st-sort="">{{date}} YTD</th>
+            <th st-sort="">{{date -1}} YTD</th>
+            <th st-sort="">{{date -2}} YTD</th>
+            <th st-sort="">{{date}} Goal</th>
             <th st-sort="">% to Goal</th>
-            <th st-sort="">2015 Fiscal Year</th>
-            <th st-sort="">2014 Fiscal Year</th>
+            <th st-sort="">{{date -1}}Fiscal Year</th>
+            <th st-sort="">{{date -2}}Fiscal Year</th>
         </tr>
         </thead>
         <tbody>
@@ -34,13 +47,13 @@
         <thead>
         <tr>
             <th st-sort="">Current Recovered Donors</th>
-            <th st-sort="">2016 YTD</th>
-            <th st-sort="">2015 YTD</th>
-            <th st-sort="">2014 YTD</th>
-            <th st-sort="">Goal</th>
+            <th st-sort="">{{date}} YTD</th>
+            <th st-sort="">{{date -1}} YTD</th>
+            <th st-sort="">{{date -2}} YTD</th>
+            <th st-sort="">{{date}} Goal</th>
             <th st-sort="">% to Goal</th>
-            <th st-sort="">2015 Fiscal Year</th>
-            <th st-sort="">2014 Fiscal Year</th>
+            <th st-sort="">{{date -1}} Fiscal Year</th>
+            <th st-sort="">{{date -2}} Fiscal Year</th>
         </tr>
 
         </thead>
@@ -63,13 +76,13 @@
         <thead>
         <tr>
             <th st-sort="">Donor Universe</th>
-            <th st-sort="">2016 YTD</th>
-            <th st-sort="">2015 YTD</th>
-            <th st-sort="">2014 YTD</th>
-            <th st-sort="">Goal</th>
+            <th st-sort="">{{date}} YTD</th>
+            <th st-sort="">{{date -1}} YTD</th>
+            <th st-sort="">{{date -2}} YTD</th>
+            <th st-sort="">{{date}} Goal</th>
             <th st-sort="">% to Goal</th>
-            <th st-sort="">2015 Fiscal Year</th>
-            <th st-sort="">2014 Fiscal Year</th>
+            <th st-sort="">{{date -1}} Fiscal Year</th>
+            <th st-sort="">{{date -2}} Fiscal Year</th>
         </tr>
 
         </thead>
