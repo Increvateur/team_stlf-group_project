@@ -71,7 +71,7 @@ myApp.factory("GoalService", ["$http", function($http) {
 
     console.log('@FACTORY - updateGoals() before put - data: ', data);
 
-    $http.put('/goals', data).then(function(response){
+    $http.put('/goals/update', data).then(function(response){
       console.log('***@GoalService in updateGoals function after put - response: ', response);
     });
 

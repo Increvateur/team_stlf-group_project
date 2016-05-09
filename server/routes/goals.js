@@ -55,8 +55,17 @@ router.get("/getYear/", function(req, res){
 
 
 // PUT - update goals in DB using existing fiscal_year
-router.put('/', function(req, res) {
+router.put('/update', function(req, res) {
   console.log('@SERVER - PUT for updating goals - req: ', req);
+  var request = req.body;
+  console.log('@SERVER - PUT update - request.body as request: ', request);
+  Goals.findOneAndUpdate({ fiscal_year : request.fiscal_year }, { 'months' : request.months,
+  'yearly_totals' : request.yearly_totals }).then(function(err, data) {
+      if (err) {
+          console.log("Error Saving Names to Database", err);
+      }
+      res.send(data);
+  });
 
   // var newGoals = new Goals({ 'fiscal_year' : request.fiscal_year, 'months' : request.months,
   // 'yearly_totals' : request.yearly_totals });

@@ -181,7 +181,9 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     console.log('----_U @goalsController in updateGoals() - data: ', data);
 
     goalService.updateGoals(data);
+    $scope.goals = {};
 
+    getYears();
   };
 
 
