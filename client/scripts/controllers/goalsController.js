@@ -7,6 +7,9 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   // Renames GoalService
   var goalService = GoalService;
 
+  $scope.submitGoals = true;
+  $scope.changeGoals = true;
+
 
   function getYears() {
     goalService.getGoals().then(function(response) {
@@ -115,7 +118,7 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     var fy = $scope.fiscalyear;
     $scope.goals.fiscal_year = fy;
     $scope.findYear();
-    // return $scope.goals.fiscalyear;
+    console.log();
 
   };
 
@@ -126,6 +129,8 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     $scope.goals.fiscal_year = fy;
     $scope.showYear = false;
     $scope.fiscalyear = 0;
+    $scope.changeGoals = true;
+    $scope.submitGoals = false;
     console.log('#$#$ = @goalsController in addFyKey() year, ', year, 'fy, ', fy,'$scope.fiscalyear, ', $scope.fiscalyear, 'and $scope.goals.fiscalyear', $scope.goals.fiscal_year);
   };
 
@@ -141,6 +146,8 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
       if (response.fiscal_year === $scope.fiscalyear) {
         console.log('||| ---- @goalsController.js in getSpecificYear() after return from Service - $scope.fiscalyear: ', $scope.fiscalyear);
         $scope.goals = response;
+        $scope.changeGoals = false;
+        $scope.submitGoals = true;
         console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals: ', $scope.goals);
       } else {
         console.log('........ @goalsController.js in getSpecificYear() else after return from Service - $scope.fiscalyear: ', $scope.fiscalyear);
@@ -150,6 +157,13 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
       }
 
     });
+  };
+
+
+  // Update goals - PUT to update document in DB
+  $scope.updateGoals = function(data) {
+    console.log('----_U @goalsController in updateGoals() - data: ', data);
+
   };
 
 
@@ -171,6 +185,15 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
     goalService.getGoals();
     getYears();
+  };
+
+
+  // Clears form
+  $scope.clearForm = function() {
+    $scope.goals = {};
+    $scope.fiscalyear = 0;
+    $scope.submitGoals = true;
+    $scope.changeGoals = true;
   };
 
 

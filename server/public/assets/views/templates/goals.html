@@ -90,7 +90,9 @@
           <p> {{ goals.yearly_totals.foundation_year | currency : $  }}</p>
         </div>
           <div class="col-md-1">
-            <button class="btn btn-primary pull-right goals-btn" type="submit" >Save Goals</button>
+            <button ng-disabled="changeGoals" class="btn btn-warning pull-right goals-btn" type="button" ng-click="updateGoals(goals)" >Update Goals</button>
+            <button ng-disabled="submitGoals" class="btn btn-primary pull-right goals-btn" type="submit" >Save Goals</button>
+            <button class="btn btn-danger pull-right goals-btn"type="button" ng-click="clearForm()" >Clear</button>
           </div>
         </div>
 
