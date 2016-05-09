@@ -67,14 +67,19 @@ router.put('/update', function(req, res) {
       res.send(data);
   });
 
-  // var newGoals = new Goals({ 'fiscal_year' : request.fiscal_year, 'months' : request.months,
-  // 'yearly_totals' : request.yearly_totals });
-  // Goals.findOne({fiscal_year: req.params.year}, function(err, data) {
-  //   if (err) {
-  //     res.send(err);
-  //   }
-  //   res.send(data);
-  // });
+});
+
+// GET for tabels
+router.get('/getYear/:year', function(req, res){
+  var year = req.params.year;
+  console.log(year);
+  Goals.find({ 'fiscal_year': year}, function(err, data) {
+    if (err) {
+      console.log('Error Retrieving Names from the Database', err);
+    }
+    console.log('@SERVER - getgoals, response data: ', data)
+    res.send(data);
+  });
 });
 
 
