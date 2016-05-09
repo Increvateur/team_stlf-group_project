@@ -19,9 +19,9 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
                 templateUrl: 'assets/views/templates/failure.html',
                 controller: 'MainController'
             })
-            .when('/register', {
-                templateUrl: 'assets/views/templates/register.html',
-                controller: 'AddUserController'
+            .when('/user-admin', {
+                templateUrl: 'assets/views/templates/userAdmin.html',
+                controller: 'UserController'
             })
             .when('/goals', {
                 templateUrl: 'assets/views/templates/goals.html',

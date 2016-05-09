@@ -1,22 +1,43 @@
-myApp.factory("UserService", ["$http",'$window', function($http,$window) {
+myApp.factory("UserService", ["$http",'$window', function($http, $window) {
 
   // Posts a new user to the database
   var newUser = function(data) {
-    console.log('-@FACTORY userServcie.js newUser(data) = ', data);
-    $http.post('/user/adduser', data).then(function(response) {
-      // some sort of feedback that user was added to DB
-      console.log('@userService - newUser function *** after post - response: ', response);
+    return $http.post('/user/adduser', data).then(function() {
+      return getUsers().then(function(response) {
+        return response;
+      });
     });
   };
 
   // Retrieves all the usernames from the server
   var getUsers = function() {
+    return $http.get("/user/getusers").then(function(response) {
+      return response.data;
+    });
 
   };
 
   // Retrieves a specific user's data from the database
-  var getUserData = function() {
+  var getUserData = function(data) {
+    return $http.get("/user/getuserdata/" + data).then(function(response) {
+      return response;
+    });
+  };
 
+  // Deletes the specific user from the database
+  var deleteUser = function(data) {
+    return $http.post("/user/deleteuser", data).then(function() {
+      return getUsers().then(function(response) {
+        return response;
+      });
+    });
+  };
+
+  // Saves updated user data to the database
+  var saveUser = function(data) {
+    return $http.post("/user/saveuser").then(function(response) {
+      console.log(response);
+    });
   };
 
   // Verifies the user is authenticated and possibly an admin
@@ -43,9 +64,9 @@ myApp.factory("UserService", ["$http",'$window', function($http,$window) {
       });
   };
 
+  // Logs the user out and directs them to the main page
   var logout = function(){
-    $http.get('/logout').then(function(response){
-      console.log(response);
+    $http.get('/logout').then(function(response) {
       $window.location.href = '/';
     });
   };
@@ -54,8 +75,11 @@ myApp.factory("UserService", ["$http",'$window', function($http,$window) {
 
     newUser: newUser,
     verifyUser : verifyUser,
+    getUsers : getUsers,
+    getUserData : getUserData,
+    deleteUser : deleteUser,
+    saveUser : saveUser,
     logout : logout
 
   };
-
 }]);
