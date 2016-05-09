@@ -24,7 +24,6 @@ router.get("/getusers", function(req, res) {
 
 // Gets the data for the selected user on the Users page
 router.get("/getuserdata/:id", function(req, res) {
-  console.log("Trying to get User Data:", req.params.id);
   User.findOne({ username: req.params.id }, function(err, data) {
     if (err) {
       res.send(err);
@@ -35,7 +34,6 @@ router.get("/getuserdata/:id", function(req, res) {
 
 // Deletes the selected user on the Users page from the database
 router.post("/deleteuser", function(req, res) {
-  console.log("Deleted user:", req.body.username);
   User.remove({ username: req.body.username }, function(err, data) {
     if (err) {
       res.send(err);
