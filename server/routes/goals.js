@@ -31,8 +31,8 @@ router.get('/:year', function(req, res){
 // POST to add goals to the DB
 router.post("/postgoals", function (req, res) {
     var request = req.body;
-    console.log(request);
-    var newGoals = new Goals({ 'fiscal_year' : request.fiscalyear, 'months' : request.months,
+    console.log('@SERVER - post newGoals - request.body', request);
+    var newGoals = new Goals({ 'fiscal_year' : request.fiscal_year, 'months' : request.months,
     'yearly_totals' : request.yearly_totals });
     newGoals.save(function(err, data) {
         if (err) {
@@ -52,6 +52,18 @@ router.get("/getYear/", function(req, res){
         res.send(data);
     });
 });
+
+router.put('/:year', function(req, res) {
+  console.log('@SERVER - PUT for updating goals - req.params: ', req.params);
+
+  // Goals.findOne({fiscal_year: req.params.year}, function(err, data) {
+  //   if (err) {
+  //     res.send(err);
+  //   }
+  //   res.send(data);
+  // });
+});
+
 
 
 module.exports = router;

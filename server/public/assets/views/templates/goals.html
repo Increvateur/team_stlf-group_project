@@ -15,7 +15,7 @@
 
     <div class="btn-group" uib-dropdown>
       <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
-        <span>{{ goals.fiscalyear || "Select Year" }}</span><span class="caret"></span>
+        <span>{{ goals.fiscal_year || "Select Year" }}</span><span class="caret"></span>
       </button>
       <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
         <li ng-repeat="year in goalsArray | orderBy: '-fiscal_year'" role="menuitem"><a ng-click="fiscalYear(year.fiscal_year)">{{ year.fiscal_year }}</a></li>
@@ -80,7 +80,7 @@
           <div class="col-md-2">
 
           <h3>Yearly Totals</h3>
-          <h5>{{ goals.fiscalyear }} Year Total</h5>
+          <h5>{{ goals.fiscal_year }} Year Total</h5>
           <p> {{ goals.yearly_totals.year_total | currency : $ }} </p>
           <h5>Individual Total</h5>
           <p> {{ goals.yearly_totals.individual_year | currency : $  }}</p>

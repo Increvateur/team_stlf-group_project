@@ -113,7 +113,7 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     console.log('/////// year: ', year);
     $scope.fiscalyear = parseInt(year);
     var fy = $scope.fiscalyear;
-    $scope.goals.fiscalyear = fy;
+    $scope.goals.fiscal_year = fy;
     $scope.findYear();
     // return $scope.goals.fiscalyear;
 
@@ -123,10 +123,10 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   $scope.addFyKey = function(year) {
     $scope.fiscalyear = parseInt(year);
     var fy = $scope.fiscalyear;
-    $scope.goals.fiscalyear = fy;
+    $scope.goals.fiscal_year = fy;
     $scope.showYear = false;
     $scope.fiscalyear = 0;
-    console.log('#$#$ = @goalsController in addFyKey() year, ', year, 'fy, ', fy,'$scope.fiscalyear, ', $scope.fiscalyear, 'and $scope.goals.fiscalyear', $scope.goals.fiscalyear);
+    console.log('#$#$ = @goalsController in addFyKey() year, ', year, 'fy, ', fy,'$scope.fiscalyear, ', $scope.fiscalyear, 'and $scope.goals.fiscalyear', $scope.goals.fiscal_year);
   };
 
 
@@ -134,10 +134,10 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   // Checks to see if the year selected by Admin is in the DB
   // If the year is already recorded it pulls it in to be updated
   $scope.findYear = function() {
-    console.log('HI, FISCAL YEAR: ', $scope.goals.fiscalyear);
+    console.log('HI, FISCAL YEAR: ', $scope.goals.fiscal_year);
     // console.log('~ @goalController in findYear - $scope.goals: ', $scope.goals);
 
-    goalService.getSpecificYear($scope.goals.fiscalyear).then(function(response){
+    goalService.getSpecificYear($scope.goals.fiscal_year).then(function(response){
       if (response.fiscal_year === $scope.fiscalyear) {
         console.log('||| ---- @goalsController.js in getSpecificYear() after return from Service - $scope.fiscalyear: ', $scope.fiscalyear);
         $scope.goals = response;
@@ -145,7 +145,7 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
       } else {
         console.log('........ @goalsController.js in getSpecificYear() else after return from Service - $scope.fiscalyear: ', $scope.fiscalyear);
         $scope.goals = {};
-        $scope.goals.fiscalyear = $scope.fiscalyear;
+        $scope.goals.fiscal_year = $scope.fiscalyear;
         console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals: ', $scope.goals);
       }
 
