@@ -66,10 +66,14 @@ myApp.factory("GoalService", ["$http", function($http) {
   };
 
 
-  // PUT existing goals (edit current year)
-  var updateGoals = function(year) {
+  // PUT existing goals (edit current year's goals)
+  var updateGoals = function(data) {
 
-    //http.put
+    console.log('@FACTORY - updateGoals() before put - data: ', data);
+
+    $http.put('/goals', data).then(function(response){
+      console.log('***@GoalService in updateGoals function after put - response: ', response);
+    });
 
   };
 
@@ -80,11 +84,11 @@ myApp.factory("GoalService", ["$http", function($http) {
     newGoals: newGoals,
     getGoals: getGoals,
     getSpecificYear: getSpecificYear,
+    updateGoals: updateGoals,
     goalsArray: goalsArray,
     setYearList: setYearList,
     currentYear: currentYear,
     years: years,
-    // goals: goals
   };
 
 }]);

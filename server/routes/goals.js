@@ -53,9 +53,13 @@ router.get("/getYear/", function(req, res){
     });
 });
 
-router.put('/:year', function(req, res) {
-  console.log('@SERVER - PUT for updating goals - req.params: ', req.params);
 
+// PUT - update goals in DB using existing fiscal_year
+router.put('/', function(req, res) {
+  console.log('@SERVER - PUT for updating goals - req: ', req);
+
+  // var newGoals = new Goals({ 'fiscal_year' : request.fiscal_year, 'months' : request.months,
+  // 'yearly_totals' : request.yearly_totals });
   // Goals.findOne({fiscal_year: req.params.year}, function(err, data) {
   //   if (err) {
   //     res.send(err);
