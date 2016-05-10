@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var User = require("../models/user.js");
+var bcrypt = require('bcrypt');
+var SALT_WORK_FACTOR = 10;
 
 // Verifies whether a user is logged in or not
 router.get('/', function(req, res) {
@@ -29,6 +31,20 @@ router.get("/getuserdata/:id", function(req, res) {
       res.send(err);
     }
     res.send(data);
+  });
+});
+
+router.put("/updateuser", function(req, res) {
+  console.log(req.body);
+  var request = req.body;
+  var person = { firstname: request.firstname,
+    lastname: request.lastname, email: request.email, username: request.username,
+    password: request.password, admin: request.admin };
+  User.findByIdAndUpdate(request._id, person, function(err, data) {
+    if (err) {
+      res.send(err);
+    }
+      res.send(data);
   });
 });
 

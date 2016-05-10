@@ -16,12 +16,9 @@ myApp.controller('UserController', ['$scope', 'UserService', '$timeout', functio
   $scope.selectedUser = function(data) {
     userService.getUserData(data)
     .then(function(response) {
-      $scope.stlfuser.firstname = response.data.firstname;
-      $scope.stlfuser.lastname = response.data.lastname;
-      $scope.stlfuser.email = response.data.email;
-      $scope.stlfuser.username = response.data.username;
-      $scope.stlfuser.admin = response.data.admin;
+      $scope.stlfuser = response.data;
       $scope.stlfuser.password = "";
+      console.log("User Data:", $scope.stlfuser);
 
       $scope.selected = true;
       $scope.clear = false;
@@ -70,6 +67,15 @@ myApp.controller('UserController', ['$scope', 'UserService', '$timeout', functio
     }
   };
 
+  // Updates the user and resets the form
+  $scope.updateUser = function() {
+    userService.updateUser($scope.stlfuser).then(function(response) {
+      $scope.userList = response;
+      $scope.showChangeAlert = true;
+      reset();
+    });
+  };
+
   // Deletes the user from the database and resets the form
   $scope.deleteUser = function() {
     userService.deleteUser($scope.stlfuser).then(function(response) {
@@ -97,5 +103,5 @@ myApp.controller('UserController', ['$scope', 'UserService', '$timeout', functio
      $scope.showAddAlert = false;
      $scope.showDeleteAlert = false;
    };
-   
+
 }]);

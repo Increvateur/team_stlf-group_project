@@ -24,6 +24,15 @@ myApp.factory("UserService", ["$http",'$window', function($http, $window) {
     });
   };
 
+  // Updates the user in the database
+  var updateUser = function(data) {
+    return $http.put("/user/updateuser", data).then(function() {
+      return getUsers().then(function(response) {
+        return response;
+      });
+    });
+  };
+
   // Deletes the specific user from the database
   var deleteUser = function(data) {
     return $http.post("/user/deleteuser", data).then(function() {
@@ -73,10 +82,11 @@ myApp.factory("UserService", ["$http",'$window', function($http, $window) {
 
   return {
 
-    newUser: newUser,
     verifyUser : verifyUser,
+    newUser: newUser,
     getUsers : getUsers,
     getUserData : getUserData,
+    updateUser : updateUser,
     deleteUser : deleteUser,
     saveUser : saveUser,
     logout : logout
