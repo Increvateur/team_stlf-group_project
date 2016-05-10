@@ -20,12 +20,14 @@ myApp.factory("GoalService", ["$http", function($http) {
 
   // GET from Server/DB to pull goals and stores them in goalsArray declared above
   var getGoals = function() {
-    $http.get('/goals/getgoals').then(function(response){
+    return $http.get('/goals/getgoals').then(function(response){
       console.log('@GoalService in getGoals() - response from server: ', response);
 
       // Saves goals from GET into array
       goalsArray = response.data;
       console.log('!-@GoalService in getGoals() - goalsArray: ', goalsArray);
+
+      return response.data;
     });
   };
 
@@ -35,8 +37,8 @@ myApp.factory("GoalService", ["$http", function($http) {
   var date = new Date();
   date = date.getFullYear();
   var currentYear = date;
-  var startYear = 2003;
-  var endYear = currentYear + 5;
+  var startYear = 2010;
+  var endYear = currentYear + 2;
   var counter = endYear;
   var years = [];
 
@@ -54,6 +56,7 @@ myApp.factory("GoalService", ["$http", function($http) {
   var getSpecificYear = function(year) {
     console.log('<><> GET @goalService.js in getSpecificYear(year) - year: ', year);
     return $http.get('goals/' + year).then(function(response){
+      console.log('xxxxxxx @goalService.js - from server, response.data: ', response.data);
       return response.data;
 
       // console.log('o` | `o -- @goalService GET specific year goals: ', goals);
@@ -63,10 +66,14 @@ myApp.factory("GoalService", ["$http", function($http) {
   };
 
 
-  // PUT existing goals (edit current year)
-  var updateGoals = function(year) {
+  // PUT existing goals (edit current year's goals)
+  var updateGoals = function(data) {
 
-    //http.put
+    console.log('@FACTORY - updateGoals() before put - data: ', data);
+
+    $http.put('/goals/update', data).then(function(response){
+      console.log('***@GoalService in updateGoals function after put - response: ', response);
+    });
 
   };
 
@@ -77,11 +84,11 @@ myApp.factory("GoalService", ["$http", function($http) {
     newGoals: newGoals,
     getGoals: getGoals,
     getSpecificYear: getSpecificYear,
+    updateGoals: updateGoals,
     goalsArray: goalsArray,
     setYearList: setYearList,
     currentYear: currentYear,
     years: years,
-    // goals: goals
   };
 
 }]);

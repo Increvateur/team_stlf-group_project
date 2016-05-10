@@ -2,15 +2,46 @@
 
 myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, GoalService) {
 
+
   console.log('HI, @CONTROLLER - GoalsController Works!');
+
 
   // Renames GoalService
   var goalService = GoalService;
 
-  $scope.goalsArray = goalService.goalsArray;
-  console.log('*** == @GoalsController - $scope.goalsArray: ', $scope.goalsArray);
 
-  goalService.getGoals();
+  // Empty object to store the goals entered by the User
+  $scope.goals = {};
+
+
+  // FOR NG-HIDE/SHOWS to hide input boxes and disable buttons on form
+
+  $scope.showYear = false;
+  $scope.submitGoals = true;
+  $scope.changeGoals = true;
+
+
+  // GET to pull in years to dynamically populate drop down based on saved goals in DB
+  function getYears() {
+    goalService.getGoals().then(function(response) {
+
+      $scope.goalsArray = response;
+      console.log('*** == @GoalsController - $scope.goalsArray: ', $scope.goalsArray);
+    });
+  }
+
+  // Calls getYears() right away to populate drop down for Admin
+  getYears();
+
+
+  // Allows Admin to add a year in the "Select Year" drop down -
+  // Changes showYear to true and shows input box
+  $scope.addYear = function() {
+    $scope.goals = {};
+    $scope.fiscalyear = '';
+    $scope.showYear = true;
+  };
+
 
   $scope.yearArray = [];
   goalService.setYearList();
@@ -21,8 +52,6 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   console.log('// === @GoalsController - $scope.yearArray: ', $scope.yearArray);
 
 
-  // Empty object to store the goals entered by the User
-  $scope.goals = {};
 
   // Object to populate the form with the months in order from Sept - Aug for the fiscal year
   // $scope.monthsObj.name is for any labeling on the DOM
@@ -80,8 +109,6 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     ]
   };
 
-  // To save the User's input for the fiscal year. TODO Will need to change to a selection menu
-  // $scope.fiscalyear = 'Fiscal Year';
 
   // Monthly total for individul goals (staff, board, committee, parent, alum, participant, and community support)
   $scope.indTotal = 0;
@@ -89,36 +116,74 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
   // Yearly totals for every goal
   $scope.yearlyTotal = 0;
 
-  // Function to add the fiscal year to the $scope.goal object once the user is not focused on the fiscal year input
+  // Functions and variables to add the fiscal year to the $scope.goal object -
+  // once the user is not focused on the fiscal year input
 
-  $scope.year = '';
+  // $scope.yearSelected = 0;
 
+  // Decalarse fiscalyear as an empty string to hide it until a year number is entered
+  $scope.fiscalyear = '';
+
+
+  // Function to take a selected year in the pre-populated year drop down -
+  // and save it to goals.fiscal_year || Also calls findYear()
   $scope.fiscalYear = function(year){
-    $scope.addFyKey(year);
+    console.log('/////// year: ', year);
+    $scope.fiscalyear = parseInt(year);
+    var fy = $scope.fiscalyear;
+    $scope.goals.fiscal_year = fy;
+
+    // Calls to pull back that specific year's data to populate the form for updates
     $scope.findYear();
-    return $scope.goals.fiscalyear;
-
   };
 
 
+  // Once Admin is not focused on input this saves the year entered to goals.fiscal_year
+  // Also disables the update button but allows the Admin to save the goals
   $scope.addFyKey = function(year) {
-    $scope.fiscalyear = year;
-    $scope.goals.fiscalyear = $scope.fiscalyear;
-    return $scope.goals.fiscalyear;
+    $scope.fiscalyear = parseInt(year);
+    var fy = $scope.fiscalyear;
+    $scope.goals.fiscal_year = fy;
+    $scope.showYear = false;
+    $scope.fiscalyear = 0;
+    $scope.changeGoals = true;
+    $scope.submitGoals = false;
+    console.log('#$#$ = @goalsController in addFyKey() year, ', year, 'fy, ', fy,'$scope.fiscalyear, ', $scope.fiscalyear, 'and $scope.goals.fiscalyear', $scope.goals.fiscal_year);
   };
-
 
 
   // Checks to see if the year selected by Admin is in the DB
   // If the year is already recorded it pulls it in to be updated
   $scope.findYear = function() {
-    console.log('HI, FISCAL YEAR: ', $scope.goals.fiscalyear);
-    console.log('~ @goalController in findYear - $scope.goals: ', $scope.goals);
+    console.log('HI, FISCAL YEAR: ', $scope.goals.fiscal_year);
+    // console.log('~ @goalController in findYear - $scope.goals: ', $scope.goals);
 
-    goalService.getSpecificYear($scope.goals.fiscalyear).then(function(response){
+    goalService.getSpecificYear($scope.goals.fiscal_year).then(function(response){
+      if (response.fiscal_year === $scope.fiscalyear) {
+        console.log('||| ---- @goalsController.js in getSpecificYear() after return from Service - $scope.fiscalyear: ', $scope.fiscalyear);
         $scope.goals = response;
-        console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals', $scope.goals);
+        $scope.changeGoals = false;
+        $scope.submitGoals = true;
+        console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals: ', $scope.goals);
+      } else {
+        console.log('........ @goalsController.js in getSpecificYear() else after return from Service - $scope.fiscalyear: ', $scope.fiscalyear);
+        $scope.goals = {};
+        $scope.goals.fiscal_year = $scope.fiscalyear;
+        console.log('~~~~~~~~~~~~~~~~~~~<- $scope.goals: ', $scope.goals);
+      }
+
     });
+  };
+
+
+  // Update goals - PUT to update document in DB
+  $scope.updateGoals = function(data) {
+    console.log('----_U @goalsController in updateGoals() - data: ', data);
+
+    goalService.updateGoals(data);
+    $scope.goals = {};
+
+    getYears();
   };
 
 
@@ -139,21 +204,27 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     $scope.goals = {};
 
     goalService.getGoals();
+    getYears();
+  };
+
+
+  // Clears form
+  $scope.clearForm = function() {
+    $scope.goals = {};
+    $scope.fiscalyear = 0;
+    $scope.showYear = false;
+    $scope.submitGoals = true;
+    $scope.changeGoals = true;
   };
 
 
 
   // Adding Totals up
-  // $scope.indTotal = 0;
-
   $scope.individualTotal = 0;
 
 
   // Function used to calculate totals on form
   $scope.calcTotals = function() {
-
-    // $scope.calcIndTot();
-    // $scope.calcYearlyTotals();
 
     // Log to make sure it works!
     console.log('=_-_= @goalsController in calcTotals');
@@ -164,22 +235,6 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
     var goals = $scope.goals;
     var months = goals.months;
     var yearly_totals = goals.yearly_totals;
-    // var staff_total;
-    // var board_total;
-    // var committee_total;
-    // var parent_total;
-    // var alum_total;
-    // var participant_total;
-    // var community_total;
-    // var individual_yearly_total;
-    // var corporate_organization_total;
-    // var corporate_match_total;
-    // var corporate_yearly_total;
-    // var corporate_foundation_total;
-    // var family_foundation_total;
-    // var general_foundation_total;
-    // var foundation_yearly_total;
-
 
     console.log('~~ - ~~ @goalsController in calcTotals - goals, months, yearly_totals: ', goals, months, yearly_totals);
 
@@ -215,21 +270,6 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
       month = months[i];
       console.log('~~~~ @@goalsController in for loop of calcTotals - month: ', month);
 
-      // var staff = month.staff;
-      // var board = month.board;
-      // var committee = month.committee;
-      // var parent = month.parent;
-      // var alum = month.alum;
-      // var participant = month.participant;
-      // var community = month.community;
-      // var individualMonthTotal = month.individual;
-      // var corporateMonthTotal = month.corporate_total;
-      // var corporateOrganization = month.corporate_organization;
-      // var corporateMatch = month.corporate_match;
-      // var foundationMonthTotal = month.foundation_total;
-      // var corporateFoundation = month.corporate_foundation;
-      // var familyFoundation = month.family_foundation;
-      // var generalFoundation = month.general_foundation;
 
       var staff = month.staff;
       if ( isNaN(staff) ){
@@ -294,21 +334,13 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
       // MONTHLY TOTALS
 
       var individualMonthTotal = staff + board + committee + parent + alum + participant + community;
-      // if ( isNaN(individual) ){
-      //   individual = 0;
-      // }
       month.individual_total = individualMonthTotal;
 
       var corporateMonthTotal = corporateOrganization + corporateMatch;
-      // if ( isNaN(corporateMonthTotal) ){
-      //   corporateMonthTotal = 0;
-      // }
       month.corporate_total = corporateMonthTotal;
 
       var foundationMonthTotal = corporateFoundation + familyFoundation + generalFoundation;
-      // if ( isNaN(foundationMonthTotal) ){
-      //   foundationMonthTotal = 0;
-      // }
+
       month.foundation_total = foundationMonthTotal;
 
 
@@ -380,220 +412,7 @@ myApp.controller('GoalsController', ['$scope', 'GoalService', function($scope, G
 
     }
 
-
-
   };
-
-
-
-  ///////////////////
-
-
-  // Calculates Yearly totals for all goals for Admin to view
-  $scope.calcYearlyTotals = function() {
-
-    console.log('=_-_= @goalsController in calcYearlyTotals');
-
-    var months = $scope.goals.months;
-    var yearly_total;
-    var month;
-    var staffTotal = 0;
-    var boardTotal = 0;
-    var committeeTotal = 0;
-    var parentTotal = 0;
-    var alumTotal = 0;
-    var participantTotal = 0;
-    var communityTotal = 0;
-    var individualTotal = 0;
-    var corporationsTotal = 0;
-    var foundationsTotal = 0;
-    var eventsTotal = 0;
-
-    var totalGoals;
-
-    console.log('** ! = @goalsController in calcYearlyTotals - months before for loop: ', months);
-
-    var i;
-
-    for(i in months) {
-      month = months[i];
-
-      console.log('~~~~ @@goalsController in for loop of calcYearlyTotals - month: ', month);
-
-
-      staffTotal += month.staff;
-      if ( isNaN(staffTotal) ){
-        staffTotal = 0;
-      }
-
-      boardTotal += month.board;
-      if ( isNaN(boardTotal) ){
-        boardTotal = 0;
-      }
-
-      committeeTotal += month.committee;
-      if ( isNaN(committeeTotal) ){
-        committeeTotal = 0;
-      }
-
-      parentTotal += month.parent;
-      if ( isNaN(parentTotal) ){
-        parentTotal = 0;
-      }
-
-      alumTotal += month.alum;
-      if ( isNaN(alumTotal) ){
-        alumTotal = 0;
-      }
-
-      participantTotal += month.participant;
-      if ( isNaN(participantTotal) ){
-        participantTotal = 0;
-      }
-
-      communityTotal += month.community;
-      if ( isNaN(communityTotal) ){
-        communityTotal = 0;
-      }
-
-      individualTotal += month.individual;
-      if ( isNaN(individualTotal) ){
-        individualTotal = 0;
-      }
-
-      corporationsTotal += month.corporations;
-      if ( isNaN(corporationsTotal) ){
-        corporationsTotal = 0;
-      }
-
-      foundationsTotal += month.foundations;
-      if ( isNaN(foundationsTotal) ){
-        foundationsTotal = 0;
-      }
-
-      eventsTotal += month.events;
-      if ( isNaN(eventsTotal) ){
-        eventsTotal = 0;
-      }
-
-
-      console.log('HERE IS THE FOR LOOP @goalsController calcYearlyTotals() - months[i].all: ', staffTotal,
-      boardTotal, committeeTotal, parentTotal, alumTotal, participantTotal, communityTotal, individualTotal,
-      corporationsTotal, foundationsTotal, eventsTotal);
-
-
-      totalGoals = staffTotal + boardTotal + committeeTotal + parentTotal + alumTotal + participantTotal +
-      communityTotal + corporationsTotal + foundationsTotal + eventsTotal;
-      console.log('% %  %   @@@goalsController in calcYearlyTotals - totalGoals in for loop: ', totalGoals);
-
-      $scope.yearlyTotal = totalGoals;
-      console.log('@@@goalsController in calcYearlyTotals - $scope.yearlyTotal after for loop: ', $scope.yearlyTotal);
-
-      months.yearly_total = $scope.yearlyTotal;
-
-      totalGoals = 0;
-
-    }
-
-
-  };
-
-
-
-
-  $scope.calcIndTot = function() {
-    // console.log('HELLO! @goalsController - goalToAdd: ', goalToAdd);
-
-    var months = $scope.goals.months;
-    var month;
-    var individual = 'individual';
-    var individualGoal = 0;
-    var staffTotal = 0;
-    var boardTotal = 0;
-    var committeeTotal = 0;
-    var parentTotal = 0;
-    var alumTotal = 0;
-    var participantTotal = 0;
-    var communityTotal = 0;
-
-    console.log('** ! = @goalsController in calcIndTot - months before for loop: ', months);
-
-    var i;
-
-    for(i in months) {
-      month = months[i];
-
-      console.log('~~~~ @@goalsController in for loop of calcIndTot - month: ', month);
-
-
-      staffTotal += month.staff;
-      if ( isNaN(staffTotal) ){
-        staffTotal = 0;
-      }
-
-      boardTotal += month.board;
-      if ( isNaN(boardTotal) ){
-        boardTotal = 0;
-      }
-
-      committeeTotal += month.committee;
-      if ( isNaN(committeeTotal) ){
-        committeeTotal = 0;
-      }
-
-      parentTotal += month.parent;
-      if ( isNaN(parentTotal) ){
-        parentTotal = 0;
-      }
-
-      alumTotal += month.alum;
-      if ( isNaN(alumTotal) ){
-        alumTotal = 0;
-      }
-
-      participantTotal += month.participant;
-      if ( isNaN(participantTotal) ){
-        participantTotal = 0;
-      }
-
-      communityTotal += month.community;
-      if ( isNaN(communityTotal) ){
-        communityTotal = 0;
-      }
-
-
-      // console.log('HERE IS THE FOR LOOP @goalsController - months[i].staff - community: ', staffTotal,
-      // boardTotal, committeeTotal, parentTotal, alumTotal, participantTotal, communityTotal);
-
-
-
-
-      individualGoal = staffTotal + boardTotal + committeeTotal + parentTotal + alumTotal + participantTotal + communityTotal;
-      console.log('% %  %   @@@goalsController in calcIndTot - individualGoal in for loop: ', individualGoal);
-
-      // console.log('@@@goalsController in calcIndTot - staffTotal after for loop: ', staffTotal);
-
-      $scope.indTotal = individualGoal;
-      console.log('@@@goalsController in calcIndTot - $scope.indTotal after for loop: ', $scope.indTotal);
-
-      month.individual = $scope.indTotal;
-      // return $scope.indTotal;
-
-      individualGoal = 0;
-      staffTotal = 0;
-      boardTotal = 0;
-      committeeTotal = 0;
-      parentTotal = 0;
-      alumTotal = 0;
-      participantTotal = 0;
-      communityTotal = 0;
-
-      $scope.indTotal = 0;
-
-    }
-
-  };
-
 
 
 

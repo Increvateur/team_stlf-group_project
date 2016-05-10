@@ -1,11 +1,14 @@
 /**
  * Created by JFCS on 4/29/16.
  */
-myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "results",
-    function($scope, $uibModalInstance, results) {
-
+myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "results", "MoneyRaisedService",
+    function($scope, $uibModalInstance, results,MoneyRaisedService) {
+    var moneyRaisedService = MoneyRaisedService;
     $scope.results = results;
-    console.log("Inside the actual ChartContentController:", $scope.results);
+    $scope.accounts = moneyRaisedService.accountArray;
+    $scope.date = moneyRaisedService.endDate.date.getFullYear();
+    console.log("Inside the actual ChartContentController:single row", $scope.results);
+    console.log("Inside the actual ChartContentController: all accounts", $scope.accounts);
 
     $scope.chartType = function(type) {
         if (type == "piechart") {
@@ -35,37 +38,37 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
                 {
                     "id": "goals",
                     "size": 16,
-                    "text": "Donations by Individuals"
+                    "text": "Donations by Individuals " + $scope.date
                 }
             ],
             "dataProvider": [
                 {
-                    "group": "Staff",
-                    "money": 6526
+                    "group": $scope.accounts[0].type,
+                    "money": $scope.accounts[0].ytd
                 },
                 {
-                    "group": "Board",
-                    "money": 9135
+                    "group": $scope.accounts[1].type,
+                    "money": $scope.accounts[1].ytd
                 },
                 {
-                    "group": "Committee",
-                    "money": 1480
+                    "group": $scope.accounts[2].type,
+                    "money": $scope.accounts[2].ytd
                 },
                 {
-                    "group": "Parents",
-                    "money": 10228
+                    "group": $scope.accounts[3].type,
+                    "money": $scope.accounts[3].ytd
                 },
                 {
-                    "group": "Alums",
-                    "money": 21262
+                    "group": $scope.accounts[4].type,
+                    "money": $scope.accounts[4].ytd
                 },
                 {
-                    "group": "Participants",
-                    "money": 2376
+                    "group": $scope.accounts[5].type,
+                    "money": $scope.accounts[5].ytd
                 },
                 {
-                    "group": "Community Support",
-                    "money": 22013
+                    "group": $scope.accounts[6].type,
+                    "money": $scope.accounts[6].ytd
                 }
             ],
         }
@@ -78,7 +81,7 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
             {
                 "type": "serial",
                 "categoryField": "date",
-                "dataDateFormat": "YYYY-MM-DD",
+                //"dataDateFormat": "YYYY",
                 "autoMarginOffset": 40,
                 "marginRight": 60,
                 "marginTop": 60,
@@ -113,7 +116,7 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
                         "bulletSize": 16,
                         "id": "AmGraph-2",
                         "lineThickness": 3,
-                        "title": "graph 2",
+                        "title": "Goals",
                         "valueField": "column-2"
                     }
                 ],
@@ -121,7 +124,7 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
                 "valueAxes": [
                     {
                         "id": "ValueAxis-1",
-                        "title": ""
+                        "title": $scope.results.type
                     }
                 ],
                 "allLabels": [],
@@ -129,40 +132,35 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
                 "titles": [],
                 "dataProvider": [
                     {
-                        "date": "2014-03-01",
-                        "column-1": 8,
-                        "column-2": 5
+                        "date": $scope.date ,
+                        "column-1": $scope.results.ytd,
+                        "column-2": $scope.results.goal
                     },
                     {
-                        "date": "2014-03-02",
-                        "column-1": 6,
-                        "column-2": 7
+                        "date": ($scope.date - 1) ,
+                        "column-1": $scope.results.ytdM1,
+                        "column-2": $scope.results.goal
+
                     },
                     {
-                        "date": "2014-03-03",
-                        "column-1": 2,
-                        "column-2": 3
+                        "date": ($scope.date - 2) ,
+                        "column-1": $scope.results.ytdM2,
+                        "column-2": $scope.results.goal
+
                     },
                     {
-                        "date": "2014-03-04",
-                        "column-1": 1,
-                        "column-2": 3
+                        "date":($scope.date - 1),
+                        "column-1": $scope.results.tfyM1,
+                        "column-2": $scope.results.goal
+
                     },
                     {
-                        "date": "2014-03-05",
-                        "column-1": 2,
-                        "column-2": 1
-                    },
-                    {
-                        "date": "2014-03-06",
-                        "column-1": 3,
-                        "column-2": 2
-                    },
-                    {
-                        "date": "2014-03-07",
-                        "column-1": 6,
-                        "column-2": 8
+                        "date": ($scope.date - 2) ,
+                        "column-1": $scope.results.tfyM2,
+                        "column-2": $scope.results.goal
+
                     }
+
                 ]
             }
         );
@@ -173,8 +171,8 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
         AmCharts.makeChart("chartdiv",
             {
                 "type": "serial",
-                "categoryField": "category",
-                "rotate": true,
+                "categoryField": "date",
+                //"rotate": true,
                 "angle": 30,
                 "depth3D": 30,
                 "startDuration": 1,
@@ -185,26 +183,36 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
                 "graphs": [
                     {
                         "balloonText": "[[title]] of [[category]]:[[value]]",
-                        "fillAlphas": 1,
+                        "fillAlphas": 0.85,
                         "id": "AmGraph-1",
-                        "title": "graph 1",
+                        "title": "Donations",
                         "type": "column",
-                        "valueField": "column-1"
+                        "clustered":false,
+                        "valueField": "Donations",
+                        "colorField": "color",
+                        "lineAlpha": 0.1,
+                        "topRadius":0.85
                     },
                     {
                         "balloonText": "[[title]] of [[category]]:[[value]]",
-                        "fillAlphas": 1,
+                        "fillAlphas": 0.85,
                         "id": "AmGraph-2",
-                        "title": "graph 2",
+                        "title": "Goals",
+                        "columnWidth": 0.5,
+                        "clustered":false,
                         "type": "column",
-                        "valueField": "column-2"
+                        "valueField": "Goal",
+                        "colorField": "colorTwo",
+                        "lineAlpha": 0.1,
+                        "topRadius":0.85
                     }
                 ],
                 "guides": [],
                 "valueAxes": [
                     {
                         "id": "ValueAxis-1",
-                        "stackType": "regular",
+                        "clustered":false,
+                        //"stackType": 'regular',
                         "title": ""
                     }
                 ],
@@ -218,31 +226,57 @@ myApp.controller("ChartContentController", ["$scope", "$uibModalInstance", "resu
                     {
                         "id": "Title-1",
                         "size": 15,
-                        "text": "Chart Title"
+                        "text": $scope.results.type,
+                        "color": "#333333"
+
                     }
                 ],
                 "dataProvider": [
                     {
-                        "category": "category 1",
-                        "column-1": 8,
-                        "column-2": 5
+                        "date": $scope.date + " ytd",
+                        "Donations": $scope.results.ytd,
+                        "Goal": $scope.results.goal,
+                        "color": "#04D215",
+                        "colorTwo": "#754DEB"
+
                     },
                     {
-                        "category": "category 2",
-                        "column-1": 6,
-                        "column-2": 7
+                        "date":  ($scope.date - 1) + " ytd",
+                        "Donations": $scope.results.ytdM1,
+                        "color": "#2A0CD0"
+
+                        //"Goal": $scope.results.goal
+
                     },
                     {
-                        "category": "category 3",
-                        "column-1": 2,
-                        "column-2": 3
+                        "date": ($scope.date - 2) + " ytd",
+                        "Donations": $scope.results.ytdM2,
+                        "color": "#333333"
+
+                        //"Goal": $scope.results.goal
+
+                    },
+                    {
+                        "date":  ($scope.date - 1) + " fy",
+                        "Donations": $scope.results.tfyM1,
+                        "color": "#2A0CD0"
+
+                        //"Goal": $scope.results.goal
+
+                    },
+                    {
+                        "date": ($scope.date - 2) + " fy",
+                        "Donations": $scope.results.tfyM2,
+                        "color": "#FF0F00"
+                        //"Goal": $scope.results.goal
+
                     }
                 ]
             }
         );
     };
 
-    $scope.load = $scope.piechart;
+    $scope.load = $scope.barchart;
 
     $scope.close = function () {
         $uibModalInstance.close();
