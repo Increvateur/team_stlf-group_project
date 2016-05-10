@@ -1,107 +1,139 @@
 
-
-<div class="container "ng-controller="GoalsController">
-  <form ng-submit=saveGoals(goals) name="outerForm" class="tab-goals">
-
-    <div class="row btn-group form-group" uib-dropdown>
-      <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
-        <span>{{ goals.fiscal_year || "Select Year" }}</span><span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-        <li ng-repeat="year in goalsArray | orderBy: '-fiscal_year'" role="menuitem"><a ng-click="fiscalYear(year.fiscal_year)">{{ year.fiscal_year }}</a></li>
-        <li class="divider"></li>
-        <li role="menuitem"><a ng-click="addYear()" >Add Year</a></li>
-      </ul>
-      <br /> <br />
-      <span class="pull-right" ng-show="showYear" ><label>Enter Year</label>
-        <input type="number" class="add-year" ng-model="fiscalyear" ng-model-options="{ updateOn: 'blur' }" ng-change="addFyKey(fiscalyear)" autofocus/></span>
+<div class="container" ng-controller="GoalsController">
+  <form ng-submit="saveGoals(goals)" name="outerForm" class="tab-goals">
+    <div class="row">
+      <div class="col-md-2">
+        <p></p>
+        <div class="form-group">
+          <div class="btn-group" uib-dropdown>
+            <button id="single-button" type="button" class="btn btn-info" uib-dropdown-toggle>
+              <span>{{ goals.fiscal_year || "Select Year" }}</span><span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+              <li ng-repeat="year in goalsArray | orderBy: '-fiscal_year'" role="menuitem"><a ng-click="fiscalYear(year.fiscal_year)">{{ year.fiscal_year }}</a></li>
+              <li class="divider"></li>
+              <li role="menuitem"><a ng-click="addYear()">Add Year</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <span ng-show="showYear"><label>Enter Year</label>
+            <input type="number" class="form-control add-year" ng-model="fiscalyear" ng-model-options="{ updateOn: 'blur' }" ng-change="addFyKey(fiscalyear)" autofocus /></span>
+          </div>
+        </div>
       </div>
 
-      <br /> <br />
+      <div class="row">
+        <div class="col-md-12">
+          <uib-tabset active="active">
+            <uib-tab ng-repeat="month in monthsObj.months track by month.key" heading="{{month.name}}">
+              <!-- {{ $index }} {{ month.name }} {{ month.key }} -->
 
-      <uib-tabset class="container col-md-12" active="active">
-        <uib-tab ng-repeat="month in monthsObj.months track by month.key" heading="{{month.name}}">
-          <!-- {{ $index }} {{ month.name }} {{ month.key }} -->
+              <!-- <ng-form name="input-goals"> -->
 
-          <!-- <ng-form name="input-goals"> -->
-          <div class="row goal-form">
-            <div class="form-group col-md-3">
-              <label>Individual Total</label>
-              <input type="number" class="form-control individual-total" ng-model="goals.months[month.key].individual_total" ng-disabled="true" placeholder="{{ goals.months[month.key].individual_total || 0 }}" />
-              <label>Staff Members Goal</label>
-              <input type="number" class="form-control staff" ng-model="goals.months[month.key].staff" ng-change="calcTotals()" />
-              <label>Board Members Goal</label>
-              <input type="number" class="form-control board" ng-model="goals.months[month.key].board" ng-change="calcTotals()" />
-              <label>Committee Members</label>
-              <input type="number" class="form-control committee" ng-model="goals.months[month.key].committee" ng-change="calcTotals()" />
-              <label>Parent</label>
-              <input type="number" class="form-control parent" ng-model="goals.months[month.key].parent" ng-change="calcTotals()" />
-              <label>Alum</label>
-              <input type="number" class="form-control alum" ng-model="goals.months[month.key].alum" ng-change="calcTotals()" />
-              <label>Participant</label>
-              <input type="number" class="form-control participant" ng-model="goals.months[month.key].participant" ng-change="calcTotals()" />
-              <label>Community Support</label>
-              <input type="number" class="form-control community" ng-model="goals.months[month.key].community" ng-change="calcTotals()" />
-            </div>
 
-            <div class="form-group col-md-3">
-              <label>Foundation Totals</label>
-              <input type="number" class="form-control foundation-total" ng-model="goals.months[month.key].foundation_total" ng-disabled="true" placeholder="{{ goals.months[month.key].foundation_total || 0 }}" />
-              <label>Corporate Foundation</label>
-              <input type="number" class="form-control corporate-foundation" ng-model="goals.months[month.key].corporate_foundation" ng-change="calcTotals()" />
-              <label>Family Foundation/Fund</label>
-              <input type="number" class="form-control family-foundation" ng-model="goals.months[month.key].family_foundation" ng-change="calcTotals()" />
-              <label>General Foundation</label>
-              <input type="number" class="form-control general-foundation" ng-model="goals.months[month.key].general_foundation" ng-change="calcTotals()" />
-            </div>
+              <!-- <div class="row goal-form"> -->
+              <div class="col-md-3">
+                <br />
+                <div class="form-group">
+                  <label>Individual Total</label>
+                  <input type="number" class="form-control individual-total" ng-model="goals.months[month.key].individual_total" ng-disabled="true" placeholder="{{ goals.months[month.key].individual_total || 0 }}" />
+                </div>
+                <div class="form-group">
+                  <label>Staff Members Goal</label>
+                  <input type="number" class="form-control staff" ng-model="goals.months[month.key].staff" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>Board Members Goal</label>
+                  <input type="number" class="form-control board" ng-model="goals.months[month.key].board" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>Committee Members</label>
+                  <input type="number" class="form-control committee" ng-model="goals.months[month.key].committee" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>Parent</label>
+                  <input type="number" class="form-control parent" ng-model="goals.months[month.key].parent" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>Alum</label>
+                  <input type="number" class="form-control alum" ng-model="goals.months[month.key].alum" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>Participant</label>
+                  <input type="number" class="form-control participant" ng-model="goals.months[month.key].participant" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>Community Support</label>
+                  <input type="number" class="form-control community" ng-model="goals.months[month.key].community" ng-change="calcTotals()" />
+                </div>
+              </div>
 
-            <div class="form-group col-md-3">
-              <label>Corporation Totals</label>
-              <input type="number" class="form-control corporate-total" ng-model="goals.months[month.key].corporate_total" ng-disabled="true" placeholder="{{ goals.months[month.key].corporate_total || 0 }}" />
-              <label>Corporate/Organization Money</label>
-              <input type="number" class="form-control corporate-organization" ng-model="goals.months[month.key].corporate_organization" ng-change="calcTotals()" />
-              <label>Corporate Match</label>
-              <input type="number" class="form-control corporate-match" ng-model="goals.months[month.key].corporate_match" ng-change="calcTotals()"/>
+              <div class="col-md-3">
+                <br />
+                <div class="form-group">
+                  <label>Foundation Totals</label>
+                  <input type="number" class="form-control foundation-total" ng-model="goals.months[month.key].foundation_total" ng-disabled="true" placeholder="{{ goals.months[month.key].foundation_total || 0 }}" />
+                </div>
+                <div class="form-group">
+                  <label>Corporate Foundation</label>
+                  <input type="number" class="form-control corporate-foundation" ng-model="goals.months[month.key].corporate_foundation" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>Family Foundation/Fund</label>
+                  <input type="number" class="form-control family-foundation" ng-model="goals.months[month.key].family_foundation" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>General Foundation</label>
+                  <input type="number" class="form-control general-foundation" ng-model="goals.months[month.key].general_foundation" ng-change="calcTotals()" />
+                </div>
+              </div>
 
-              <span></span>
+              <div class="col-md-3">
+                <br />
+                <div class="form-group">
+                  <label>Corporation Totals</label>
+                  <input type="number" class="form-control corporate-total" ng-model="goals.months[month.key].corporate_total" ng-disabled="true" placeholder="{{ goals.months[month.key].corporate_total || 0 }}" />
+                </div>
+                <div class="form-group">
+                  <label>Corporate/Organization Money</label>
+                  <input type="number" class="form-control corporate-organization" ng-model="goals.months[month.key].corporate_organization" ng-change="calcTotals()" />
+                </div>
+                <div class="form-group">
+                  <label>Corporate Match</label>
+                  <input type="number" class="form-control corporate-match" ng-model="goals.months[month.key].corporate_match" ng-change="calcTotals()"/>
+                </div>
+              </div>
+              <div class="col-md-2">
 
-              <span></span>
+                <h3>Yearly Totals</h3>
+                <h5>{{ goals.fiscal_year }} Year Total</h5>
+                <p> {{ goals.yearly_totals.year_total | currency : $ }} </p>
+                <h5>Individual Total</h5>
+                <p> {{ goals.yearly_totals.individual_year | currency : $  }}</p>
+                <h5>Corporate Total</h5>
+                <p> {{ goals.yearly_totals.corporate_year | currency : $  }} </p>
+                <h5>Foundations Total</h5>
+                <p> {{ goals.yearly_totals.foundation_year | currency : $  }}</p>
 
-            </div>
-            <div class="col-md-2">
+              </div>
 
-              <h3>Yearly Totals</h3>
-              <h5>{{ goals.fiscal_year }} Year Total</h5>
-              <p> {{ goals.yearly_totals.year_total | currency : $ }} </p>
-              <h5>Individual Total</h5>
-              <p> {{ goals.yearly_totals.individual_year | currency : $  }}</p>
-              <h5>Corporate Total</h5>
-              <p> {{ goals.yearly_totals.corporate_year | currency : $  }} </p>
-              <h5>Foundations Total</h5>
-              <p> {{ goals.yearly_totals.foundation_year | currency : $  }}</p>
-            </div>
-            <div class="col-md-1">
-              <button ng-disabled="changeGoals" class="btn btn-warning pull-right goals-btn" type="button" ng-click="updateGoals(goals)" >Update Goals</button>
-              <button ng-disabled="submitGoals" class="btn btn-primary pull-right goals-btn" type="submit" >Save Goals</button>
-              <button class="btn btn-danger pull-right goals-btn"type="button" ng-click="clearForm()" >Clear</button>
-            </div>
-          </div>
-
-          <!-- </ng-form> -->
-        </uib-tab>
-
-      </uib-tabset>
-
+              <div class="col-md-1">
+                <div class="form-group">
+                  <button ng-disabled="changeGoals" class="btn btn-warning pull-right goals-btn" type="button" ng-click="updateGoals(goals)">Update Goals</button>
+                  <button ng-disabled="submitGoals" class="btn btn-primary pull-right goals-btn" type="submit">Save Goals</button>
+                  <button class="btn btn-danger pull-right goals-btn" type="button" ng-click="clearForm()">Clear</button>
+                </div>
+              </div>
+              <!-- </ng-form> -->
+            </uib-tab>
+          </uib-tabset>
+        </div>
+      </div>
     </form>
+  </div>
 
-    <!-- <div>
-    goals:
-    <pre>{{ goals | json }}</pre>
+  <!-- <div>
+  goals:
+  <pre>{{ goals | json }}</pre>
   </div> -->
-
-
-</div>
-
-
-
-</div>
